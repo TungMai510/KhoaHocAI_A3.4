@@ -2,16 +2,17 @@
 (() => {
   const $=id=>document.getElementById(id);
   // The image IDs and order stay fixed for the baseline and every retest.
-  const cases=[
+  const examples=[
     {id:'case1',src:'assets/test-bottle.svg',alt:'Đồ vật trong suốt có thân dài, cổ thon và nắp vặn.',actual:'Chai',before:'Chai',why:'Ảnh có cổ thon và nắp vặn: đây là chai. Gợi ý “Chai” khớp với ảnh.'},
     {id:'case2',src:'assets/test-can-clear.svg',alt:'Đồ vật xanh thân hình trụ, nắp phẳng có chi tiết kim loại.',actual:'Lon',before:'Lon',why:'Thân hình trụ và khoen kéo trên nắp cho thấy đây là lon. Gợi ý “Lon” khớp với ảnh.'},
     {id:'case3',src:'assets/test-can-obscured.svg',alt:'Đồ vật thân hình trụ ngắn, mép nắp phẳng; phía trên bị nhoè một phần.',actual:'Lon',before:'Chai',why:'Đây là lon: thân hình trụ ngắn, mép nắp phẳng và không có cổ chai. Phần nắp bị nhoè khiến AI mô phỏng nhầm.',reasons:['Thân ngắn, mép nắp phẳng, không có cổ chai.','Màu xanh luôn có nghĩa là chai.','Vì em thích chọn tên “lon”.']},
     {id:'case4',src:'assets/test-bottle-side.svg',alt:'Đồ vật đặt nghiêng, nhìn thấy cổ hẹp và nắp có rãnh vặn.',actual:'Chai',before:'Lon',why:'Đây là chai: dù đặt nghiêng, em vẫn thấy cổ hẹp và nắp vặn. Góc chụp khác làm AI mô phỏng nhầm.',reasons:['Có cổ hẹp và nắp vặn dù đồ vật đặt nghiêng.','Đồ vật nằm ngang nên chắc chắn là lon.','Chỉ cần nhìn màu của nền ảnh.']}
   ];
+  const cases=[examples[0],examples[1],{...examples[0],src:'assets/test-bottle-t3.svg'},{...examples[1],src:'assets/can.svg'},examples[2],examples[3]].map((c,i)=>({...c,id:'T'+(i+1)}));
   const improvements={
-    photos:{label:'Bổ sung ảnh chai/lon rõ, từ nhiều góc, có tên đúng.',feedback:'Ảnh rõ, nhiều góc và tên đúng giúp AI học đặc điểm cổ chai, nắp vặn, thân lon. Ta vẫn kiểm tra lại bằng đúng 4 ảnh cũ nhé!',after:['Chai','Lon','Chai','Chai']},
-    schedule:{label:'Bổ sung thời khoá biểu của lớp.',feedback:'Thời khoá biểu không cho thấy hình dạng chai/lon. Em vẫn có thể thử để xem thay đổi này có giúp ích không.',after:['Chai','Lon','Chai','Lon']},
-    color:{label:'Chỉ bổ sung ảnh đồ vật có màu xanh.',feedback:'Chai và lon đều có thể màu xanh. Chỉ thêm một màu chưa giúp AI thấy đủ hình dạng và góc nhìn. Em hãy thử kiểm tra lại.',after:['Chai','Lon','Chai','Lon']}
+    photos:{label:'Bổ sung ảnh chai/lon rõ, từ nhiều góc, có tên đúng.',feedback:'Ảnh rõ, nhiều góc và tên đúng giúp AI học đặc điểm cổ chai, nắp vặn, thân lon. Ta vẫn kiểm tra lại bằng đúng 6 ảnh cũ nhé!',after:['Chai','Lon','Chai','Lon','Chai','Chai']},
+    schedule:{label:'Bổ sung thời khoá biểu của lớp.',feedback:'Thời khoá biểu không cho thấy hình dạng chai/lon. Em vẫn có thể thử để xem thay đổi này có giúp ích không.',after:['Chai','Lon','Chai','Lon','Chai','Lon']},
+    color:{label:'Chỉ bổ sung ảnh đồ vật có màu xanh.',feedback:'Chai và lon đều có thể màu xanh. Chỉ thêm một màu chưa giúp AI thấy đủ hình dạng và góc nhìn. Em hãy thử kiểm tra lại.',after:['Chai','Lon','Chai','Lon','Chai','Lon']}
   };
   let trial=0,retrial=0,judgmentOK=false,reasonOK=false,improvement=null,retestRun=false,report='';
   const baselineCount=cases.filter(c=>c.before===c.actual).length;
@@ -29,7 +30,7 @@
   function setImage(id,c){const image=$(id);image.src=c.src;image.alt=c.alt;image.dataset.imageId=c.id;}
   function prepareBaseline(){
     judgmentOK=false;reasonOK=false;const c=cases[trial];
-    $('l4-trial-count').textContent=`Q7a–b · Ảnh ${trial+1} / ${cases.length}`;setImage('l4-image',c);$('l4-image-caption').textContent=`Vật chứng ${trial+1} · Nhìn chi tiết trước khi chọn`;
+    $('l4-trial-count').textContent=`Q7a–b · Ảnh ${trial+1} / ${cases.length}`;setImage('l4-image',c);$('l4-image-caption').textContent=`${c.id} · Nhìn chi tiết trước khi chọn`;
     $('l4-ai-guess').textContent=`“${c.before}”`;$('l4-judgment-feedback').hidden=true;$('l4-reason-feedback').hidden=true;$('l4-reason-stage').hidden=true;$('l4-next-baseline').disabled=true;
     $('l4-next-baseline').textContent=trial===cases.length-1?'Chọn cách cải tiến →':'Ảnh tiếp theo →';press('[data-judge]',null);$('l4-reasons').replaceChildren();
     (c.reasons||[]).forEach((text,i)=>{const button=document.createElement('button');button.className='choice';button.dataset.reason=String(i);button.setAttribute('aria-pressed','false');button.textContent=text;button.onclick=()=>{press('[data-reason]',button);reasonOK=i===0;tell('l4-reason-feedback',reasonOK?'Đúng! Em dùng chi tiết nhìn thấy trong ảnh để giải thích lỗi.':'Chi tiết này chưa giúp phân biệt. Em nhìn lại cổ, nắp và dáng thân nhé.',reasonOK);$('l4-next-baseline').disabled=!(judgmentOK&&reasonOK);};$('l4-reasons').append(button);});
@@ -66,14 +67,14 @@
     const after=improvements[improvement].after,afterCount=cases.filter((c,i)=>after[i]===c.actual).length;
     $('l4-final-before').textContent=`${baselineCount} / ${cases.length} ảnh đúng`;$('l4-after-count').textContent=`${afterCount} / ${cases.length} ảnh đúng`;
     $('l4-result-explanation').textContent=afterCount>baselineCount?'Lần thử này tốt hơn, nhưng vẫn có ảnh AI đoán nhầm. Cải tiến cần được kiểm tra lại; kết quả mô phỏng không bảo đảm AI thật sẽ đạt giống vậy.':'Lần thử này chưa tăng số ảnh đúng. Em có thể làm lại và thử một thay đổi phù hợp hơn với dữ liệu hình ảnh.';
-    const table=document.createElement('table');table.className='result-table';const caption=document.createElement('caption');caption.textContent='Cùng 4 ảnh trước và sau thay đổi';table.append(caption);
+    const table=document.createElement('table');table.className='result-table';const caption=document.createElement('caption');caption.textContent='Cùng 6 ảnh trước và sau thay đổi';table.append(caption);
     const head=document.createElement('tr');['Ảnh','Vật trong ảnh','Trước','Sau'].forEach(text=>{const th=document.createElement('th');th.scope='col';th.textContent=text;head.append(th);});const thead=document.createElement('thead');thead.append(head);table.append(thead);const body=document.createElement('tbody');
-    cases.forEach((c,i)=>{const row=document.createElement('tr');[String(i+1),c.actual,`${c.before} ${c.before===c.actual?'✓':'✗'}`,`${after[i]} ${after[i]===c.actual?'✓':'✗'}`].forEach(text=>{const cell=document.createElement('td');cell.textContent=text;row.append(cell);});body.append(row);});table.append(body);$('l4-results-table').replaceChildren(table);
+    cases.forEach((c,i)=>{const row=document.createElement('tr');[c.id,c.actual,`${c.before} ${c.before===c.actual?'✓':'✗'}`,`${after[i]} ${after[i]===c.actual?'✓':'✗'}`].forEach(text=>{const cell=document.createElement('td');cell.textContent=text;row.append(cell);});body.append(row);});table.append(body);$('l4-results-table').replaceChildren(table);
   }
   $('l4-preview-report').onclick=()=>{
-    const error=$('l4-error').value.trim(),change=$('l4-change').value.trim(),result=$('l4-result').value.trim();
-    if(!error||!change||!result){tell('l4-report-feedback','Em điền đủ cả ba ý: lỗi đã thấy, thay đổi đã thử và kết quả sau khi thử lại nhé.',false);(!error?$('l4-error'):!change?$('l4-change'):$('l4-result')).focus();return;}
-    report=`BÁO CÁO KIỂM TRA VÀ CẢI TIẾN AI — BÀI 4\n1. Lỗi em đã thấy: ${error}\n2. Thay đổi em đã thử: ${change}\n3. Kết quả sau khi thử lại: ${result}\n\nThử nghiệm mô phỏng; gợi ý và kết quả được viết sẵn.`;
+    const error=$('l4-error').value.trim(),change=$('l4-change').value.trim(),result=$('l4-result').value.trim(),reflection=$('l4-reflection').value.trim();
+    if(!error||!change||!result||!reflection){tell('l4-report-feedback','Em điền đủ câu giải thích dùng T5 và ba ý: lỗi đã thấy, thay đổi đã thử và kết quả sau khi thử lại nhé.',false);(!error?$('l4-error'):!change?$('l4-change'):!result?$('l4-result'):$('l4-reflection')).focus();return;}
+    report=`BÁO CÁO KIỂM TRA VÀ CẢI TIẾN AI — BÀI 4\n1. Lỗi em đã thấy: ${error}\n2. Thay đổi em đã thử: ${change}\n3. Kết quả sau khi thử lại: ${result}\n4. Vì sao con người vẫn cần kiểm tra và cải tiến AI (dẫn chứng T5): ${reflection}\n\nThử nghiệm mô phỏng; gợi ý và kết quả được viết sẵn.`;
     $('l4-report-text').textContent=report;$('l4-copy-status').hidden=true;$('l4-manual-copy').hidden=true;show('preview');
   };
   $('l4-edit-report').onclick=()=>show('report');
@@ -82,7 +83,7 @@
     trial=0;retrial=0;judgmentOK=false;reasonOK=false;improvement=null;retestRun=false;report='';
     press('[data-judge],[data-reason],[data-improvement]',null);
     ['l4-judgment-feedback','l4-reason-feedback','l4-improve-feedback','l4-retest-feedback','l4-report-feedback','l4-copy-status','l4-manual-copy'].forEach(id=>$(id).hidden=true);
-    $('l4-reason-stage').hidden=true;$('l4-start-retest').disabled=true;$('l4-next-baseline').disabled=true;$('l4-report-text').textContent='';$('l4-manual-copy').value='';['l4-error','l4-change','l4-result'].forEach(id=>$(id).value='');show('start');$('l4-start').focus({preventScroll:true});
+    $('l4-reason-stage').hidden=true;$('l4-start-retest').disabled=true;$('l4-next-baseline').disabled=true;$('l4-report-text').textContent='';$('l4-manual-copy').value='';['l4-error','l4-change','l4-result','l4-reflection'].forEach(id=>$(id).value='');show('start');$('l4-start').focus({preventScroll:true});
   };
   // A Bài 3 card is optional context; it never changes this fixed bottle/can experiment.
   try{

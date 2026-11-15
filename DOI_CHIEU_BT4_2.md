@@ -1,45 +1,27 @@
-# Bài 3–4: bản thử và các mục cần đối chiếu BT4.2
+# Đối chiếu BT4.2 — cập nhật Q5–Q7 ngày 15/11/2026
 
-## Nguồn và giới hạn
+Chưa truy cập được [tài liệu Nhóm 7](https://docs.google.com/document/d/1L931HS2o6euEquMSzyIj9zgmndia2_xul4fxs9UKg7Q/edit). Bản sửa dùng các yêu cầu và mốc tổng hợp được người dùng xác nhận trong lượt này; không khẳng định đã sao đúng bảng gốc.
 
-Tài liệu được người dùng chỉ định: [Kịch bản BT4.2 của Nhóm 7](https://docs.google.com/document/d/1L931HS2o6euEquMSzyIj9zgmndia2_xul4fxs9UKg7Q/edit).
+- **Q5:** hoạt động chọn có gợi ý là ví dụ mở đầu. Sau đó học sinh tự viết hai ý tưởng, mỗi ý tưởng gồm vấn đề ở lớp/trường và việc AI hỗ trợ. Xem trước và sao chép đều chứa cả hai.
+- **Q6 (mở rộng):** chọn một ý tưởng Q5; phát triển đúng bốn ô **Vấn đề – Dữ liệu – Kết quả – Người sử dụng**. Phiếu chung chứa hai ý tưởng Q5 và đầy đủ phần Q6 đã phát triển.
+- **Q7a–d:** bộ T1–T6; trước đúng 4/6; sau cách cải tiến ảnh rõ nhiều góc đúng 5/6; T5 vẫn sai. Các cách bổ sung dữ liệu không liên quan vẫn 4/6. Kết quả là mô phỏng có sẵn.
+- Cuối Q7, học sinh trả lời: **“Vì sao con người vẫn cần kiểm tra và cải tiến AI? Hãy dùng T5 làm dẫn chứng.”** Câu trả lời nằm trong báo cáo xem trước và nội dung sao chép.
 
-Ngày 15/11/2026, chưa đọc được nội dung qua kết nối Google Docs (lỗi khởi tạo kết nối), công cụ mở web (không truy cập được URL), hoặc đường xuất văn bản công khai (lỗi kết nối). **Chưa xác định tài liệu có giới hạn quyền hay không. Không khẳng định nội dung bản thử đã khớp kịch bản.**
+## Dữ liệu từng dòng là minh hoạ, cần đối chiếu bảng gốc
 
-Triển khai theo yêu cầu trong cuộc trao đổi: Bài 3 của **Giang Lê Khang — D1, Q5–Q6**; Bài 4 của **Mai Văn Tùng — D2, Q7a–d**. Các tên bài, mục tiêu diễn đạt, câu hỏi, đáp án và tiêu chí dưới đây là thiết kế thử, cần đối chiếu bản nhóm thống nhất.
+| Dòng | Vật trong ảnh minh hoạ | Gợi ý trước | Sau cải tiến ảnh rõ nhiều góc |
+| --- | --- | --- | --- |
+| T1 | Chai | Chai | Chai |
+| T2 | Lon | Lon | Lon |
+| T3 | Chai | Chai | Chai |
+| T4 | Lon | Lon | Lon |
+| T5 | Lon, nắp bị nhoè | Chai | Chai |
+| T6 | Chai đặt nghiêng | Lon | Chai |
 
-## Mục tiêu và tiêu chí dùng trong bản thử
+Giữ nguyên ID, ảnh và thứ tự trước/sau. Số lượt đúng được tính từ các dòng, không phải điểm học sinh. Nhãn dữ liệu minh hoạ cũng xuất hiện ngay trên trang Bài 4.
 
-| Phần | Hoạt động đã thiết kế | Tiêu chí để tự kiểm tra trong bản thử |
-| --- | --- | --- |
-| Bài 3 / Q5 / cốt lõi | Chọn vấn đề của lớp → dữ liệu AI cần xem → việc AI hỗ trợ. Mẫu chai/lon, có thêm góc sách. | Ba phần có liên hệ; dữ liệu chứa thông tin để giải quyết vấn đề; việc AI hỗ trợ phù hợp với dữ liệu. Phân biệt gợi ý AI với thiết bị thực hiện việc nhặt/xếp. |
-| Bài 3 / Q6 / mở rộng | Sửa ba phần hoặc viết ý tưởng riêng; xem, sửa, sao chép Phiếu ý tưởng AI. | Phiếu đủ vấn đề, dữ liệu, việc hỗ trợ. Học sinh đọc lại sự liên hệ; nội dung tự viết cần thầy cô/bạn góp ý, web không tự chấm tính khả thi. |
-| Bài 4 / Q7a | So sánh đồ vật trong từng ảnh với gợi ý AI mô phỏng. | Nhận ra lượt đúng/sai qua quan sát. Lời giải chỉ xuất hiện sau lựa chọn. |
-| Bài 4 / Q7b | Chọn lý do dựa trên đặc điểm quan sát ở lượt sai. | Nêu được chi tiết của đồ vật; không dùng màu đơn thuần để kết luận chai/lon. |
-| Bài 4 / Q7c | Chọn cách cải tiến dữ liệu cho mẫu phân loại chai/lon. | Cách thay đổi gắn với lỗi quan sát được; dữ liệu không liên quan không được coi là cải tiến. |
-| Bài 4 / Q7d | Thử lại trên cùng bộ ảnh và so sánh số lượt đúng; viết một lỗi, một thay đổi và kết quả. | Giữ nguyên ảnh, thứ tự, số lượng; đếm kết quả từ các gợi ý mô phỏng so với nhãn mẫu; kết luận dựa trên số lượt đúng trước/sau. Không coi kết quả mô phỏng là bảo đảm cho AI thật. |
+Khang cần duyệt câu chữ và tiêu chí của hai ý tưởng Q5, bốn ô Q6. Anh Tùng cần đối chiếu **từng ảnh, nhãn thực, dự đoán trước/sau và lý do lỗi T1–T6** với bảng gốc. Các con số tổng hợp và T5 vẫn sai lấy từ yêu cầu đã xác nhận, không phải kết quả thực nghiệm AI.
 
-Q5 có thể hoàn thành bằng tình huống mẫu và chuyển thẳng sang Bài 4, không bắt làm Q6. Bài 4 luôn có mẫu để mở độc lập; phiếu Bài 3 chỉ là ngữ cảnh tuỳ chọn. Một phiếu về chủ đề khác không làm bộ ảnh chai/lon trở thành phép kiểm thử cho ý tưởng đó.
+Kiểm thử cục bộ: 162 lượt xác nhận mới trên Chrome desktop 1366×900 và điện thoại giả lập 390×844, không lỗi trình duyệt. Đã đi hết Q5/Q6/Q7, sao chép rồi dán nội dung clipboard vào ô kiểm tra, kiểm tra đủ hai ý tưởng/bốn ô/câu T5. Mục lục và đường dẫn cũ giữ nguyên. Chi tiết: `.preview/course-test-results.json`. Bài 1 được chạy lại riêng bằng `tests/browser-qa.mjs`.
 
-## Khang cần đối chiếu
-
-- Mục tiêu D1 và cách diễn đạt chính thức của Q5, Q6; Q6 có đúng là mở rộng trong lộ trình nhóm không.
-- Tình huống mẫu chai/lon và góc sách có phù hợp phạm vi bài không.
-- Những loại dữ liệu và cách hỗ trợ được chấp nhận; tiêu chí đánh giá phiếu tự viết, ví dụ cần thêm yếu tố người dùng, lợi ích hay an toàn hay không.
-- Độ dài, mẫu phiếu, nơi nộp và cách giáo viên phản hồi. Bản web hiện chỉ cho sao chép; chưa gắn đích nộp Q5/Q6.
-
-## Anh Tùng cần đối chiếu
-
-- Mục tiêu D2 và việc phân chia Q7a, Q7b, Q7c, Q7d đúng với kịch bản cuối.
-- Bộ ảnh minh hoạ, nhãn mẫu và lỗi AI mô phỏng có phù hợp câu hỏi/tiêu chí không.
-- Cách cải tiến được chấp nhận; số lượt đúng trước/sau là thiết kế mô phỏng, cần nhóm duyệt để dùng dạy học.
-- Minh chứng cần thu: bản thử cho học sinh ghi một lỗi, một thay đổi và kết quả. Cần xác nhận có yêu cầu ảnh chụp, bảng số liệu hay giải thích dài hơn không.
-- Nơi nộp báo cáo Q7; bản thử chưa gắn đích nộp, chưa tự gửi điểm/bài.
-
-## Nhóm cần xác nhận
-
-- Đường dẫn chính thức của sản phẩm Bài 2 do Đại phụ trách. `khoa_hoc.html` đang dành ô chờ, **không gắn link tham khảo cũ**.
-- Tên khóa học, thứ tự và lộ trình cuối; đích nộp của các bài mới trên Azota.
-- Kiểm tra trên máy/điện thoại học sinh và trong khung nhúng khi nhóm quyết định xuất bản.
-
-Các đường dẫn Bài 1, bao gồm `hl3_luyen_tap.html#q1`, được giữ nguyên. Người dùng đã duyệt đưa bản thử lên GitHub. Chưa cập nhật Azota; nội dung vẫn cần đối chiếu kịch bản.
+Người dùng đã duyệt đưa bản sửa Q5–Q7 lên GitHub. Chưa cập nhật Azota. Bài 2 vẫn chờ link chính thức.

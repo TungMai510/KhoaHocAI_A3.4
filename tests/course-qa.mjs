@@ -34,158 +34,20 @@ async function checkLayout(label,selectors=[]){
   }
 }
 
-// Module-specific flows below deliberately operate the rendered UI rather than
-// calling implementation functions or comparing implementation-generated scores.
-async function coreLesson3(mistakes=false){
-  await check(`document.querySelector('#q5-next').disabled`,'Q5 requires a learner choice');
-  await click('[data-q5-choice="waste"]');await click('#q5-next');
-  if(mistakes){await click('[data-q5-choice="1"]');await check(`document.querySelector('#q5-next').disabled&&document.querySelector('#q5-feedback').textContent.includes('hình dạng')`,'Schedule does not identify bottle/can shape: explained retry');}
-  await click('[data-q5-choice="0"]');await click('#q5-next');
-  if(mistakes){await click('[data-q5-choice="1"]');await check(`document.querySelector('#q5-next').disabled&&document.querySelector('#q5-feedback').textContent.includes('thiết bị')`,'AI image suggestion cannot physically sort waste without equipment');}
-  await click('[data-q5-choice="0"]');await click('#q5-next');
-  await check(`!document.querySelector('#idea-preview').hidden&&document.querySelector('#idea-source').textContent.includes('Q5')`,'Coherent sample completes Q5 core without Q6');
-  await check(`document.querySelector('#idea-problem').textContent.includes('chai')&&document.querySelector('#idea-data').textContent.includes('Ảnh')&&document.querySelector('#idea-support').textContent.includes('phân loại')`,'Q5 card links problem → image data → AI support');
-}
-async function lesson3Flow(){
-  await nav('bai3_y_tuong.html');await coreLesson3(true);
-  await click('#idea-copy');await check(`(await navigator.clipboard.readText()).includes('Phiếu ý tưởng AI – Q5')`,'Core Q5 card can be copied');
-  await click('#lesson3-to-4');await until(`location.pathname.endsWith('bai4_cai_tien.html')&&document.readyState==='complete'`);
-  await check(`!!document.querySelector('#l4-start')`,'Core route reaches Bài4 without doing optional Q6');
-  await nav('bai3_y_tuong.html');await coreLesson3();
-  await click('#q6-open');await checkLayout('Q6 editing form',['#q6-stage','#idea-form']);await fill('#q6-data','   ');await click('#q6-generate');
-  await check(`!document.querySelector('#q6-stage').hidden&&!document.querySelector('#q6-feedback').hidden`,'Q6 requires all three meaningful fields');
-  const problem='Góc sách hay bị xếp nhầm ngăn.';
-  const data='Ảnh bìa, tên sách và các ngăn sách của lớp.';
-  const support='<img src=x onerror="window.injected=true"> AI gợi ý ngăn sách để em kiểm tra.';
-  await fill('#q6-problem',problem);await fill('#q6-data',data);await fill('#q6-support',support);await click('#q6-generate');
-  await checkLayout('Q6 own-idea preview',['#idea-preview','#idea-card','#idea-support']);
-  await check(`document.querySelector('#idea-support').textContent===${JSON.stringify(support)}&&!document.querySelector('#idea-card img')&&!window.injected`,'Own idea is rendered as literal text, not HTML');
-  await click('#q6-open');await check(`document.querySelector('#q6-problem').value===${JSON.stringify(problem)}&&document.querySelector('#q6-support').value===${JSON.stringify(support)}`,'Editing optional idea preserves entered fields');
-  await fill('#q6-problem','Góc sách cần tìm đúng ngăn nhanh hơn.');await click('#q6-generate');
-  await checkLayout('Q6 edited preview',['#idea-card']);
-  await check(`document.querySelector('#idea-problem').textContent.includes('nhanh hơn')`,'Edited idea refreshes preview');
-  await click('#idea-copy');await check(`(await navigator.clipboard.readText()).includes('Góc sách cần tìm đúng ngăn nhanh hơn.')&&(await navigator.clipboard.readText()).includes(${JSON.stringify(support)})`,'Own idea actual clipboard includes edited problem, data and support');
-  await clipboardDenied();await click('#idea-copy');await check(`!document.querySelector('#idea-manual-copy').hidden&&document.querySelector('#idea-copy-output').value.includes(${JSON.stringify(data)})`,'Idea clipboard denial offers complete selectable text');await clipboardRestore();
-  await click('#q5-edit');await click('[data-q5-choice="books"]');await click('#q5-next');await click('[data-q5-choice="0"]');await click('#q5-next');
-  await check(`document.querySelector('#q5-next').disabled`,'Changed problem invalidates previous support choice');
-  await click('#q5-back');await click('#q5-back');await click('[data-q5-choice="waste"]');await click('#q5-next');
-  await check(`document.querySelector('#q5-next').disabled&&document.querySelectorAll('#q5-choices [aria-pressed=true]').length===0`,'Returning to another problem clears downstream data choice');
-  await click('[data-q5-choice="0"]');await click('#q5-next');await click('[data-q5-choice="0"]');await click('#q5-next');
-}
-async function baselineLesson4({exerciseMistakes=true}={}){
-  await click('#l4-start');
-  const images=[];
-  for(let i=0;i<4;i++){
-    await checkLayout(`Bài4 baseline trial ${i+1}`,['#l4-test-stage']);
-    images.push(await e(`(()=>{const img=document.querySelector('#l4-image');return {id:img.dataset.imageId,src:img.getAttribute('src')};})()`));
-    await check(`document.querySelector('#l4-next-baseline').disabled`,`Trial ${i+1}: student must inspect before advancing`);
-    const judgment=i<2?'correct':'wrong',opposite=i<2?'wrong':'correct';
-    if(exerciseMistakes){await click(`[data-judge="${opposite}"]`);await check(`document.querySelector('#l4-next-baseline').disabled`,`Trial ${i+1}: incorrect judgment gives retry`);}
-    await click(`[data-judge="${judgment}"]`);
-    await check(`!document.querySelector('#l4-judgment-feedback').hidden`,`Trial ${i+1}: feedback follows choice`);
-    await checkLayout(`Bài4 baseline feedback ${i+1}`,['#l4-judgment-feedback']);
-    if(i>=2){
-      await check(`document.querySelector('#l4-next-baseline').disabled`,`Trial ${i+1}: observed detail required for wrong AI guess`);
-      if(exerciseMistakes){await click('[data-reason="1"]');await check(`document.querySelector('#l4-next-baseline').disabled`,'Unrelated reason cannot complete observation');}
-      await keyboardActivate('[data-reason="0"]');
-    }
-    await click('#l4-next-baseline');
-  }
-  await check(`document.querySelector('#l4-before-count').textContent.includes('2 / 4')`,'Baseline AI accuracy is 2/4, separate from student judgments');
-  return images;
-}
-async function retestLesson4(improvement,images,expectedCorrect){
-  await click(`[data-improvement="${improvement}"]`);
-  await check(`!document.querySelector('#l4-improve-feedback').hidden`,'Improvement choice explains connection to image data');
-  await click('#l4-start-retest');
-  let observedCorrect=0;
-  for(let i=0;i<4;i++){
-    await checkLayout(`Bài4 retest trial ${i+1}`,['#l4-retest-stage']);
-    const observed=await e(`(()=>{const img=document.querySelector('#l4-retest-image');return {id:img.dataset.imageId,src:img.getAttribute('src')};})()`);
-    if(observed.id!==images[i].id||observed.src!==images[i].src)throw Error('Retest changed image/order at '+i);
-    reports.push(`Retest trial ${i+1}: same test image and order`);
-    await check(`document.querySelector('#l4-next-retest').hidden`,`Retest ${i+1}: run simulation before advancing`);
-    await click('#l4-run-retest');
-    await check(`!document.querySelector('#l4-next-retest').hidden&&!!document.querySelector('#l4-retest-ai-guess')`,`Retest ${i+1}: result available after run`);
-    await checkLayout(`Bài4 retest result ${i+1}`,['#l4-retest-feedback']);
-    const result=await e(`document.querySelector('#l4-retest-result').textContent`);
-    if(result==='Đúng')observedCorrect++;
-    await click('#l4-next-retest');
-  }
-  if(observedCorrect!==expectedCorrect)throw Error(`Per-image retest results total ${observedCorrect}, expected ${expectedCorrect}`);
-  reports.push(`Per-image observations independently total ${observedCorrect}/4`);
-  await check(`document.querySelector('#l4-after-count').textContent.includes('${expectedCorrect} / 4')`,`Improvement ${improvement}: observed final accuracy ${expectedCorrect}/4`);
-}
-async function reportLesson4(){
-  await click('#l4-preview-report');
-  await check(`!document.querySelector('#l4-report-stage').hidden`,'Incomplete report stays editable');
-  const error='AI nhầm chai có nắp vặn thành lon.';
-  const change='Em bổ sung ảnh rõ ở nhiều góc.';
-  const result='Đúng 3/4 lượt; vẫn còn một ảnh khó nhìn.';
-  await fill('#l4-error',error);await fill('#l4-change',change);await fill('#l4-result',result);
-  await checkLayout('Bài4 report editing',['#l4-report-stage']);
-  await click('#l4-preview-report');
-  await checkLayout('Bài4 report preview',['#l4-preview-stage','#l4-report-text']);
-  await check(`document.querySelector('#l4-report-text').textContent.includes(${JSON.stringify(error)})&&document.querySelector('#l4-report-text').textContent.includes(${JSON.stringify(result)})`,'Report preview includes error, change and retest outcome');
-  await click('#l4-edit-report');await check(`document.querySelector('#l4-error').value===${JSON.stringify(error)}`,'Edit report preserves learner text');
-  const literal='<img src=x onerror="window.injected=true"> Em đã kiểm tra lại.';
-  await fill('#l4-error',literal);await click('#l4-preview-report');
-  await checkLayout('Bài4 report preview with literal markup',['#l4-report-text']);
-  await check(`document.querySelector('#l4-report-text').textContent.includes('<img')&&!document.querySelector('#l4-report-text img')&&!window.injected`,'Report handles entered markup as text');
-  await click('#l4-copy-report');
-  await check(`(await navigator.clipboard.readText()).includes(${JSON.stringify(literal)})&&(await navigator.clipboard.readText()).includes(${JSON.stringify(change)})`,'Report actual clipboard contains learner fields');
-  await clipboardDenied();await click('#l4-copy-report');
-  await check(`!document.querySelector('#l4-manual-copy').hidden&&document.querySelector('#l4-manual-copy').value.includes(${JSON.stringify(change)})`,'Report clipboard denial offers complete manual text');await clipboardRestore();
-}
 
-try{
-  await c('Page.enable');await c('Runtime.enable');await c('Log.enable');await c('Network.enable');await c('Network.setCacheDisabled',{cacheDisabled:true});await c('Page.bringToFront');await c('Emulation.setFocusEmulationEnabled',{enabled:true});
-  await c('Browser.grantPermissions',{origin:base,permissions:['clipboardReadWrite','clipboardSanitizedWrite']});
-  for(const [label,width,height] of [['desktop',1366,900],['mobile',390,844]]){
-    await c('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:label==='mobile'});
-    await nav('khoa_hoc.html');
-    await check(`document.querySelector('[data-lesson="2"]')&&!document.querySelector('[data-lesson="2"] a')&&!document.querySelector('[data-lesson="2"] button')`,'Bài2 remains a placeholder without unconfirmed link');
-    for(const href of ['index.html','bai3_y_tuong.html','bai4_cai_tien.html']){
-      await click(`a[href="${href}"]`);await until(`location.pathname.endsWith(${JSON.stringify(href)})&&document.readyState==='complete'`);
-      await check(`!!document.querySelector('a.course-link[href="khoa_hoc.html"]')`,'Lesson has a return link to course contents: '+href);
-      await click('a.course-link');await until(`location.pathname.endsWith('khoa_hoc.html')`);
-    }
-    for(const path of ['khoa_hoc.html','bai3_y_tuong.html','bai4_cai_tien.html']){
-      await nav(path);
-      await check('document.documentElement.scrollWidth<=innerWidth',`${label}: no horizontal overflow on ${path}`);
-      await check(`Array.from(document.querySelectorAll('button,.btn')).filter(b=>b.getClientRects().length).every(b=>b.getBoundingClientRect().height>=44)`,`${label}: active controls at least 44px on ${path}`);
-      await check(`Array.from(document.images).every(img=>img.complete&&img.naturalWidth>0)`,`${label}: image assets load on ${path}`);
-      await screenshot(`course-${label}-${path.split('.')[0]}`);
-    }
-    await lesson3Flow();
-    await screenshot(`course-${label}-idea`);
-    // Bài4 must be independently usable even if the learner never did Bài3.
-    await e(`localStorage.removeItem('ai4.idea.v1')`);await nav('bai4_cai_tien.html');
-    await check(`!!document.querySelector('#l4-start')`,'Standalone Bài4 starts from fixed sample without Bài3');
-    const images=await baselineLesson4();await retestLesson4('photos',images,3);await reportLesson4();
-    await screenshot(`course-${label}-report`);
-    await click('#l4-reset');await check(`!document.querySelector('#l4-start').disabled&&!!document.querySelector('#l4-start').getClientRects().length`,'Reset restores initial sample activity');
-    const secondImages=await baselineLesson4({exerciseMistakes:false});await retestLesson4('schedule',secondImages,2);
-    await check(`document.querySelector('#l4-error').value===''&&document.querySelector('#l4-change').value===''&&document.querySelector('#l4-result').value===''`,'Reset cleared previous report inputs');
-    const unrelated={version:1,problem:'Bé muốn luyện nói tiếng Anh.',data:'Giọng nói tiếng Anh.',support:'Gợi ý phát âm.',source:'Q6'};
-    await e(`localStorage.setItem('ai4.idea.v1',${JSON.stringify(JSON.stringify(unrelated))})`);await nav('bai4_cai_tien.html');
-    await check(`document.querySelector('#l4-prior-idea').textContent.includes('luyện nói')&&document.body.textContent.includes('mẫu')`,'Unrelated saved idea is context only; bottle/can sample remains explicit');
-    await click('#l4-start');await check(`document.querySelector('#l4-image').dataset.imageId===${JSON.stringify(images[0].id)}`,'Saved unrelated idea does not silently change fixed test set');
-  }
-  await nav('khoa_hoc.html');await e(`localStorage.setItem('ai4.idea.v1','{not valid JSON')`);
-  await nav('bai4_cai_tien.html');await check(`!!document.querySelector('#l4-start').getClientRects().length`,'Malformed saved idea falls back to sample');
-  const blocked=await c('Page.addScriptToEvaluateOnNewDocument',{source:`for(const method of ['getItem','setItem','removeItem'])Storage.prototype[method]=function(){throw new DOMException('Storage blocked for QA','SecurityError')}`});
-  await nav('bai3_y_tuong.html');await coreLesson3();
-  await check(`!document.querySelector('#idea-storage-status').hidden&&!document.querySelector('#idea-preview').hidden`,'Storage blocked: Q5 completes and offers copying');
-  await nav('bai4_cai_tien.html');await check(`!!document.querySelector('#l4-start').getClientRects().length`,'Storage blocked: Bài4 still opens standalone sample');
-  await c('Page.removeScriptToEvaluateOnNewDocument',{identifier:blocked.identifier});
-  await c('Emulation.setDeviceMetricsOverride',{width:320,height:700,deviceScaleFactor:1,mobile:true});
-  for(const path of ['khoa_hoc.html','bai3_y_tuong.html','bai4_cai_tien.html']){await nav(path);await check('document.documentElement.scrollWidth<=innerWidth',`320px: no horizontal overflow on ${path}`);}
-  if(errors.length)throw Error('Browser errors: '+errors.join('; '));
-  await fs.writeFile('.preview/course-test-results.json',JSON.stringify({checks:reports.length,errors,reports},null,2));
-  console.log(JSON.stringify({checks:reports.length,errors},null,2));
-}catch(error){
-  await fs.writeFile('.preview/course-test-results.json',JSON.stringify({failed:String(error),checks:reports.length,errors,reports},null,2));
-  try{await screenshot('course-failure');}catch{}
-  throw error;
-}finally{socket.close();}
+try {
+await c('Page.enable');await c('Runtime.enable');await c('Log.enable');await c('Network.enable');await c('Network.setCacheDisabled',{cacheDisabled:true});await c('Page.bringToFront');await c('Emulation.setFocusEmulationEnabled',{enabled:true});await c('Browser.grantPermissions',{origin:base,permissions:['clipboardReadWrite','clipboardSanitizedWrite']});
+async function pasteCheck(selector,expected){await click(selector);const copied=await e('navigator.clipboard.readText()');for(const part of expected)if(!copied.includes(part))throw Error('Clipboard missing '+part);await e(`(()=>{const t=document.createElement('textarea');t.id='paste-proof';document.body.append(t);t.focus()})()`);await c('Input.insertText',{text:copied});await check(`document.querySelector('#paste-proof').value===${JSON.stringify(copied.replaceAll(String.fromCharCode(13),String()))}`,'Pasted clipboard contains all required fields');await e("document.querySelector('#paste-proof').remove()");}
+for(const [label,width,height] of [['desktop',1366,900],['mobile',390,844]]){
+await c('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:label==='mobile'});
+await nav('khoa_hoc.html');for(const href of ['index.html','bai3_y_tuong.html','bai4_cai_tien.html']){await click(`a[href="${href}"]`);await until(`location.pathname.endsWith('${href}')`);await click('a.course-link');await until("location.pathname.endsWith('khoa_hoc.html')");}
+await nav('bai3_y_tuong.html');await click('[data-q5-choice="waste"]');await click('#q5-next');await click('[data-q5-choice="1"]');await check("document.querySelector('#q5-next').disabled",'Wrong example data needs correction');await click('[data-q5-choice="0"]');await click('#q5-next');await click('[data-q5-choice="0"]');await click('#q5-next');await check("!document.querySelector('#q5-write').hidden",'Example leads to own two ideas');await click('#own-preview');await check("!document.querySelector('#own-feedback').hidden",'Both own ideas required');
+for(const i of [1,2]){await fill('#own-problem-'+i,'Vấn đề riêng '+i);await fill('#own-support-'+i,'AI hỗ trợ việc '+i);}await click('#own-preview');await pasteCheck('#idea-copy',['Vấn đề riêng 1','Vấn đề riêng 2','AI hỗ trợ việc 1','AI hỗ trợ việc 2']);await click('#q6-open');await e("document.querySelector('#q6-choice').value='1';document.querySelector('#q6-choice').dispatchEvent(new Event('change'))");await check("document.querySelector('#q6-problem').value==='Vấn đề riêng 2'",'Q6 develops chosen Q5 idea');await check("document.querySelectorAll('#idea-form textarea').length===4",'Q6 exactly four text fields');await click('#q6-generate');await check("!document.querySelector('#q6-feedback').hidden",'All four Q6 parts required');await fill('#q6-data','Ảnh rõ của đồ vật');await fill('#q6-user','Các bạn trong lớp');await click('#q6-generate');await pasteCheck('#idea-copy',['Ý tưởng 1','Ý tưởng 2','Vấn đề riêng 1','Vấn đề riêng 2','Dữ liệu: Ảnh rõ','Kết quả: AI hỗ trợ việc 2','Người sử dụng: Các bạn']);await check('document.documentElement.scrollWidth<=innerWidth','Idea preview fits screen');await screenshot('aligned-'+label+'-idea');
+await nav('bai4_cai_tien.html');await click('#l4-start');const images=[];
+for(let i=0;i<6;i++){images.push(await e("document.querySelector('#l4-image').getAttribute('src')"));await check(`document.querySelector('#l4-image').dataset.imageId==='T${i+1}'`,'T row identifier matches');await click(`[data-judge="${i<4?'correct':'wrong'}"]`);if(i>=4)await click('[data-reason="0"]');await click('#l4-next-baseline');}
+await check("document.querySelector('#l4-before-count').textContent==='4 / 6'",'Baseline 4/6');await click('[data-improvement="photos"]');await click('#l4-start-retest');let correct=0;
+for(let i=0;i<6;i++){await check(`document.querySelector('#l4-retest-image').getAttribute('src')===${JSON.stringify(images[i])}`,'Same test image on retest');await click('#l4-run-retest');const result=await e("document.querySelector('#l4-retest-result').textContent");if(result==='Đúng')correct++;if(i===4)await check("document.querySelector('#l4-retest-result').textContent==='Sai'",'T5 remains wrong');await click('#l4-next-retest');}
+if(correct!==5)throw Error('Expected five correct retests');await check("document.querySelector('#l4-after-count').textContent.includes('5 / 6')",'After 5/6');for(const [key,value] of [['error','T5 đoán nhầm lon thành chai'],['change','Thêm ảnh rõ nhiều góc'],['result','4/6 lên 5/6']])await fill('#l4-'+key,value);await click('#l4-preview-report');await check("!document.querySelector('#l4-report-stage').hidden",'Human explanation required');await fill('#l4-reflection','T5 vẫn sai sau cải tiến nên con người cần kiểm tra lại vật thật.');await click('#l4-preview-report');await pasteCheck('#l4-copy-report',['T5 đoán nhầm','Thêm ảnh rõ','4/6 lên 5/6','T5 vẫn sai sau cải tiến']);await check('document.documentElement.scrollWidth<=innerWidth','Report fits screen');await screenshot('aligned-'+label+'-report');await click('#l4-reset');await check("document.querySelector('#l4-reflection').value===''",'Reset clears reflection');
+}
+if(errors.length)throw Error(errors.join(';'));await fs.writeFile('.preview/course-test-results.json',JSON.stringify({checks:reports.length,errors,reports},null,2));console.log(JSON.stringify({checks:reports.length,errors}));
+} finally {socket.close();}

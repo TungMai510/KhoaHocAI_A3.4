@@ -49,10 +49,10 @@
     show('q5-stage'); stepper(stage);
     const scenario = scenarios[problem];
     $('q5-feedback').hidden = true; $('q5-next').disabled = true; $('q5-back').hidden = stage === 0;
-    $('q5-step-label').textContent = `Q5 · Phần cốt lõi · Bước ${stage + 1} / 3`;
+    $('q5-step-label').textContent = `Ví dụ có gợi ý · Bước ${stage + 1} / 3`;
     $('lesson3-instruction').textContent = ['Chọn một việc của lớp mà em muốn AI hỗ trợ.', 'Chọn dữ liệu giúp AI hiểu đúng vấn đề.', 'Chọn việc AI có thể hỗ trợ từ dữ liệu đó.'][stage];
     $('q5-title').textContent = ['Lớp em đang gặp vấn đề nào?', 'AI cần xem dữ liệu gì?', 'AI sẽ giúp lớp làm việc gì?'][stage];
-    $('q5-next').textContent = ['Chọn dữ liệu →', 'Chọn việc AI hỗ trợ →', 'Tạo phiếu Q5 →'][stage];
+    $('q5-next').textContent = ['Chọn dữ liệu →', 'Chọn việc AI hỗ trợ →', 'Tự viết hai ý tưởng Q5 →'][stage];
     $('q5-context').textContent = stage ? scenario.problem : 'Em chọn tình huống mẫu về chai/lon, hoặc thử góc sách.';
     $('q5-exhibit').replaceChildren();
     if (stage === 0 || problem === 'waste') {
@@ -76,50 +76,20 @@
     });
     if (focus) focusTitle('q5-title');
   }
-  function preview(idea) {
-    currentIdea = idea; show('idea-preview'); stepper(3);
-    $('idea-problem').textContent = idea.problem; $('idea-data').textContent = idea.data; $('idea-support').textContent = idea.support;
-    $('idea-source').textContent = idea.source === 'Q5' ? 'Q5 · Hoàn thành phần cốt lõi' : 'Q6 · Phiếu ý tưởng mở rộng';
-    $('idea-explanation').textContent = idea.source === 'Q5' ? scenarios[problem].explanation : 'Em hãy kiểm tra: dữ liệu đã giúp AI hiểu vấn đề chưa, và việc AI hỗ trợ có giải quyết vấn đề đó không? Nhờ bạn hoặc thầy cô góp ý thêm.';
-    $('lesson3-instruction').textContent = 'Đọc lại phiếu, sao chép hoặc sửa trước khi sang Bài 4.';
-    $('q6-open').textContent = idea.source === 'Q6' ? 'Sửa phiếu Q6' : 'Mở rộng Q6: Sửa hoặc nghĩ ý tưởng riêng';
-    $('idea-copy-status').hidden = true; $('idea-manual-copy').hidden = true;
-    save(idea); focusTitle('idea-title');
-  }
-  $('q5-next').addEventListener('click', () => {
-    if (stage === 0 && problem) { stage = 1; render(true); }
-    else if (stage === 1 && data !== null) { stage = 2; render(true); }
-    else if (stage === 2 && support !== null) { const s = scenarios[problem]; q6Draft = null; preview({ version:1, problem:s.problem, data:s.data[data].label, support:s.support[support].label, source:'Q5' }); }
-  });
-  $('q5-back').addEventListener('click', () => { if (stage > 0) { stage--; if (stage === 0) { problem = null; data = null; } support = null; render(true); } });
-  $('q5-edit').addEventListener('click', () => { stage = 0; problem = null; data = null; support = null; render(true); });
-  $('q6-open').addEventListener('click', () => {
-    show('q6-stage'); stepper(3); $('lesson3-instruction').textContent = 'Viết ba phần có liên hệ với nhau để hoàn thiện ý tưởng.';
-    const draft = q6Draft || currentIdea;
-    $('q6-problem').value = draft.problem; $('q6-data').value = draft.data; $('q6-support').value = draft.support; $('q6-feedback').hidden = true; focusTitle('q6-title');
-  });
-  function readDraft() { return { version:1, problem:$('q6-problem').value.trim(), data:$('q6-data').value.trim(), support:$('q6-support').value.trim(), source:'Q6' }; }
-  $('idea-form').addEventListener('submit', event => {
-    event.preventDefault(); const draft = readDraft(); q6Draft = draft;
-    for (const [key,id] of [['problem','q6-problem'],['data','q6-data'],['support','q6-support']]) {
-      if (!draft[key]) { message('q6-feedback', 'Em viết đủ vấn đề, dữ liệu và việc AI hỗ trợ nhé.', false); $(id).focus(); return; }
-    }
-    preview(draft);
-  });
-  $('q6-cancel').addEventListener('click', () => { q6Draft = readDraft(); preview(currentIdea); });
-  $('idea-copy').addEventListener('click', async () => {
-    if (!currentIdea) return;
-    const text = `Phiếu ý tưởng AI – ${currentIdea.source}\nVấn đề: ${currentIdea.problem}\n→ Dữ liệu AI cần xem: ${currentIdea.data}\n→ Việc AI hỗ trợ: ${currentIdea.support}`;
-    $('idea-manual-copy').hidden = true;
-    try { await navigator.clipboard.writeText(text); message('idea-copy-status', 'Đã sao chép phiếu! Em có thể dán vào nơi giáo viên hướng dẫn.'); }
-    catch (_) { $('idea-copy-output').value = text; $('idea-manual-copy').hidden = false; message('idea-copy-status', 'Trình duyệt chưa cho sao chép tự động. Em hãy sao chép phần đã chọn bên dưới.', false); $('idea-copy-output').focus(); $('idea-copy-output').select(); }
-  });
-  $('lesson3-reset').addEventListener('click', () => {
-    stage = 0; problem = null; data = null; support = null; currentIdea = null; q6Draft = null;
-    ['q6-problem','q6-data','q6-support','idea-copy-output'].forEach(id => $(id).value = '');
-    try { localStorage.removeItem(storageKey); $('idea-storage-status').hidden = true; }
-    catch (_) { message('idea-storage-status', 'Không xoá được phiếu đã lưu trong trình duyệt này. Lượt đang làm đã được đặt lại.', false); }
-    render(true);
-  });
+  let ideas=[], expanded=null;
+  const keys=['problem','data','result','user'];
+  function text(){return 'PHIẾU Ý TƯỞNG AI — Q5\n'+ideas.map((a,i)=>`Ý tưởng ${i+1}\nVấn đề: ${a.problem}\nAI hỗ trợ: ${a.support}`).join('\n\n')+(expanded?'\n\nQ6 — Phát triển ý tưởng '+(expanded.index+1)+'\n'+keys.map((k,i)=>['Vấn đề','Dữ liệu','Kết quả','Người sử dụng'][i]+': '+expanded[k]).join('\n'):'');}
+  function review(){show('idea-preview');$('q5-write').hidden=true;stepper(3);$('ideas-text').textContent=text();$('idea-source').textContent=expanded?'Q5 + Q6 · Phiếu của em':'Q5 · Hai ý tưởng của em';$('idea-explanation').textContent='Đọc lại: mỗi ý tưởng đã nêu rõ vấn đề và việc AI hỗ trợ chưa?';$('idea-copy-status').hidden=true;$('idea-manual-copy').hidden=true;save({version:1,...(expanded?{problem:expanded.problem,support:expanded.result}:ideas[0]),data:expanded?.data||'Chưa phát triển dữ liệu ở Q6',source:expanded?'Q6':'Q5',ideas,expanded});focusTitle('idea-title');}
+  $('q5-next').onclick=()=>{if(stage===0&&problem){stage=1;render(true);}else if(stage===1&&data!==null){stage=2;render(true);}else if(stage===2&&support!==null){show('none');$('q5-write').hidden=false;stepper(3);$('lesson3-instruction').textContent='Tự viết hai ý tưởng AI cho hai vấn đề khác nhau.';}};
+  $('q5-back').onclick=()=>{if(stage>0){stage--;data=null;support=null;render(true);}};
+  $('own-preview').onclick=()=>{const draft=[1,2].map(i=>({problem:$('own-problem-'+i).value.trim(),support:$('own-support-'+i).value.trim()}));if(draft.some(a=>!a.problem||!a.support)){message('own-feedback','Em viết đủ vấn đề và việc AI hỗ trợ cho cả hai ý tưởng nhé.',false);return;}if(draft[0].problem.toLowerCase()===draft[1].problem.toLowerCase()){message('own-feedback','Em chọn hai vấn đề khác nhau nhé.',false);return;}ideas=draft;expanded=null;review();};
+  $('q5-edit').onclick=()=>{show('none');$('q5-write').hidden=false;};
+  function seed(){const i=Number($('q6-choice').value),a=ideas[i];keys.forEach(k=>$('q6-'+k).value=expanded?.index===i?expanded[k]:(k==='problem'?a.problem:k==='result'?a.support:''));}
+  $('q6-open').onclick=()=>{show('q6-stage');$('q5-write').hidden=true;$('q6-feedback').hidden=true;seed();};
+  $('q6-choice').onchange=seed;
+  $('idea-form').onsubmit=ev=>{ev.preventDefault();const draft={index:Number($('q6-choice').value)};for(const k of keys){draft[k]=$('q6-'+k).value.trim();if(!draft[k]){message('q6-feedback','Em điền đủ Vấn đề – Dữ liệu – Kết quả – Người sử dụng nhé.',false);$('q6-'+k).focus();return;}}expanded=draft;review();};
+  $('q6-cancel').onclick=review;
+  $('idea-copy').onclick=async()=>{try{await navigator.clipboard.writeText(text());message('idea-copy-status','Đã sao chép đủ hai ý tưởng Q5 và phần Q6 nếu đã làm.');}catch{$('idea-copy-output').value=text();$('idea-manual-copy').hidden=false;$('idea-copy-output').focus();$('idea-copy-output').select();message('idea-copy-status','Em sao chép nội dung đã chọn bên dưới nhé.',false);}};
+  $('lesson3-reset').onclick=()=>{stage=0;problem=null;data=null;support=null;ideas=[];expanded=null;document.querySelectorAll('textarea').forEach(t=>t.value='');$('q5-write').hidden=true;try{localStorage.removeItem(storageKey);}catch{}render(true);};
   render();
 })();
