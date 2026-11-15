@@ -1,70 +1,78 @@
-# Bản xem thử A3.4 — Thám tử AI quanh em
+# Bàn điều tra của Thám tử AI — Bản xem thử cục bộ
 
-Đã nâng cấp tại `D:\Student_HCMUE\E-Learning\KhoaHocAI_A3.4`.
-Git ban đầu: nhánh `main`, theo dõi `origin/main`, không có thay đổi cục bộ; commit gốc `1780992`.
-Chưa commit, push GitHub hay cập nhật Azota.
+Đã sửa trong `D:\Student_HCMUE\E-Learning\KhoaHocAI_A3.4`. Trước khi sửa, Git sạch, nhánh `main` đồng bộ `origin/main`, commit `2001ee1`. Bản nâng cấp đã được người dùng duyệt để đưa lên GitHub. **Chưa cập nhật Azota**.
 
-## Mở bản xem thử
+## Mở để duyệt
 
-Nhấp đúp `XEM_THU.cmd`, giữ cửa sổ đó mở rồi truy cập **http://127.0.0.1:8340/**.
-Hoặc chạy trong terminal VS Code tại thư mục này:
+Mở **http://127.0.0.1:8340/** khi máy chủ đang chạy. Có thể cần Ctrl+F5 để bỏ cache bản trước.
+
+Nếu chưa chạy, nhấp đúp `XEM_THU.cmd`, hoặc chạy tại thư mục repo:
 
 ```powershell
 python -m http.server 8340 --bind 127.0.0.1
 ```
 
-Nếu báo cổng đã được dùng, thử mở địa chỉ trên; hoặc đổi `8340` thành `8341` trong lệnh và địa chỉ. Nhấn Ctrl+C để dừng máy chủ.
-Web tĩnh, không cần npm hay bước build. Nên xem qua HTTP để kiểm tra sao chép đúng hành vi của trình duyệt.
+Giữ terminal mở, vào địa chỉ trên; Ctrl+C để dừng máy chủ. Nếu cổng 8340 đã được dùng, thử mở địa chỉ trước khi chạy thêm máy chủ. Web không cần npm, build hay CDN.
 
-## Luồng đã triển khai
+- Trang đầu: `http://127.0.0.1:8340/`
+- Quầy của Sóc: `http://127.0.0.1:8340/hl1_kham_pha.html`
+- Vật chứng 3D: `http://127.0.0.1:8340/hl2_mo_phong.html`
+- Thử ảnh thay thế: `http://127.0.0.1:8340/hl2_mo_phong.html?view=2d`
+- Q1 trực tiếp: `http://127.0.0.1:8340/hl3_luyen_tap.html#q1`
 
-- `index.html`: trang nhận nhiệm vụ với một nút bắt đầu chính.
-- `hl1_kham_pha.html`: hai tình huống dịch câu và phân loại chai/lon. Mỗi tình huống nêu thông tin đầu vào, việc AI hỗ trợ và cách kiểm tra kết quả; có câu hỏi và phản hồi ngay.
-- `hl2_mo_phong.html`: dự đoán trước khi mở gợi ý, xem ảnh mờ rồi ảnh rõ của cùng chiếc lon, so sánh cả hai dự đoán của học sinh và hai gợi ý mô phỏng, giải thích các chi tiết gây nhầm, trả lời câu hỏi kiểm tra gợi ý AI; có nút làm lại.
-- `hl3_luyen_tap.html`: giữ 4 câu hỏi gốc, hiển thị lần lượt, giải thích riêng cho từng lựa chọn, có điểm và nút làm lại. Phần `#q1` chứa hai ô viết ví dụ, sao chép và mở Azota. Có thể vào Q1 trực tiếp từ thanh tiến trình.
+## Những gì đã đổi
 
-Thanh tiến trình thể hiện **vị trí đang học**, không xác nhận đã nộp Q1. Dữ liệu nhập và điểm chỉ tồn tại trong trang đang mở; không tự gửi hoặc lưu điểm sang Azota.
+- Giao diện bàn điều tra: nền kem ấm, xanh lá, vàng; Sóc và đồ vật minh hoạ riêng bằng SVG. Có quầy món ăn, ảnh vật chứng trên bàn, mô hình lớn ở trung tâm và hướng dẫn ngắn theo từng trạng thái.
+- **Quầy Sóc:** chọn một trong ba thẻ tiếng Anh; bấm Thử dịch mới thấy bản dịch có sẵn; chọn hình để kiểm tra. Sai được gợi ý thử lại; đúng nhận câu chốt. Đổi câu xoá cả kết quả lẫn trạng thái trước đó.
+- **Vật chứng:** dự đoán trước rồi mới hiện AI mô phỏng gợi ý “Chai”, không giải thích sớm. Xin thêm manh mối mở mô hình WebGL thật. Kéo hoặc vuốt ngang để xoay; nút mũi tên thay góc nhìn. Chạm chi tiết chưa đủ rõ được gợi ý; tìm đúng chi tiết trên nắp mới mở bước chốt chai/lon. Chỉ khi chốt lon mới giải thích khoen kéo và đối chiếu với gợi ý ban đầu.
+- **Ảnh thay thế:** tự mở nếu WebGL không có hoặc bị mất; có nút chuyển thủ công. Ảnh có vùng chạm trên nắp, thân, đáy và nút chọn tương đương bằng bàn phím. Vẫn hoàn thành được cả nhiệm vụ.
+- **Tự luyện:** hai tình huống mới (AI hỗ trợ phát âm; kiểm tra gợi ý nhận diện cây). Mỗi lựa chọn có giải thích ngay; có điểm /2 và làm lại.
+- **Q1:** giữ hai ô viết ứng dụng AI trong học tập/đời sống kèm việc hỗ trợ, sao chép và link Azota. Không tự gửi điểm hoặc bài sang Azota.
 
-## Tệp thay đổi
+Tên cả bốn trang HTML và đường dẫn `hl3_luyen_tap.html#q1` giữ nguyên. Thanh tiến trình cho biết vị trí trong bài, không xác nhận đã nộp Q1.
 
-Sửa 4 trang HTML nêu trên, giữ nguyên tên và đường dẫn.
+## Các file sửa / thêm
 
-Thêm:
+Sửa: `index.html`, `hl1_kham_pha.html`, `hl2_mo_phong.html`, `hl3_luyen_tap.html`, `styles.css`, `app.js`, `tests/browser-qa.mjs`, `XEM_THU.md`.
 
-- `styles.css`: giao diện chung và bố cục responsive.
-- `app.js`: điều hướng tiến trình, khám phá, mô phỏng, tự luyện, sao chép.
-- `assets/can.svg`: hình minh hoạ chiếc lon, dùng chung cho ảnh mờ và rõ.
-- `assets/favicon.svg`: biểu tượng kính lúp.
-- `.gitignore`: bỏ qua dữ liệu kiểm thử, hồ sơ trình duyệt và node_modules.
-- `XEM_THU.cmd`, `XEM_THU.md`: mở bản xem thử và hướng dẫn.
-- `tests/browser-qa.mjs`: kịch bản kiểm thử Chrome qua CDP, dùng Node.js có WebSocket tích hợp.
+Thêm: `evidence-model.js`, `assets/squirrel.svg`, `assets/apple.svg`, `assets/banana.svg`, `assets/milk.svg`, `assets/detective-desk.svg`.
 
-## Kiểm thử thực tế ngày 15/11/2026
+Mô hình dựng bằng WebGL trực tiếp, không tải thư viện bên ngoài; chỉ vẽ lại khi xoay hoặc đổi kích thước. Hình ảnh SVG dùng cục bộ, không cần kết nối dịch vụ AI.
 
-Chrome 157 headless trên Windows, kích thước desktop **1366×900** và giả lập điện thoại **390×844**. Tổng cộng **228 lượt xác nhận tự động**, gồm kiểm tra nút có thể thao tác, trạng thái và kết quả. Không ghi nhận lỗi JavaScript hoặc lỗi tải tài nguyên trong lần chạy hoàn tất.
+## Kiểm thử thực tế 15/11/2026
 
-- Đi hết luồng từ trang đầu → hai tình huống khám phá → ảnh mờ → ảnh rõ → giải thích → 4 câu tự luyện → Q1.
-- Thử đúng/sai ở cả hai tình huống; thử tất cả 3 lựa chọn của từng câu tự luyện và từng lựa chọn câu hỏi giải thích ảnh mờ.
-- Xác nhận không mở được gợi ý AI trước khi dự đoán; vòng ảnh rõ yêu cầu dự đoán mới; so sánh giữ đúng lựa chọn của học sinh.
-- Làm lại thử thách xoá cả hai lượt, ẩn so sánh và đưa ảnh về trạng thái mờ.
-- Làm lại tự luyện xoá câu trả lời, phản hồi và điểm. Tính điểm đúng **4/4** và **0/4**. Đi Q1 rồi quay lại vẫn xem được kết quả; có thể luyện lại tiếp.
-- Q1 bỏ trống có hướng dẫn điền đủ hai ví dụ. Sao chép thành công và đọc lại clipboard để xác nhận đủ cả hai câu trả lời thực tế.
-- Chủ động mô phỏng quyền sao chép bị từ chối: hiện nội dung và chọn sẵn để sao chép thủ công.
-- Bấm Mở Azota tạo thẻ mới với URL `https://azota.vn/vi/khoa-hoc/ireehs`.
-- Kiểm tra link trực tiếp `hl3_luyen_tap.html#q1` và quay lại bài luyện chưa làm.
-- Cả 4 trang và phần Q1 không tràn ngang tại desktop/mobile; nút hành động và thanh tiến trình cao ít nhất 44px. Thêm một kiểm tra không tràn ngang ở trang thử thách tại chiều rộng 320px.
-- Đã xem ảnh chụp desktop/mobile để rà bố cục. `node --check app.js` và `git diff --check` đạt.
+Chrome 157 headless trên Windows, WebGL qua SwiftShader. Kích thước desktop **1366×900** và điện thoại giả lập **390×844**. Kịch bản `tests/browser-qa.mjs` đã chạy hoàn tất **284 lượt xác nhận** (bao gồm kiểm tra từng nút thao tác và trạng thái). Không ghi nhận lỗi JavaScript/lỗi tải tài nguyên. Đã xem ảnh chụp để rà bố cục.
 
-Kết quả chi tiết nằm trong `.preview/test-results.json`; ảnh chụp nằm trong `.preview/` (các tệp này chỉ dùng cục bộ, Git bỏ qua).
-Kịch bản `tests/browser-qa.mjs` cần máy chủ cổng 8340 và Chrome kiểm thử riêng mở CDP cổng 9340, sau đó chạy `node tests/browser-qa.mjs`.
+- Đi từ trang đầu qua quầy Sóc, vật chứng, tự luyện đến Q1.
+- Thử đủ ba câu dịch; chọn sai/đúng từng món; đổi câu đặt lại hoàn toàn; bản dịch không hiện khi chỉ chọn thẻ.
+- Không tiết lộ khoen kéo hoặc lời giải lúc AI gợi ý từ ảnh mờ. Kiểm tra lại với cả dự đoán Lon, Chai và Chưa chắc qua các lượt.
+- Mô hình thực sự tạo WebGL ở cả hai kích thước. Dùng sự kiện chuột kéo và sự kiện cảm ứng vuốt, xác nhận góc xoay thay đổi. Phím mũi tên cũng xoay được mô hình.
+- **Chạm/nhấp đúng vị trí chi tiết trên mô hình 3D** thực sự mở bước chốt; không chỉ gọi hàm chọn trong mã.
+- **Vuốt dọc bắt đầu trên mô hình thực sự cuộn được trang điện thoại.**
+- Chuyển thủ công 3D → ảnh → 3D. Chủ động làm mất context WebGL: trang tự chuyển ảnh và vẫn hoàn thành bằng bàn phím.
+- Ép ảnh thay thế bằng `?view=2d`: chọn vùng thân để xem gợi ý sai, chọn vùng chi tiết trên nắp, chốt lon; hoàn thành lại bằng bàn phím. Thử cả kết luận sai và đúng.
+- Làm lại toàn bộ thử thách khôi phục ảnh mờ, xoá gợi ý, manh mối, kết luận và lời giải cũ.
+- Thử cả ba lựa chọn của hai tình huống tự luyện, điểm 2/2 và 0/2, làm lại. Sang Q1 rồi quay lại vẫn giữ kết quả của lần đang mở.
+- Q1 trống được nhắc điền hai ví dụ. Sao chép và đọc clipboard thật để xác nhận đủ hai câu trả lời. Mô phỏng quyền bị chặn: hiện nội dung được chọn sẵn để sao chép thủ công. Kiểm tra đúng URL Azota và mở thẻ mới.
+- Cả bốn trang và Q1 không tràn ngang ở desktop/mobile; nút thấy được cao ít nhất 44px ở bước đầu. Kiểm tra thêm chiều rộng 320px cho trang đầu, quầy, ảnh mờ và Q1.
+- `node --check` đạt cho `app.js`, `evidence-model.js`, `tests/browser-qa.mjs`; `git diff --check` đạt.
 
-Đây là kiểm thử trình duyệt với kích thước giả lập điện thoại, chưa phải kiểm thử trên thiết bị điện thoại thật, Safari hoặc bên trong khung nhúng Azota.
+Chi tiết: `.preview/test-results.json`. Ảnh: `.preview/desktop-home.png`, `mobile-home.png`, `mobile-food-start.png`, `mobile-blur-start.png`, `desktop-3d.png`, `mobile-3d.png`, cùng các ảnh kết quả khác. `.preview/` được Git bỏ qua.
 
-## Cần tài khoản học sinh để xác nhận trên Azota
+### Chạy lại kịch bản
 
-1. Đăng nhập và truy cập được khoá học từ link đã cung cấp.
-2. Xác nhận đúng bài Q1 được giao, còn hạn và có ô nhận câu trả lời bằng văn bản.
-3. Dán đủ hai ví dụ, bấm nộp và kiểm tra trạng thái nộp thành công bằng tài khoản học sinh.
-4. Nếu nhúng web: kiểm tra cả 4 đường dẫn sau khi tải lên GitHub, cuộn trang trong khung nhúng và quyền clipboard trên máy/trình duyệt học sinh. Khi clipboard bị chặn, dùng hướng dẫn sao chép thủ công.
+Chạy máy chủ cổng 8340. Mở Chrome kiểm thử riêng bằng PowerShell (profile cục bộ; không dùng profile tài khoản cá nhân):
 
-Chưa đăng nhập, chỉnh sửa khoá học hoặc nộp bài trên Azota. Nút mở Azota chỉ mở khoá học, không tự đánh dấu đã nộp.
+```powershell
+& 'C:/Program Files/Google/Chrome/Application/chrome.exe' --headless=new --no-sandbox --in-process-gpu --use-gl=angle --use-angle=swiftshader --enable-unsafe-swiftshader --no-first-run --remote-debugging-port=9340 --user-data-dir="$PWD/.preview/chrome-qa" about:blank
+```
+
+Trong terminal khác, tại repo: `node tests/browser-qa.mjs` (Node 24). Đóng Chrome kiểm thử sau khi chạy. Các cờ phần mềm ở trên chỉ phục vụ QA; học sinh xem bằng trình duyệt bình thường, không cần các cờ này.
+
+## Những gì còn cần kiểm tra thực tế
+
+- Điện thoại thật, đặc biệt Safari/iOS và khả năng WebGL trên máy học sinh. Kiểm thử hiện tại là Chrome giả lập kích thước/cảm ứng, không thay thế thiết bị thật.
+- Dùng tài khoản học sinh Azota để xác nhận vào được khoá học, bài Q1 được giao và còn hạn, dán đủ hai ví dụ, nộp và thấy trạng thái thành công.
+- Khi quyết định xuất bản: kiểm tra các đường dẫn tài nguyên dưới GitHub Pages và hành vi cuộn/clipboard trong khung nhúng Azota. Dùng sao chép thủ công khi khung nhúng chặn clipboard.
+
+Chưa đăng nhập hoặc thay đổi khoá học Azota. Nội dung nhập và điểm chỉ tồn tại trong trang đang mở, không tự lưu sau khi tải lại.
