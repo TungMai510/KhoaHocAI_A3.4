@@ -11,7 +11,7 @@ function progress(step){
   document.querySelector('[role=progressbar]').setAttribute('aria-valuenow',step);
 }
 progress({home:0,explore:1,challenge:2,practice:3}[page]);
-function feedback(id,text,correct=true){const el=$(id);el.hidden=false;el.textContent=text;el.className='feedback'+(correct?'':' wrong');}
+function feedback(id,text,correct=true){const el=$(id);el.hidden=false;el.textContent=text;el.className='feedback'+(correct?'':' wrong');if(correct&&window.AzotaEmbed?.active)el.classList.add('azota-success');}
 function selected(container,button){document.querySelectorAll(`#${container} button`).forEach(b=>b.setAttribute('aria-pressed',String(b===button)));}
 function bringIntoView(el){if(el.getBoundingClientRect().top<0||el.getBoundingClientRect().bottom>innerHeight)el.scrollIntoView({block:'nearest'});}
 

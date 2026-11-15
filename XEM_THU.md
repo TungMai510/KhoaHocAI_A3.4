@@ -1,4 +1,6 @@
 
+> Chế độ nhúng Azota mới: xem [AZOTA_NHUNG.md](AZOTA_NHUNG.md), hoặc mở `http://127.0.0.1:8340/azota-preview.html` khi máy chủ đang chạy. Hỗ trợ URL cũ trong iframe và `?embed=azota`; chưa xác nhận sandbox của Azota thật.
+>
 > CẬP NHẬT MỚI: Q5 nay yêu cầu hai ý tưởng tự viết sau ví dụ; Q6 có bốn ô; Q7 có T1–T6, 4/6 lên 5/6 và T5 vẫn sai. Dữ liệu từng dòng là minh hoạ. Xem DOI_CHIEU_BT4_2.md cho đặc tả và kiểm thử mới; các số 2/4, 3/4 và 563 lượt bên dưới là ghi nhận phiên bản trước.
 
 # Khóa học AI lớp 4 — Bản xem thử Bài 1, 3 và 4

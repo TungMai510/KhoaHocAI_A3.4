@@ -86,7 +86,7 @@
     $('l4-reason-stage').hidden=true;$('l4-start-retest').disabled=true;$('l4-next-baseline').disabled=true;$('l4-report-text').textContent='';$('l4-manual-copy').value='';['l4-error','l4-change','l4-result','l4-reflection'].forEach(id=>$(id).value='');show('start');$('l4-start').focus({preventScroll:true});
   };
   // A Bài 3 card is optional context; it never changes this fixed bottle/can experiment.
-  try{
+  if (!window.AzotaEmbed?.active) try{
     const idea=JSON.parse(localStorage.getItem('ai4.idea.v1')||'null');
     if(idea&&idea.version===1&&['problem','data','support'].every(key=>typeof idea[key]==='string'&&idea[key].trim()&&idea[key].length<=1500)){
       const list=document.createElement('dl');[['Vấn đề',idea.problem],['Dữ liệu',idea.data],['AI hỗ trợ',idea.support]].forEach(([label,value])=>{const dt=document.createElement('dt');dt.textContent=label;const dd=document.createElement('dd');dd.textContent=value;list.append(dt,dd);});$('l4-prior-content').append(list);$('l4-prior-idea').hidden=false;
