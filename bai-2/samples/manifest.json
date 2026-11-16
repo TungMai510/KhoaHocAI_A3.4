@@ -1,0 +1,718 @@
+{
+  "id": "flowers",
+  "title": "Vườn hoa",
+  "names": [
+    "Hoa cúc",
+    "Hoa hướng dương"
+  ],
+  "source": "https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz",
+  "seed": 340216,
+  "train": [
+    {
+      "src": "samples/daisy-train-01.jpg",
+      "cls": 0,
+      "original": "daisy/14272874304_47c0a46f5a.jpg",
+      "credit": "daisy/14272874304_47c0a46f5a.jpg CC-BY by DncnH - https://www.flickr.com/photos/duncanh1/14272874304/",
+      "sha256": "83caa01aa445712defd715bc13753c2a9ee87dfcbbeea378e0993cc5db85a0bf"
+    },
+    {
+      "src": "samples/daisy-train-02.jpg",
+      "cls": 0,
+      "original": "daisy/8383753520_8391dd80ee_m.jpg",
+      "credit": "daisy/8383753520_8391dd80ee_m.jpg CC-BY by Holly Victoria Norval - https://www.flickr.com/photos/hollystar47/8383753520/",
+      "sha256": "1da2d0e55bcdf09d8a83c32e98d86ddbb9024a7bc1a8bedbe9025788ff994140"
+    },
+    {
+      "src": "samples/daisy-train-03.jpg",
+      "cls": 0,
+      "original": "daisy/8616684075_71923bb771_n.jpg",
+      "credit": "daisy/8616684075_71923bb771_n.jpg CC-BY by jacinta lluch valero - https://www.flickr.com/photos/70626035@N00/8616684075/",
+      "sha256": "5e45b2ad85fee5b50a19dd159ea14a35b773e20b76c351fabdeff3f2f94b0b77"
+    },
+    {
+      "src": "samples/daisy-train-04.jpg",
+      "cls": 0,
+      "original": "daisy/9922116524_ab4a2533fe_n.jpg",
+      "credit": "daisy/9922116524_ab4a2533fe_n.jpg CC-BY by Kelly Sikkema - https://www.flickr.com/photos/95072945@N05/9922116524/",
+      "sha256": "8895254937d97f49f6f63f6830d4e20d47be40ab207632e0dfca0943d01e6c42"
+    },
+    {
+      "src": "samples/daisy-train-05.jpg",
+      "cls": 0,
+      "original": "daisy/144076848_57e1d662e3_m.jpg",
+      "credit": "daisy/144076848_57e1d662e3_m.jpg CC-BY by Paul Reynolds - https://www.flickr.com/photos/bigtallguy/144076848/",
+      "sha256": "6c7cd355db5647437eae6fdc96d572b582d0e7c82a9142a87224086cf73e466b"
+    },
+    {
+      "src": "samples/daisy-train-06.jpg",
+      "cls": 0,
+      "original": "daisy/9054268881_19792c5203_n.jpg",
+      "credit": "daisy/9054268881_19792c5203_n.jpg CC-BY by Zoltán Vörös - https://www.flickr.com/photos/94941635@N07/9054268881/",
+      "sha256": "9ff1b240684718c57cc442ef55f29c0327967463162b0dc2a78b889b459406db"
+    },
+    {
+      "src": "samples/daisy-train-07.jpg",
+      "cls": 0,
+      "original": "daisy/9175280426_40ecc395b8_m.jpg",
+      "credit": "daisy/9175280426_40ecc395b8_m.jpg CC-BY by Donnie Nunley - https://www.flickr.com/photos/dbnunley/9175280426/",
+      "sha256": "85cae040c32264fb5ca2669b185f0ff3e193f15d23ba0e8c1dcf902d1ac16688"
+    },
+    {
+      "src": "samples/daisy-train-08.jpg",
+      "cls": 0,
+      "original": "daisy/3275951182_d27921af97_n.jpg",
+      "credit": "daisy/3275951182_d27921af97_n.jpg CC-BY by Swaminathan - https://www.flickr.com/photos/araswami/3275951182/",
+      "sha256": "3e3d26af892cbbcf01f31c4b714517c072b7a007d36202f3f309f1e38c027037"
+    },
+    {
+      "src": "samples/sunflowers-train-01.jpg",
+      "cls": 1,
+      "original": "sunflowers/9460336948_6ae968be93.jpg",
+      "credit": "sunflowers/9460336948_6ae968be93.jpg CC-BY by Mike Lewinski - https://www.flickr.com/photos/ikewinski/9460336948/",
+      "sha256": "228dddaffb2035ea69e6f5194004fd9d03539ddb962a5fbd3ed07377741aa019"
+    },
+    {
+      "src": "samples/sunflowers-train-02.jpg",
+      "cls": 1,
+      "original": "sunflowers/7820523050_76c8caa025.jpg",
+      "credit": "sunflowers/7820523050_76c8caa025.jpg CC-BY by Rachel Samanyi - https://www.flickr.com/photos/sarairachel/7820523050/",
+      "sha256": "8f4d52049226253ff278c76a2629ecc708a6a8c032901cd0f4f1d63f1e33fd91"
+    },
+    {
+      "src": "samples/sunflowers-train-03.jpg",
+      "cls": 1,
+      "original": "sunflowers/9213511121_836a458021_m.jpg",
+      "credit": "sunflowers/9213511121_836a458021_m.jpg CC-BY by Donald Lee Pardue - https://www.flickr.com/photos/oldrebel/9213511121/",
+      "sha256": "bb3ab0a073b907173ba0a9f88fdf41f77cc5b1977e73a3696df8f2733e9124bb"
+    },
+    {
+      "src": "samples/sunflowers-train-04.jpg",
+      "cls": 1,
+      "original": "sunflowers/16967372357_15b1b9a812_n.jpg",
+      "credit": "sunflowers/16967372357_15b1b9a812_n.jpg CC-BY by John Seb Barber - https://www.flickr.com/photos/johnseb/16967372357/",
+      "sha256": "0e7ec983bacb33a3acc778a833eda3f11e7c47fb83a0a36b2f5811dd35c9f121"
+    },
+    {
+      "src": "samples/sunflowers-train-05.jpg",
+      "cls": 1,
+      "original": "sunflowers/50987813_7484bfbcdf.jpg",
+      "credit": "sunflowers/50987813_7484bfbcdf.jpg CC-BY by Sassy Gardener - https://www.flickr.com/photos/64776479@N00/50987813/",
+      "sha256": "5c7062b15a082594b143986f62b895547d69a093a2a9e6090cb1c0c812910ba6"
+    },
+    {
+      "src": "samples/sunflowers-train-06.jpg",
+      "cls": 1,
+      "original": "sunflowers/9432335346_e298e47713_n.jpg",
+      "credit": "sunflowers/9432335346_e298e47713_n.jpg CC-BY by Ruth Hartnup - https://www.flickr.com/photos/ruthanddave/9432335346/",
+      "sha256": "33b91acc76810896a7813b0a6ad630e0d7d8c82bfd362357251311406c9f47ae"
+    },
+    {
+      "src": "samples/sunflowers-train-07.jpg",
+      "cls": 1,
+      "original": "sunflowers/29972905_4cc537ff4b_n.jpg",
+      "credit": "sunflowers/29972905_4cc537ff4b_n.jpg CC-BY by normanack - https://www.flickr.com/photos/29278394@N00/29972905/",
+      "sha256": "a2b2a3a2f4e70e716fd657bcb93af13f66f44a5a0fefe2f7390d85a5940bcacb"
+    },
+    {
+      "src": "samples/sunflowers-train-08.jpg",
+      "cls": 1,
+      "original": "sunflowers/15238348741_c2fb12ecf2_m.jpg",
+      "credit": "sunflowers/15238348741_c2fb12ecf2_m.jpg CC-BY by Erik Drost - https://www.flickr.com/photos/edrost88/15238348741/",
+      "sha256": "f260f8ebfbd182e65ebe353223908fa2a8e1e0ad6103df8c841b99b9207fdef5"
+    },
+    {
+      "src": "samples/daisy-train-21.jpg",
+      "cls": 0,
+      "original": "daisy/5769217520_c90efc3c93_m.jpg",
+      "credit": "daisy/5769217520_c90efc3c93_m.jpg CC-BY by crayonmonkey - https://www.flickr.com/photos/crayonmonkey/5769217520/",
+      "sha256": "8e44cb6dcc710ccbe489e309feace0d13ee9e4a3df7017c70b209e4b7f76e8dd"
+    },
+    {
+      "src": "samples/daisy-train-22.jpg",
+      "cls": 0,
+      "original": "daisy/8887005939_b19e8305ee.jpg",
+      "credit": "daisy/8887005939_b19e8305ee.jpg CC-BY by Luke Gray - https://www.flickr.com/photos/lukewes/8887005939/",
+      "sha256": "eaabdac061032fc219d64b384682bbb23aedf147f74dbcaab2560ef3d557151b"
+    },
+    {
+      "src": "samples/daisy-train-23.jpg",
+      "cls": 0,
+      "original": "daisy/534547364_3f6b7279d2_n.jpg",
+      "credit": "daisy/534547364_3f6b7279d2_n.jpg CC-BY by Emily - https://www.flickr.com/photos/7738710@N06/534547364/",
+      "sha256": "232fdc1f16c02bbd7414974cd4e1339ffcb32215f1fc4d4e89620856accd074f"
+    },
+    {
+      "src": "samples/daisy-train-24.jpg",
+      "cls": 0,
+      "original": "daisy/14332947164_9b13513c71_m.jpg",
+      "credit": "daisy/14332947164_9b13513c71_m.jpg CC-BY by Jocelyn Kinghorn - https://www.flickr.com/photos/joceykinghorn/14332947164/",
+      "sha256": "6695a68a9abd10a2dbb5b11f9f7f0e8226fae2922ec964c85389f7550381a93d"
+    },
+    {
+      "src": "samples/daisy-train-25.jpg",
+      "cls": 0,
+      "original": "daisy/8063844363_db3f4dea85.jpg",
+      "credit": "daisy/8063844363_db3f4dea85.jpg CC-BY by Alias 0591 - https://www.flickr.com/photos/renemensen/8063844363/",
+      "sha256": "507e7df1cb04db6387aa5d27a08edf26d48489fbeb257b60f83c3212b8ad5323"
+    },
+    {
+      "src": "samples/daisy-train-26.jpg",
+      "cls": 0,
+      "original": "daisy/19813618946_93818db7aa_m.jpg",
+      "credit": "daisy/19813618946_93818db7aa_m.jpg CC-BY by Dick Thompson - https://www.flickr.com/photos/dick-thompson-sandian/19813618946/",
+      "sha256": "7546c3579e24fcb7ace67b0cc9acbc0bb44eab5ac07c480885e66c9a0064e4a0"
+    },
+    {
+      "src": "samples/daisy-train-27.jpg",
+      "cls": 0,
+      "original": "daisy/14221848160_7f0a37c395.jpg",
+      "credit": "daisy/14221848160_7f0a37c395.jpg CC-BY by DaveBleasdale - https://www.flickr.com/photos/sidelong/14221848160/",
+      "sha256": "65cb83b6ceb99e87389d4ba3410758dd4eb71385229f36d3ddd4fe9a61a66ab6"
+    },
+    {
+      "src": "samples/daisy-train-28.jpg",
+      "cls": 0,
+      "original": "daisy/3379332157_04724f6480.jpg",
+      "credit": "daisy/3379332157_04724f6480.jpg CC-BY by xlibber - https://www.flickr.com/photos/xlibber/3379332157/",
+      "sha256": "4dee40508eec4ed3ae7fcf405c0eadb23c505723d822f0b8883c1a5536d4b081"
+    },
+    {
+      "src": "samples/sunflowers-train-21.jpg",
+      "cls": 1,
+      "original": "sunflowers/6606820461_952c450f90_n.jpg",
+      "credit": "sunflowers/6606820461_952c450f90_n.jpg CC-BY by Bosque Village - https://www.flickr.com/photos/thebosque/6606820461/",
+      "sha256": "7fa4fc6d527abc1ad086882f0562a04dde9b712098185dc5ed4ff950cb13e848"
+    },
+    {
+      "src": "samples/sunflowers-train-22.jpg",
+      "cls": 1,
+      "original": "sunflowers/4914793782_d0ea760791.jpg",
+      "credit": "sunflowers/4914793782_d0ea760791.jpg CC-BY by liz west - https://www.flickr.com/photos/calliope/4914793782/",
+      "sha256": "a85cb1f0a31801caeb1e826efd15470ee3bbe030011a096a5cc0e163e117c1ef"
+    },
+    {
+      "src": "samples/sunflowers-train-23.jpg",
+      "cls": 1,
+      "original": "sunflowers/15042911059_b6153d94e7_n.jpg",
+      "credit": "sunflowers/15042911059_b6153d94e7_n.jpg CC-BY by Mike Lewinski - https://www.flickr.com/photos/ikewinski/15042911059/",
+      "sha256": "6746ace8e1cab039af0919698cc59619588bc78cb9791719af8725b4c3e3c460"
+    },
+    {
+      "src": "samples/sunflowers-train-24.jpg",
+      "cls": 1,
+      "original": "sunflowers/2807106374_f422b5f00c.jpg",
+      "credit": "sunflowers/2807106374_f422b5f00c.jpg CC-BY by Holly Rowland - https://www.flickr.com/photos/holsro/2807106374/",
+      "sha256": "ea2924f7adfa2479be07660066c83d16cca9c09c600d70ce563af43e36b63251"
+    },
+    {
+      "src": "samples/sunflowers-train-25.jpg",
+      "cls": 1,
+      "original": "sunflowers/6053739964_a1d9ab3ed1_n.jpg",
+      "credit": "sunflowers/6053739964_a1d9ab3ed1_n.jpg CC-BY by jeffreyw - https://www.flickr.com/photos/jeffreyww/6053739964/",
+      "sha256": "98b40cf5ce9749c554d3e33ca556d421b5a5f6e6824f10453c1a827dd5c0f271"
+    },
+    {
+      "src": "samples/sunflowers-train-26.jpg",
+      "cls": 1,
+      "original": "sunflowers/15243175532_ac28c48e14_m.jpg",
+      "credit": "sunflowers/15243175532_ac28c48e14_m.jpg CC-BY by Nicholas A. Tonelli - https://www.flickr.com/photos/nicholas_t/15243175532/",
+      "sha256": "cd5e80272e057e5d49958df26eb9b5d5ddd11ed0a41db929353a69bc42ea0234"
+    },
+    {
+      "src": "samples/sunflowers-train-27.jpg",
+      "cls": 1,
+      "original": "sunflowers/8543642705_b841b0e5f6.jpg",
+      "credit": "sunflowers/8543642705_b841b0e5f6.jpg CC-BY by Shadowgate - https://www.flickr.com/photos/shadowgate/8543642705/",
+      "sha256": "e794b0371a84f9f5db3b402cc9683e7d0e22298cb0d544db05c27a2d65309802"
+    },
+    {
+      "src": "samples/sunflowers-train-28.jpg",
+      "cls": 1,
+      "original": "sunflowers/14858674096_ed0fc1a130.jpg",
+      "credit": "sunflowers/14858674096_ed0fc1a130.jpg CC-BY by travel oriented - https://www.flickr.com/photos/traveloriented/14858674096/",
+      "sha256": "d78ba1fd745fac9f1432e13f8c630b45de678b0b99885f209163ca967864e940"
+    }
+  ],
+  "outside": [
+    {
+      "src": "samples/roses-outside-01.jpg",
+      "cls": 2,
+      "original": "roses/16545641666_2781e542a0_m.jpg",
+      "credit": "roses/16545641666_2781e542a0_m.jpg CC-BY by Biodiversity Heritage Library - https://www.flickr.com/photos/biodivlibrary/16545641666/",
+      "sha256": "7af29ac0a8ff49d25721161bb980e15c71477f777d48c8300ea89bf368434795"
+    },
+    {
+      "src": "samples/roses-outside-02.jpg",
+      "cls": 2,
+      "original": "roses/3065719996_c16ecd5551.jpg",
+      "credit": "roses/3065719996_c16ecd5551.jpg CC-BY by Sharon Mollerus - https://www.flickr.com/photos/clairity/3065719996/",
+      "sha256": "e8155709005659df11e2fc985d9b515efe029f9f3218108bb2d1569f031da238"
+    },
+    {
+      "src": "samples/roses-outside-03.jpg",
+      "cls": 2,
+      "original": "roses/3697780051_83e50a6dd1_m.jpg",
+      "credit": "roses/3697780051_83e50a6dd1_m.jpg CC-BY by A♥ - https://www.flickr.com/photos/zenat_el3ain/3697780051/",
+      "sha256": "4f8570eec5f6a98921b0177feb371bb31fc3ae31e270bdd185ad3d4a3d775707"
+    },
+    {
+      "src": "samples/roses-outside-04.jpg",
+      "cls": 2,
+      "original": "roses/8050213579_48e1e7109f.jpg",
+      "credit": "roses/8050213579_48e1e7109f.jpg CC-BY by Ronald Saunders - https://www.flickr.com/photos/ronsaunders47/8050213579/",
+      "sha256": "060322f3b53bf3f8f68e387f944eba7721527191c8ae47fc7ef7d4f6228f3d5c"
+    }
+  ],
+  "validation": [
+    {
+      "src": "samples/daisy-test-09.jpg",
+      "cls": 0,
+      "original": "daisy/4851353993_2cbbbd1040_n.jpg",
+      "credit": "daisy/4851353993_2cbbbd1040_n.jpg CC-BY by Michael Gil - https://www.flickr.com/photos/msvg/4851353993/",
+      "sha256": "7516993043b892f06c31133b9f26772c4f815e7cc935211684a85b67c77eaedc"
+    },
+    {
+      "src": "samples/daisy-test-10.jpg",
+      "cls": 0,
+      "original": "daisy/5811226952_4650ed70ae_n.jpg",
+      "credit": "daisy/5811226952_4650ed70ae_n.jpg CC-BY by jenny downing - https://www.flickr.com/photos/jenny-pics/5811226952/",
+      "sha256": "7025e61406b19acca3dff97b94ff38e1188b7626f479bd806279ec48f85abfa3"
+    },
+    {
+      "src": "samples/daisy-test-11.jpg",
+      "cls": 0,
+      "original": "daisy/7669550908_bc5a11276f_n.jpg",
+      "credit": "daisy/7669550908_bc5a11276f_n.jpg CC-BY by Nana B Agyei - https://www.flickr.com/photos/nanagyei/7669550908/",
+      "sha256": "d9dbad2e0d3ef0bac7fcfd53d4afe33cec8b0b48a530c2bec322e52f39d424b3"
+    },
+    {
+      "src": "samples/daisy-test-12.jpg",
+      "cls": 0,
+      "original": "daisy/754296579_30a9ae018c_n.jpg",
+      "credit": "daisy/754296579_30a9ae018c_n.jpg CC-BY by Ryan Poplin - https://www.flickr.com/photos/poplinre/754296579/",
+      "sha256": "622edb9ffd9650bf7814c87ab40300e8b34bd021387257f8bedd5b213271b757"
+    },
+    {
+      "src": "samples/daisy-test-13.jpg",
+      "cls": 0,
+      "original": "daisy/512477177_d9004cbcf1_n.jpg",
+      "credit": "daisy/512477177_d9004cbcf1_n.jpg CC-BY by Madalena Pestana - https://www.flickr.com/photos/madalena_pestana/512477177/",
+      "sha256": "1f1013f5aaebd0f63648b4c6e4c01c9f2466cef7749d4f3c745b050fa662601e"
+    },
+    {
+      "src": "samples/daisy-test-14.jpg",
+      "cls": 0,
+      "original": "daisy/909609509_a05ccb8127.jpg",
+      "credit": "daisy/909609509_a05ccb8127.jpg CC-BY by Kathy - https://www.flickr.com/photos/rittysdigiez/909609509/",
+      "sha256": "641b824db974f1971911e603a3f9a5e0917aa251e7a195688ba9c245366f71dd"
+    },
+    {
+      "src": "samples/daisy-test-15.jpg",
+      "cls": 0,
+      "original": "daisy/2627815904_919373e7f5.jpg",
+      "credit": "daisy/2627815904_919373e7f5.jpg CC-BY by Sharon Mollerus - https://www.flickr.com/photos/clairity/2627815904/",
+      "sha256": "6bf8517f97fe2d5e0b2dbc193f730ca2183a4418b23fcfad2697b03db186fcc8"
+    },
+    {
+      "src": "samples/daisy-test-16.jpg",
+      "cls": 0,
+      "original": "daisy/2617111535_54c2ac8462.jpg",
+      "credit": "daisy/2617111535_54c2ac8462.jpg CC-BY by John Haslam - https://www.flickr.com/photos/foxypar4/2617111535/",
+      "sha256": "2f6834d28149619d2d996262028447a05f9ee145b649e6298fa1aad2bf39b23a"
+    },
+    {
+      "src": "samples/daisy-test-17.jpg",
+      "cls": 0,
+      "original": "daisy/14330343061_99478302d4_m.jpg",
+      "credit": "daisy/14330343061_99478302d4_m.jpg CC-BY by Jocelyn Kinghorn - https://www.flickr.com/photos/joceykinghorn/14330343061/",
+      "sha256": "d716ba5fffd8913507b5434d3c60c19af152cdbd9f6615d9ac2bd2dd287da474"
+    },
+    {
+      "src": "samples/daisy-test-18.jpg",
+      "cls": 0,
+      "original": "daisy/19975899671_ebc42b7865_n.jpg",
+      "credit": "daisy/19975899671_ebc42b7865_n.jpg CC-BY by NY State IPM Program  at Cornell University - https://www.flickr.com/photos/99758165@N06/19975899671/",
+      "sha256": "2178810dcf8f18a7acccb9ba6455d01fdb713623960d22f004bc73ef1e2f97d2"
+    },
+    {
+      "src": "samples/daisy-test-19.jpg",
+      "cls": 0,
+      "original": "daisy/7189043225_2fe781439a_n.jpg",
+      "credit": "daisy/7189043225_2fe781439a_n.jpg CC-BY by Jeff Fenton - https://www.flickr.com/photos/ealingjeff/7189043225/",
+      "sha256": "2d4e74ace0d232927de9472ca345dbbaf2ae604e3efc0ec9da3b397d3cc4ec8c"
+    },
+    {
+      "src": "samples/daisy-test-20.jpg",
+      "cls": 0,
+      "original": "daisy/2045022175_ad087f5f60_n.jpg",
+      "credit": "daisy/2045022175_ad087f5f60_n.jpg CC-BY by Audrey - https://www.flickr.com/photos/audreyjm529/2045022175/",
+      "sha256": "c3f444bd8ff173c48c7bebe8c757007451b71c421d577d2046b1497e9ea6c806"
+    },
+    {
+      "src": "samples/sunflowers-test-09.jpg",
+      "cls": 1,
+      "original": "sunflowers/9555827829_74e6f60f1d_m.jpg",
+      "credit": "sunflowers/9555827829_74e6f60f1d_m.jpg CC-BY by Paul Hayday - https://www.flickr.com/photos/hayzphotos/9555827829/",
+      "sha256": "7a004cf6649d711114e54fd4d22949173c0d331e85efc93ccc7dc2adc8d0de7b"
+    },
+    {
+      "src": "samples/sunflowers-test-10.jpg",
+      "cls": 1,
+      "original": "sunflowers/14741813010_5d44e33088_n.jpg",
+      "credit": "sunflowers/14741813010_5d44e33088_n.jpg CC-BY by Ron Cogswell - https://www.flickr.com/photos/22711505@N05/14741813010/",
+      "sha256": "0e3752270b8c3317f8ee09e03484d04dbc4aaa41768b1baffb76d39cac994b78"
+    },
+    {
+      "src": "samples/sunflowers-test-11.jpg",
+      "cls": 1,
+      "original": "sunflowers/4191299785_a4faca9b74_n.jpg",
+      "credit": "sunflowers/4191299785_a4faca9b74_n.jpg CC-BY by RubyGoes - https://www.flickr.com/photos/rubygoes/4191299785/",
+      "sha256": "8a762cf2093017dc135d396358030e5b0d8c4b7a8b55971514134d970c96f7c6"
+    },
+    {
+      "src": "samples/sunflowers-test-12.jpg",
+      "cls": 1,
+      "original": "sunflowers/18843967474_9cb552716b.jpg",
+      "credit": "sunflowers/18843967474_9cb552716b.jpg CC-BY by Alexandru Tudorache - https://www.flickr.com/photos/132317098@N04/18843967474/",
+      "sha256": "016ade05829837a10e5703757eb7f8ae7c45fbbbf48ec7d21b5a96d0d820a323"
+    },
+    {
+      "src": "samples/sunflowers-test-13.jpg",
+      "cls": 1,
+      "original": "sunflowers/1880606744_23e3dc4f6b_n.jpg",
+      "credit": "sunflowers/1880606744_23e3dc4f6b_n.jpg CC-BY by John M. P. Knox - https://www.flickr.com/photos/jmpk/1880606744/",
+      "sha256": "8c026e9bda226deeebb81ded716c2c03f27e422d2d14efa75cf2d414224bbc7d"
+    },
+    {
+      "src": "samples/sunflowers-test-14.jpg",
+      "cls": 1,
+      "original": "sunflowers/5032376020_2ed312306c.jpg",
+      "credit": "sunflowers/5032376020_2ed312306c.jpg CC-BY by Sean McMenemy - https://www.flickr.com/photos/seanfx/5032376020/",
+      "sha256": "5221b11d55af9531d612b6f0ce7c8a532fcb878ecae05d47d680b4add6564e37"
+    },
+    {
+      "src": "samples/sunflowers-test-15.jpg",
+      "cls": 1,
+      "original": "sunflowers/22416421196_caf131c9fa_m.jpg",
+      "credit": "sunflowers/22416421196_caf131c9fa_m.jpg CC-BY by Don Graham - https://www.flickr.com/photos/23155134@N06/22416421196/",
+      "sha256": "9f73788c3517f06043e8255bde61a16a2e8377b28f8164153072a673968aa44b"
+    },
+    {
+      "src": "samples/sunflowers-test-16.jpg",
+      "cls": 1,
+      "original": "sunflowers/8705462313_4458d64cd4.jpg",
+      "credit": "sunflowers/8705462313_4458d64cd4.jpg CC-BY by Patrick Feller - https://www.flickr.com/photos/nakrnsm/8705462313/",
+      "sha256": "d9adf3698cd23bbd68b910e1617541af22453c3c023549396eaeed04bc84ac35"
+    },
+    {
+      "src": "samples/sunflowers-test-17.jpg",
+      "cls": 1,
+      "original": "sunflowers/4806174512_e04475b766_n.jpg",
+      "credit": "sunflowers/4806174512_e04475b766_n.jpg CC-BY by Manu - https://www.flickr.com/photos/seven_of9/4806174512/",
+      "sha256": "2d89b614bc0e6ae243eb12c64957f82efa68bcbe02739669be0bd2fe87db3c2f"
+    },
+    {
+      "src": "samples/sunflowers-test-18.jpg",
+      "cls": 1,
+      "original": "sunflowers/9231555352_d2dd8f8e68_m.jpg",
+      "credit": "sunflowers/9231555352_d2dd8f8e68_m.jpg CC-BY by Chris Brown - https://www.flickr.com/photos/zoonabar/9231555352/",
+      "sha256": "3198a72b55370fe77f0f5d0573a9aff1fc071edd652b8796318cd4b59678fdf8"
+    },
+    {
+      "src": "samples/sunflowers-test-19.jpg",
+      "cls": 1,
+      "original": "sunflowers/9610371852_179e7781ce.jpg",
+      "credit": "sunflowers/9610371852_179e7781ce.jpg CC-BY by tfengreen - https://www.flickr.com/photos/tfengreen/9610371852/",
+      "sha256": "38d43b3a150be50b732e8375ea295687d5cc0f05b538767665a9d78333074e91"
+    },
+    {
+      "src": "samples/sunflowers-test-20.jpg",
+      "cls": 1,
+      "original": "sunflowers/2803725948_5fd1f2fc99_n.jpg",
+      "credit": "sunflowers/2803725948_5fd1f2fc99_n.jpg CC-BY by Lola Audu - https://www.flickr.com/photos/auduhomes/2803725948/",
+      "sha256": "5d2aeddb0733634b1b271a16331063d66a0526cbe9f7773f82e63f0fbbf19ad7"
+    }
+  ],
+  "test": [
+    {
+      "src": "samples/daisy-test-29.jpg",
+      "cls": 0,
+      "original": "daisy/9611923744_013b29e4da_n.jpg",
+      "credit": "daisy/9611923744_013b29e4da_n.jpg CC-BY by Se Re - https://www.flickr.com/photos/96310508@N06/9611923744/",
+      "sha256": "594c04e9af89c58777f1a418ce59682dcd7b7c8631e7f386606a853793aa781a"
+    },
+    {
+      "src": "samples/daisy-test-30.jpg",
+      "cls": 0,
+      "original": "daisy/2567033807_8e918c53d8_n.jpg",
+      "credit": "daisy/2567033807_8e918c53d8_n.jpg CC-BY by Tomi Tapio K - https://www.flickr.com/photos/tomitapio/2567033807/",
+      "sha256": "d7374298dbd5fe43d702f85d7b5a8a29017539a94393d2c320ad7fa2936751f5"
+    },
+    {
+      "src": "samples/daisy-test-31.jpg",
+      "cls": 0,
+      "original": "daisy/450128527_fd35742d44.jpg",
+      "credit": "daisy/450128527_fd35742d44.jpg CC-BY by Luz Adriana Villa - https://www.flickr.com/photos/luchilu/450128527/",
+      "sha256": "8d95393068db9ed61f78bd5ef0cd53216ae860c78f60bb4f8aacd45ff767f951"
+    },
+    {
+      "src": "samples/daisy-test-32.jpg",
+      "cls": 0,
+      "original": "daisy/16291797949_a1b1b7c2bd_n.jpg",
+      "credit": "daisy/16291797949_a1b1b7c2bd_n.jpg CC-BY by Heather - https://www.flickr.com/photos/58754750@N08/16291797949/",
+      "sha256": "65d149258ec55bd8f3fe5964bc1e952981bfa535139c6e111fa353353befad15"
+    },
+    {
+      "src": "samples/daisy-test-33.jpg",
+      "cls": 0,
+      "original": "daisy/16482676953_5296227d40_n.jpg",
+      "credit": "daisy/16482676953_5296227d40_n.jpg CC-BY by Swallowtail Garden Seeds - https://www.flickr.com/photos/swallowtailgardenseeds/16482676953/",
+      "sha256": "8e8107dfde55004e65761eb675fb8842fe9a78ef5c3e68d52314f14d8d52d318"
+    },
+    {
+      "src": "samples/daisy-test-34.jpg",
+      "cls": 0,
+      "original": "daisy/17357636476_1953c07aa4_n.jpg",
+      "credit": "daisy/17357636476_1953c07aa4_n.jpg CC-BY by Image Catalog - https://www.flickr.com/photos/image-catalog/17357636476/",
+      "sha256": "f8700cec4e55ce1c336ff760ca8c2c084fd1219c596d8ce667a4223d53f5341b"
+    },
+    {
+      "src": "samples/daisy-test-35.jpg",
+      "cls": 0,
+      "original": "daisy/19019544592_b64469bf84_n.jpg",
+      "credit": "daisy/19019544592_b64469bf84_n.jpg CC-BY by Elliott Brown - https://www.flickr.com/photos/ell-r-brown/19019544592/",
+      "sha256": "a9dee57401b31459d8b20a548d36327d9915b386ff3dc1c30c80b2393c6b7c6b"
+    },
+    {
+      "src": "samples/daisy-test-36.jpg",
+      "cls": 0,
+      "original": "daisy/286875003_f7c0e1882d.jpg",
+      "credit": "daisy/286875003_f7c0e1882d.jpg CC-BY by Audrey - https://www.flickr.com/photos/audreyjm529/286875003/",
+      "sha256": "37f06ec09bd6b8cf5006fe447964defcb34f9061083af1d1d3a2987ce599c374"
+    },
+    {
+      "src": "samples/daisy-test-37.jpg",
+      "cls": 0,
+      "original": "daisy/2611119198_9d46b94392.jpg",
+      "credit": "daisy/2611119198_9d46b94392.jpg CC-BY by Audrey - https://www.flickr.com/photos/audreyjm529/2611119198/",
+      "sha256": "9cb0597936eb08a4307925bec1ef7ec3942f2e37d59c4480606e98cfa7a6f952"
+    },
+    {
+      "src": "samples/daisy-test-38.jpg",
+      "cls": 0,
+      "original": "daisy/10140303196_b88d3d6cec.jpg",
+      "credit": "daisy/10140303196_b88d3d6cec.jpg CC-BY by Irene Grassi - https://www.flickr.com/photos/sun_sand_sea/10140303196/",
+      "sha256": "12123f351f515e2c2b9f548535f2c313ec81e636db162d756a332aa0cd6d600d"
+    },
+    {
+      "src": "samples/daisy-test-39.jpg",
+      "cls": 0,
+      "original": "daisy/4897587985_f9293ea1ed.jpg",
+      "credit": "daisy/4897587985_f9293ea1ed.jpg CC-BY by Luke Gray - https://www.flickr.com/photos/lukewes/4897587985/",
+      "sha256": "ea788d9393f34403812120866d54ae49092548dbf28c4c9b09956a861aacb4cb"
+    },
+    {
+      "src": "samples/daisy-test-40.jpg",
+      "cls": 0,
+      "original": "daisy/1342002397_9503c97b49.jpg",
+      "credit": "daisy/1342002397_9503c97b49.jpg CC-BY by Audrey - https://www.flickr.com/photos/audreyjm529/1342002397/",
+      "sha256": "98ea0bda5a12e62e63a0b8998819fea2d0e14ee5be2ecfb5560b95e06f21dfc8"
+    },
+    {
+      "src": "samples/daisy-test-41.jpg",
+      "cls": 0,
+      "original": "daisy/13583238844_573df2de8e_m.jpg",
+      "credit": "daisy/13583238844_573df2de8e_m.jpg CC-BY by Irene Grassi - https://www.flickr.com/photos/sun_sand_sea/13583238844/",
+      "sha256": "72cde79ee2174186cb8703f5be46ebef06099ba91736b2cdd7c6057eb762c388"
+    },
+    {
+      "src": "samples/daisy-test-42.jpg",
+      "cls": 0,
+      "original": "daisy/3552074420_2a0a7166db_m.jpg",
+      "credit": "daisy/3552074420_2a0a7166db_m.jpg CC-BY by Mathias Erhart - https://www.flickr.com/photos/mathias-erhart/3552074420/",
+      "sha256": "75f97e6fe2dd0057ce9b408533a695400082ac7dbb58b6643e110977c1bf8942"
+    },
+    {
+      "src": "samples/daisy-test-43.jpg",
+      "cls": 0,
+      "original": "daisy/5110107234_12ddc0206b_m.jpg",
+      "credit": "daisy/5110107234_12ddc0206b_m.jpg CC-BY by William Warby - https://www.flickr.com/photos/wwarby/5110107234/",
+      "sha256": "7bf41376c47c888507be798f2c96b738456eb75a230c721f986aab959c02e001"
+    },
+    {
+      "src": "samples/daisy-test-44.jpg",
+      "cls": 0,
+      "original": "daisy/5869147563_66fb88119d.jpg",
+      "credit": "daisy/5869147563_66fb88119d.jpg CC-BY by Craig Pennington - https://www.flickr.com/photos/krow10/5869147563/",
+      "sha256": "0b3c23f2bd5691fba10d348bfa0dee54a25ee811b2687aaf32dbe1b2a330cd2d"
+    },
+    {
+      "src": "samples/daisy-test-45.jpg",
+      "cls": 0,
+      "original": "daisy/7630511450_02d3292e90.jpg",
+      "credit": "daisy/7630511450_02d3292e90.jpg CC-BY by William Wootton - https://www.flickr.com/photos/wwootton/7630511450/",
+      "sha256": "acb7bb784a037d4581010cdf4864631efda6fab4db42be059fe6ac51faece173"
+    },
+    {
+      "src": "samples/daisy-test-46.jpg",
+      "cls": 0,
+      "original": "daisy/3963330924_6c6a3fa7be_n.jpg",
+      "credit": "daisy/3963330924_6c6a3fa7be_n.jpg CC-BY by jason woodland - https://www.flickr.com/photos/biffyboy/3963330924/",
+      "sha256": "df5ec8b2a6c7480b732da12e392bd2c2cf122cb00758588503fc17bb29f20b27"
+    },
+    {
+      "src": "samples/daisy-test-47.jpg",
+      "cls": 0,
+      "original": "daisy/4538877108_3c793f7987_m.jpg",
+      "credit": "daisy/4538877108_3c793f7987_m.jpg CC-BY by Barbara M. - https://www.flickr.com/photos/cannnela/4538877108/",
+      "sha256": "c8bb8cd9998f5160c66b7fc44f4a1d71f221568a8d4958ce6312235451244ead"
+    },
+    {
+      "src": "samples/daisy-test-48.jpg",
+      "cls": 0,
+      "original": "daisy/422094774_28acc69a8b_n.jpg",
+      "credit": "daisy/422094774_28acc69a8b_n.jpg CC-BY by Andreas. - https://www.flickr.com/photos/124330160/422094774/",
+      "sha256": "854b234554c45a002f9c6cbe1bd3b5f5b42b5253ddfd792d61785c07bef3ea21"
+    },
+    {
+      "src": "samples/sunflowers-test-29.jpg",
+      "cls": 1,
+      "original": "sunflowers/7176729812_7c053921fb_m.jpg",
+      "credit": "sunflowers/7176729812_7c053921fb_m.jpg CC-BY by Shreveport-Bossier Convention and Tourist Bureau - https://www.flickr.com/photos/shreveportbossier/7176729812/",
+      "sha256": "4b20d34920dcd41ec3efd0dc2bac0a3ef0dff8bdb2bc52c51aec6f4f8f9ab20c"
+    },
+    {
+      "src": "samples/sunflowers-test-30.jpg",
+      "cls": 1,
+      "original": "sunflowers/4746648726_e37a2de16d_n.jpg",
+      "credit": "sunflowers/4746648726_e37a2de16d_n.jpg CC-BY by Maggie McCain - https://www.flickr.com/photos/vamcmag/4746648726/",
+      "sha256": "cff95223b5ec14d74c34635c197f058a7b8e99c8c62df42b77639a02482d55e3"
+    },
+    {
+      "src": "samples/sunflowers-test-31.jpg",
+      "cls": 1,
+      "original": "sunflowers/2723995667_31f32294b4.jpg",
+      "credit": "sunflowers/2723995667_31f32294b4.jpg CC-BY by Frank de Kleine - https://www.flickr.com/photos/frankdekleine/2723995667/",
+      "sha256": "411b2884b903990a2141d24846b577f85bef029ed31918c2282e1fcc0928af2a"
+    },
+    {
+      "src": "samples/sunflowers-test-32.jpg",
+      "cls": 1,
+      "original": "sunflowers/7728953426_abd179ab63.jpg",
+      "credit": "sunflowers/7728953426_abd179ab63.jpg CC-BY by Elias Gayles - https://www.flickr.com/photos/elias_daniel/7728953426/",
+      "sha256": "bbb043dd352aaf794bb94f40d321c73152f892a58f32ed5cf605240fc4c7f059"
+    },
+    {
+      "src": "samples/sunflowers-test-33.jpg",
+      "cls": 1,
+      "original": "sunflowers/3681233294_4f06cd8903.jpg",
+      "credit": "sunflowers/3681233294_4f06cd8903.jpg CC-BY by Geekr - https://www.flickr.com/photos/geko78/3681233294/",
+      "sha256": "9e2193c58a47e970446e0ca164d5c4ed71eb77b3eb38eff701e6d88edd1a04a1"
+    },
+    {
+      "src": "samples/sunflowers-test-34.jpg",
+      "cls": 1,
+      "original": "sunflowers/7820626738_3be6a52e4e_n.jpg",
+      "credit": "sunflowers/7820626738_3be6a52e4e_n.jpg CC-BY by Rachel Samanyi - https://www.flickr.com/photos/sarairachel/7820626738/",
+      "sha256": "8dec4522c06a189abb5f30b5aabd73935a06ad69abcad5738adb0af876e4166e"
+    },
+    {
+      "src": "samples/sunflowers-test-35.jpg",
+      "cls": 1,
+      "original": "sunflowers/15191613243_82ee8e0fe8.jpg",
+      "credit": "sunflowers/15191613243_82ee8e0fe8.jpg CC-BY by Nick Page - https://www.flickr.com/photos/nicksie2008/15191613243/",
+      "sha256": "8cee6ccb5b7f3f324899a2f9f0bc1e73ac20a4c15df18babca4813a169184ba8"
+    },
+    {
+      "src": "samples/sunflowers-test-36.jpg",
+      "cls": 1,
+      "original": "sunflowers/6050020905_881295ac72_n.jpg",
+      "credit": "sunflowers/6050020905_881295ac72_n.jpg CC-BY by Maciej Lewandowski - https://www.flickr.com/photos/macieklew/6050020905/",
+      "sha256": "6333bb1db68d4924ffe542d54845e2ae534e4c9cbb70a21f6586488d722e868f"
+    },
+    {
+      "src": "samples/sunflowers-test-37.jpg",
+      "cls": 1,
+      "original": "sunflowers/6080086410_17a02dcfb8.jpg",
+      "credit": "sunflowers/6080086410_17a02dcfb8.jpg CC-BY by Andy Hay - https://www.flickr.com/photos/andyhay/6080086410/",
+      "sha256": "b06fdc87c95059d4c94b1389237d0ff82fb44234c039cc4ea17b300b28a9fa89"
+    },
+    {
+      "src": "samples/sunflowers-test-38.jpg",
+      "cls": 1,
+      "original": "sunflowers/6606815161_3c4372760f.jpg",
+      "credit": "sunflowers/6606815161_3c4372760f.jpg CC-BY by Bosque Village - https://www.flickr.com/photos/thebosque/6606815161/",
+      "sha256": "c912c3219585711acbae34cf4543d9eff257e78a4264f2d9aac19ee372fa5487"
+    },
+    {
+      "src": "samples/sunflowers-test-39.jpg",
+      "cls": 1,
+      "original": "sunflowers/4745985619_249078cafa_n.jpg",
+      "credit": "sunflowers/4745985619_249078cafa_n.jpg CC-BY by Maggie McCain - https://www.flickr.com/photos/vamcmag/4745985619/",
+      "sha256": "76ff56742d72fb0bc23cf9da2b6867db386927c11d17e458990a57f499af99fb"
+    },
+    {
+      "src": "samples/sunflowers-test-40.jpg",
+      "cls": 1,
+      "original": "sunflowers/14678298676_6db8831ee6_m.jpg",
+      "credit": "sunflowers/14678298676_6db8831ee6_m.jpg CC-BY by Forsaken Fotos - https://www.flickr.com/photos/55229469@N07/14678298676/",
+      "sha256": "fcbdc7b4d99ac5581efb677ead7dd5f63fab12ec33d84ddf7b4c217f5bda7a85"
+    },
+    {
+      "src": "samples/sunflowers-test-41.jpg",
+      "cls": 1,
+      "original": "sunflowers/8174935013_b16626b49b.jpg",
+      "credit": "sunflowers/8174935013_b16626b49b.jpg CC-BY by Stephane Mignon - https://www.flickr.com/photos/topsteph53/8174935013/",
+      "sha256": "7289e0bedc589bf40d8fac334a0fa33dd47bb9a2984ffb08cf0ceb2c66d68cc2"
+    },
+    {
+      "src": "samples/sunflowers-test-42.jpg",
+      "cls": 1,
+      "original": "sunflowers/5923085891_27617463fe.jpg",
+      "credit": "sunflowers/5923085891_27617463fe.jpg CC-BY by Svetoslav Nikolov - https://www.flickr.com/photos/svenikolov/5923085891/",
+      "sha256": "216dbea2365121970f67762be9f43df10a97fa33fc97cd72a3ae0b6cb318052c"
+    },
+    {
+      "src": "samples/sunflowers-test-43.jpg",
+      "cls": 1,
+      "original": "sunflowers/24459750_eb49f6e4cb_m.jpg",
+      "credit": "sunflowers/24459750_eb49f6e4cb_m.jpg CC-BY by _e.t - https://www.flickr.com/photos/45688285@N00/24459750/",
+      "sha256": "b7b7c4d1e9f70dcf372191a3962eb3fe29d8adffec4bac9d9bb25a3688e0f77b"
+    },
+    {
+      "src": "samples/sunflowers-test-44.jpg",
+      "cls": 1,
+      "original": "sunflowers/4814106562_7c3564d2d9_n.jpg",
+      "credit": "sunflowers/4814106562_7c3564d2d9_n.jpg CC-BY by BenGrantham - https://www.flickr.com/photos/ijammin/4814106562/",
+      "sha256": "e76e53ad3daa32fd9a354181bb60ff63a3d4f2f0f3facb28460d1f6bc7e2d8fa"
+    },
+    {
+      "src": "samples/sunflowers-test-45.jpg",
+      "cls": 1,
+      "original": "sunflowers/8928658373_fdca5ff1b8.jpg",
+      "credit": "sunflowers/8928658373_fdca5ff1b8.jpg CC-BY by Sue Reynolds - https://www.flickr.com/photos/suereynolds/8928658373/",
+      "sha256": "5b9e0ecd0fd092c5315b4d65d2d0ace4b543d1d7a677a9371685c7c07a2448fb"
+    },
+    {
+      "src": "samples/sunflowers-test-46.jpg",
+      "cls": 1,
+      "original": "sunflowers/23645265812_24352ff6bf.jpg",
+      "credit": "sunflowers/23645265812_24352ff6bf.jpg CC-BY by Tobias Haase - https://www.flickr.com/photos/paraflyer/23645265812/",
+      "sha256": "ad217944d912d5bd50790f12701081962f3e4bf6a917aa84743a668a9586c1d3"
+    },
+    {
+      "src": "samples/sunflowers-test-47.jpg",
+      "cls": 1,
+      "original": "sunflowers/3840761441_7c648abf4d_n.jpg",
+      "credit": "sunflowers/3840761441_7c648abf4d_n.jpg CC-BY by B4bees .(2m views) - https://www.flickr.com/photos/brizo_the_scot/3840761441/",
+      "sha256": "0989ae9d97babe775a43c35a073ac3a973cef4eb259b72f60560e20f713e789f"
+    },
+    {
+      "src": "samples/sunflowers-test-48.jpg",
+      "cls": 1,
+      "original": "sunflowers/6166888942_7058198713_m.jpg",
+      "credit": "sunflowers/6166888942_7058198713_m.jpg CC-BY by Enokson - https://www.flickr.com/photos/vblibrary/6166888942/",
+      "sha256": "aaa3a691ba84c84eb86458b2cae0c5f28979af5025a5fde2c7965deb2cfa309e"
+    }
+  ]
+}
