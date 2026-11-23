@@ -1,107 +1,137 @@
 <!doctype html>
 <html lang="vi">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bốn bước dạy Mít</title>
-<style>
-    body {
-        font: 20px/1.65 system-ui, sans-serif;
-        max-width: 900px;
-        margin: 32px auto;
-        padding: 0 22px;
-        color: #243e32;
-        background: #fffdf3
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#23664b">
+  <title>Thẻ 4 bước &amp; Nhiệm vụ · Bài 2 · Vườn học của Mít</title>
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <style>
+    @font-face{font-family:Nunito;src:url('fonts/nunito-regular.ttf') format('truetype');font-weight:400 600;font-display:swap}
+    @font-face{font-family:Nunito;src:url('fonts/nunito-extra-bold.ttf') format('truetype');font-weight:700 900;font-display:swap}
+    :root{--ink:#234b3c;--muted:#4e655b;--green:#23664b;--yellow:#ffd66a;--paper:#fffef6;--line:#cbe0be;--bg:#eef7eb}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.6 Nunito,system-ui,sans-serif;padding:24px 16px 48px}
+    .wrap{max-width:960px;margin:0 auto}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:#fffef8;border:2px solid var(--line);border-radius:20px;padding:16px 20px;margin-bottom:20px}
+    .topbar h1{margin:0;font-size:clamp(24px,3.2vw,34px);line-height:1.2}
+    .topbar .eyebrow{display:block;font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--green)}
+    .nav-btns{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:10px 18px;border-radius:14px;background:var(--green);color:white;text-decoration:none;font-weight:800;border:2px solid #1a503a;box-shadow:0 3px 0 #15402e}
+    .btn.secondary{background:#fff9de;color:var(--ink);border-color:#d6b858;box-shadow:0 3px 0 #cbb052}
+    .steps-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:20px 0}
+    .step-card{background:var(--paper);border:2px solid var(--line);border-radius:20px;padding:18px 20px;box-shadow:0 5px 0 #d5e4ca}
+    .step-num{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--yellow);font-weight:900;font-size:18px;margin-right:10px;border:2px solid #deb447}
+    .step-card h2{display:flex;align-items:center;margin:0 0 8px;font-size:21px}
+    .step-card p{margin:0;color:#335245;font-size:16px}
+    .mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:20px 0}
+    .card{background:white;border:2px solid var(--line);border-radius:22px;padding:20px 22px;box-shadow:0 5px 0 #dce7d3}
+    .card h2{margin:0 0 10px;font-size:22px;color:var(--green)}
+    .tag{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:900;background:#fff4c9;border:1px solid #e0be5a;margin-bottom:8px}
+    .zip-row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+    .zip-btn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border-radius:12px;background:#ecf5fc;border:1.5px solid #88b5d6;color:#21547d;text-decoration:none;font-weight:800;font-size:15px}
+    .remember{background:#fff9e5;border:2px solid #e0c87e;border-radius:22px;padding:20px 22px;margin:20px 0}
+    .remember h2{margin:0 0 10px;font-size:21px}
+    .remember ul{margin:0;padding-left:22px}
+    .remember li{margin:6px 0}
+    details.teacher{background:white;border:2px solid var(--line);border-radius:18px;padding:16px 20px;margin-top:20px}
+    details.teacher summary{font-weight:900;cursor:pointer;min-height:44px;display:flex;align-items:center}
+    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
+    td,th{border:1px solid #bfd1b5;padding:9px 10px;text-align:left}
+    th{background:#edf5e7}
+    @media(max-width:720px){.steps-grid,.mission-grid{grid-template-columns:1fr}}
+    @media print{
+      body{background:white;padding:0;font-size:14px}
+      .nav-btns,.zip-row{display:none}
+      .card,.step-card,.remember{box-shadow:none;break-inside:avoid}
     }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <div>
+        <span class="eyebrow">Bài 2 · C5 · Nguyễn Minh Đại · YCCĐ 4.C5.MR1 &amp; 4.C5.MR2</span>
+        <h1>Thẻ 4 bước: Em làm người dạy máy</h1>
+      </div>
+      <div class="nav-btns">
+        <a class="btn" href="index.html">Mở Vườn học của Mít →</a>
+        <a class="btn secondary" href="../khoa_hoc.html">← Mục lục khóa học</a>
+      </div>
+    </header>
 
-    h1,
-    h2 {
-        line-height: 1.25;
-        color: #24553d
-    }
+    <section class="steps-grid" aria-label="Bốn bước dạy Mít">
+      <article class="step-card">
+        <h2><span class="step-num">1</span>Đặt tên</h2>
+        <p>Đặt tên cho <b>hai nhóm</b> muốn Mít phân loại (ví dụ: <i>Hoa cúc</i> và <i>Hoa hướng dương</i>, hoặc <i>Bút</i> và <i>Thước</i>).</p>
+      </article>
+      <article class="step-card">
+        <h2><span class="step-num">2</span>Thêm ảnh mẫu</h2>
+        <p>Chọn hoặc chụp ít nhất <b>3 ảnh mỗi nhóm</b>. Nên dùng ảnh rõ, nhiều góc chụp và nền khác nhau. Chỉ chụp đồ vật, không chụp mặt bạn.</p>
+      </article>
+      <article class="step-card">
+        <h2><span class="step-num">3</span>Dạy Mít</h2>
+        <p>Bấm nút <b>Dạy Mít ngay</b> để máy trích đặc trưng và ghi nhớ ví dụ từ hai khay ảnh em đã xếp.</p>
+      </article>
+      <article class="step-card">
+        <h2><span class="step-num">4</span>Thử ảnh mới</h2>
+        <p>Đưa <b>ảnh mới chưa có trong khay học</b> vào thử. Quan sát 3 ảnh giống nhất Mít chọn và tự kiểm tra bằng mắt.</p>
+      </article>
+    </section>
 
-    section {
-        background: white;
-        border: 2px solid #c6dbb0;
-        border-radius: 18px;
-        padding: 22px;
-        margin: 20px 0
-    }
+    <section class="mission-grid">
+      <article class="card">
+        <span class="tag">Lượt 1 · Q3 · 4.C5.MR1 (35 phút)</span>
+        <h2>Thực hành theo mẫu Hoa</h2>
+        <p>Quan sát cô/thầy làm mẫu rồi mỗi em tự làm trọn đủ 4 bước với bộ <b>Hoa cúc – Hoa hướng dương</b>. Thực hành theo cặp 2 bạn/máy rồi đổi vai.</p>
+        <div class="zip-row">
+          <a class="zip-btn" href="samples/anh-hoc.zip" download>⬇ Tải bộ ảnh học (ZIP)</a>
+          <a class="zip-btn" href="samples/anh-thu.zip" download>⬇ Tải bộ ảnh thử riêng (ZIP)</a>
+        </div>
+        <p><small>Giải nén hai tệp trên, xếp ảnh từ <i>anh-hoc</i> vào 2 khay khi dạy, và chỉ lấy ảnh từ <i>anh-thu</i> ở Bước 4. Không trộn 2 bộ. Nút “Nạp nhanh bộ ảnh hoa” chỉ dùng để xem thử làm quen.</small></p>
+      </article>
 
-    a {
-        color: #145b45
-    }
+      <article class="card">
+        <span class="tag">Lượt 2 · Q4 · 4.C5.MR2 (35 phút)</span>
+        <h2>Tự chọn bộ ảnh mới &amp; kể lại 4 bước</h2>
+        <p>Chuyển sang thẻ <b>Lượt 2 · Q4</b>, chọn một cặp khác lượt đầu (gợi ý: <b>Bút – Thước</b>, <b>Lá – Hoa</b> hoặc <b>Chai – Lon</b>), tự làm lại đủ 4 bước.</p>
+        <p>Mở <b>Sổ &amp; Phiếu Q4</b> để điền ngắn gọn:</p>
+        <ol>
+          <li>Em đặt tên hai nhóm nào?</li>
+          <li>Em chọn/chụp và xếp ảnh vào khay ra sao?</li>
+          <li>Em bấm nút nào để dạy Mít?</li>
+          <li>Em thử ảnh gì, Mít đoán gì và em kiểm tra ra sao?</li>
+        </ol>
+        <p><small>Bấm <b>Sao chép phiếu Q4</b> để nộp lên Azota (hoặc trình bày miệng với giáo viên nếu cần hỗ trợ).</small></p>
+      </article>
+    </section>
 
-    table {
-        border-collapse: collapse;
-        width: 100%
-    }
+    <section class="remember">
+      <h2>3 điều em cần nhớ về học máy</h2>
+      <ul>
+        <li><b>Ảnh học và ảnh thử phải riêng:</b> Đổi tên tệp của ảnh cũ không biến ảnh đó thành ảnh mới.</li>
+        <li><b>Ảnh càng đa dạng, Mít học càng tốt:</b> Thay vì chép trùng lặp một ảnh, hãy thêm ảnh từ nhiều góc và nền khác nhau.</li>
+        <li><b>Mít chỉ biết 2 nhóm em đã dạy:</b> Nếu đưa ảnh ngoài 2 nhóm (như <i>Hoa hồng</i>), Mít vẫn chọn 1 trong 2 nhóm đã học. Vì vậy <b>con người luôn phải tự kiểm tra</b>!</li>
+      </ul>
+    </section>
 
-    td,
-    th {
-        border: 1px solid #b9c8b1;
-        padding: 10px;
-        text-align: left
-    }
-
-    small {
-        font-size: 16px
-    }
-</style>
-<h1>Em làm người dạy máy</h1>
-<p><a href="index.html">Mở bàn thực hành →</a> · <a href="../khoa_hoc.html">← Mục lục khóa học</a></p>
-<section>
-    <h2>Nhớ 4 bước</h2>
-    <ol>
-        <li><b>Đặt tên</b> hai nhóm muốn phân loại.</li>
-        <li><b>Thêm ảnh mẫu</b> đúng nhóm. Nên có nhiều ảnh khác nhau về góc chụp và nền.</li>
-        <li><b>Dạy Mít</b> bằng nút cho máy học.</li>
-        <li><b>Thử ảnh mới</b> chưa dùng khi dạy. Em quan sát và kiểm tra kết quả.</li>
-    </ol>
-    <p>Ảnh học là ví dụ cho máy. Ảnh thử giúp em xem máy làm được đến đâu. Đổi tên tệp không làm ảnh học trở thành ảnh
-        mới.</p>
-</section>
-<section>
-    <h2>Lượt 1 · Làm theo cô/thầy</h2>
-    <p><a href="samples/anh-hoc.zip" download>Tải bộ ảnh học</a> · <a href="samples/anh-thu.zip" download>Tải bộ ảnh thử
-            riêng</a></p>
-    <p>Quan sát cô/thầy làm mẫu rồi tự làm đủ bốn bước. Bạn cùng máy quan sát; sau đó đổi vai.</p>
-    <p>Nút “Thử bộ ảnh hoa” dành cho xem thử nhanh. Để thực hành đủ bốn bước, em tải và giải nén hai bộ ảnh ở trên, tự
-        đặt tên hai nhóm, tự thêm ảnh từ bộ ảnh học vào khay. Sau khi dạy, chọn ảnh từ bộ ảnh thử riêng. Không trộn hai
-        bộ.</p>
-    <p>Nếu lớp dùng Chai–Lon theo kịch bản của nhóm, em đặt hai tên Chai và Lon, tải ảnh giáo viên cung cấp vào đúng
-        khay rồi thử bằng ảnh khác.</p>
-</section>
-<section>
-    <h2>Lượt 2 · Em tự chọn</h2>
-    <p>Chọn hai nhóm khác lượt đầu, ví dụ Bút–Thước hoặc Lá–Hoa. Tự chụp/chọn ảnh, làm lại đủ bốn bước và thử ảnh mới.
-        Chụp đồ vật của em; không chụp mặt bạn.</p>
-    <p>Trong Sổ khám phá, em kể lại:</p>
-    <ol>
-        <li>Em đặt tên hai nhóm nào?</li>
-        <li>Em chọn và xếp ảnh vào nhóm như thế nào?</li>
-        <li>Em bấm nút nào để máy học?</li>
-        <li>Em thử ảnh gì, Mít đoán gì, và em kiểm tra ra sao?</li>
-    </ol>
-    <p>Sao chép câu trả lời và nộp vào nhiệm vụ Q4 trên Azota khi giáo viên mở nhiệm vụ.</p>
-</section>
-<section>
-    <h2>Máy nhầm thì sao?</h2>
-    <p>Không sao! Kiểm tra ảnh có rõ không, xếp đúng nhóm chưa, có quá giống nhau không. Em có thể sửa bộ ảnh học rồi
-        thử lại bằng ảnh khác.</p>
-    <p>Mít chỉ chọn giữa hai nhóm đã dạy. Nếu em đưa ảnh ngoài hai nhóm, Mít vẫn có thể đoán một nhóm. Mít không biết
-        tất cả mọi thứ.</p>
-    <p><b>Em được đánh giá ở cách thực hiện và kể lại bốn bước, không phải máy đoán đúng bao nhiêu lần.</b></p>
-</section>
-<details>
-    <summary>Dành cho giáo viên</summary>
-    <p>YCCĐ 4.C5.MR1 và 4.C5.MR2. Quan sát từng em; xem bạn làm hoặc tích ô tự nhận chưa chứng minh em đã thao tác. Cho
-        em cần hỗ trợ nói thay viết. Bài 2 theo BT4.2 gồm Q3 35 phút và Q4 35 phút; mốc xem 15 phút của học liệu Azota
-        không thay thế 70 phút này.</p>
-    <p>Công cụ dùng MobileNet V2 có sẵn để trích đặc trưng ảnh, rồi bộ phân loại 3 láng giềng gần nhất học từ ví dụ đã
-        gắn nhãn. Không huấn luyện lại toàn bộ MobileNet. Không phải giao diện hoặc mô hình xuất từ Teachable Machine.
-    </p>
-    <p>Bản BT4.2 nhóm hiện ghi Teachable Machine và Chai–Lon. Nếu chọn Mít và bộ ảnh hoa cho Q3, cần cập nhật mục tiêu
-        MT3, công cụ, dữ liệu và hướng dẫn Q3 trong hồ sơ trước khi nộp. Không gọi web Mít là Teachable Machine.</p>
-</details>
-
+    <details class="teacher">
+      <summary>Ghi chú dành cho giáo viên (BT4.1 – BT4.2 · Nhóm 7)</summary>
+      <p><b>YCCĐ bao phủ:</b> <code>4.C5.MR1</code> (Q3 · 35 phút) và <code>4.C5.MR2</code> (Q4 · 35 phút). Mỗi lớp 30 HS / 15 máy thực hành theo cặp, đảm bảo mỗi em tự thao tác trọn vẹn 4 bước; cho phép nói thay viết khi cần hỗ trợ.</p>
+      <p><b>Nguyên tắc đánh giá:</b> Đạt Q3 khi thực hiện đủ 4 bước theo mẫu; đạt Q4 khi chọn bộ dữ liệu khác lượt đầu, thực hiện đủ 4 bước và mô tả được thao tác từng bước. <b>Không lấy tỷ lệ đoán đúng của máy làm điểm học sinh.</b></p>
+      <table>
+        <thead>
+          <tr><th>Tiêu chí quan sát bảng kiểm Q3</th><th>Đạt / Cần hỗ trợ</th><th>Ghi chú</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1. Mở công cụ và tự đặt tên hai nhóm (Hoa cúc – Hoa hướng dương)</td><td></td><td></td></tr>
+          <tr><td>2. Tự thêm ảnh mẫu vào đúng khay</td><td></td><td></td></tr>
+          <tr><td>3. Bấm lệnh “Dạy Mít ngay” để cho máy học</td><td></td><td></td></tr>
+          <tr><td>4. Đưa ảnh mới chưa học vào và quan sát, kiểm tra kết quả</td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:10px"><small>Công cụ dùng MobileNet V2 (trọng số có sẵn) trích đặc trưng ảnh + bộ phân loại kNN ($k=3$, chuẩn hóa $L_2$). Tài liệu tham khảo đầy đủ xem tại <code>bai-2/HO-SO-BAI-2.md</code> và <code>bai-2/KIEM-THU-MO-HINH.md</code>.</small></p>
+    </details>
+  </div>
+</body>
 </html>

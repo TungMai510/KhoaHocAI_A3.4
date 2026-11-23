@@ -1,0 +1,1034 @@
+{
+  "datasets": [
+    {
+      "id": "flowers",
+      "title": "Hoa vườn",
+      "icons": [
+        "🌼",
+        "🌻"
+      ],
+      "names": [
+        "Hoa cúc",
+        "Hoa hướng dương"
+      ],
+      "outsideName": "Hoa hồng",
+      "thumb": "samples/daisy-train-01.jpg",
+      "train": [
+        {
+          "src": "samples/daisy-train-01.jpg",
+          "cls": 0,
+          "original": "daisy/14272874304_47c0a46f5a.jpg",
+          "credit": "daisy/14272874304_47c0a46f5a.jpg CC-BY by DncnH - https://www.flickr.com/photos/duncanh1/14272874304/",
+          "sha256": "83caa01aa445712defd715bc13753c2a9ee87dfcbbeea378e0993cc5db85a0bf"
+        },
+        {
+          "src": "samples/daisy-train-02.jpg",
+          "cls": 0,
+          "original": "daisy/8383753520_8391dd80ee_m.jpg",
+          "credit": "daisy/8383753520_8391dd80ee_m.jpg CC-BY by Holly Victoria Norval - https://www.flickr.com/photos/hollystar47/8383753520/",
+          "sha256": "1da2d0e55bcdf09d8a83c32e98d86ddbb9024a7bc1a8bedbe9025788ff994140"
+        },
+        {
+          "src": "samples/daisy-train-03.jpg",
+          "cls": 0,
+          "original": "daisy/8616684075_71923bb771_n.jpg",
+          "credit": "daisy/8616684075_71923bb771_n.jpg CC-BY by jacinta lluch valero - https://www.flickr.com/photos/70626035@N00/8616684075/",
+          "sha256": "5e45b2ad85fee5b50a19dd159ea14a35b773e20b76c351fabdeff3f2f94b0b77"
+        },
+        {
+          "src": "samples/daisy-train-04.jpg",
+          "cls": 0,
+          "original": "daisy/9922116524_ab4a2533fe_n.jpg",
+          "credit": "daisy/9922116524_ab4a2533fe_n.jpg CC-BY by Kelly Sikkema - https://www.flickr.com/photos/95072945@N05/9922116524/",
+          "sha256": "8895254937d97f49f6f63f6830d4e20d47be40ab207632e0dfca0943d01e6c42"
+        },
+        {
+          "src": "samples/daisy-train-05.jpg",
+          "cls": 0,
+          "original": "daisy/144076848_57e1d662e3_m.jpg",
+          "credit": "daisy/144076848_57e1d662e3_m.jpg CC-BY by Paul Reynolds - https://www.flickr.com/photos/bigtallguy/144076848/",
+          "sha256": "6c7cd355db5647437eae6fdc96d572b582d0e7c82a9142a87224086cf73e466b"
+        },
+        {
+          "src": "samples/daisy-train-06.jpg",
+          "cls": 0,
+          "original": "daisy/9054268881_19792c5203_n.jpg",
+          "credit": "daisy/9054268881_19792c5203_n.jpg CC-BY by Zoltán Vörös - https://www.flickr.com/photos/94941635@N07/9054268881/",
+          "sha256": "9ff1b240684718c57cc442ef55f29c0327967463162b0dc2a78b889b459406db"
+        },
+        {
+          "src": "samples/daisy-train-07.jpg",
+          "cls": 0,
+          "original": "daisy/9175280426_40ecc395b8_m.jpg",
+          "credit": "daisy/9175280426_40ecc395b8_m.jpg CC-BY by Donnie Nunley - https://www.flickr.com/photos/dbnunley/9175280426/",
+          "sha256": "85cae040c32264fb5ca2669b185f0ff3e193f15d23ba0e8c1dcf902d1ac16688"
+        },
+        {
+          "src": "samples/daisy-train-08.jpg",
+          "cls": 0,
+          "original": "daisy/3275951182_d27921af97_n.jpg",
+          "credit": "daisy/3275951182_d27921af97_n.jpg CC-BY by Swaminathan - https://www.flickr.com/photos/araswami/3275951182/",
+          "sha256": "3e3d26af892cbbcf01f31c4b714517c072b7a007d36202f3f309f1e38c027037"
+        },
+        {
+          "src": "samples/sunflowers-train-01.jpg",
+          "cls": 1,
+          "original": "sunflowers/9460336948_6ae968be93.jpg",
+          "credit": "sunflowers/9460336948_6ae968be93.jpg CC-BY by Mike Lewinski - https://www.flickr.com/photos/ikewinski/9460336948/",
+          "sha256": "228dddaffb2035ea69e6f5194004fd9d03539ddb962a5fbd3ed07377741aa019"
+        },
+        {
+          "src": "samples/sunflowers-train-02.jpg",
+          "cls": 1,
+          "original": "sunflowers/7820523050_76c8caa025.jpg",
+          "credit": "sunflowers/7820523050_76c8caa025.jpg CC-BY by Rachel Samanyi - https://www.flickr.com/photos/sarairachel/7820523050/",
+          "sha256": "8f4d52049226253ff278c76a2629ecc708a6a8c032901cd0f4f1d63f1e33fd91"
+        },
+        {
+          "src": "samples/sunflowers-train-03.jpg",
+          "cls": 1,
+          "original": "sunflowers/9213511121_836a458021_m.jpg",
+          "credit": "sunflowers/9213511121_836a458021_m.jpg CC-BY by Donald Lee Pardue - https://www.flickr.com/photos/oldrebel/9213511121/",
+          "sha256": "bb3ab0a073b907173ba0a9f88fdf41f77cc5b1977e73a3696df8f2733e9124bb"
+        },
+        {
+          "src": "samples/sunflowers-train-04.jpg",
+          "cls": 1,
+          "original": "sunflowers/16967372357_15b1b9a812_n.jpg",
+          "credit": "sunflowers/16967372357_15b1b9a812_n.jpg CC-BY by John Seb Barber - https://www.flickr.com/photos/johnseb/16967372357/",
+          "sha256": "0e7ec983bacb33a3acc778a833eda3f11e7c47fb83a0a36b2f5811dd35c9f121"
+        },
+        {
+          "src": "samples/sunflowers-train-05.jpg",
+          "cls": 1,
+          "original": "sunflowers/50987813_7484bfbcdf.jpg",
+          "credit": "sunflowers/50987813_7484bfbcdf.jpg CC-BY by Sassy Gardener - https://www.flickr.com/photos/64776479@N00/50987813/",
+          "sha256": "5c7062b15a082594b143986f62b895547d69a093a2a9e6090cb1c0c812910ba6"
+        },
+        {
+          "src": "samples/sunflowers-train-06.jpg",
+          "cls": 1,
+          "original": "sunflowers/9432335346_e298e47713_n.jpg",
+          "credit": "sunflowers/9432335346_e298e47713_n.jpg CC-BY by Ruth Hartnup - https://www.flickr.com/photos/ruthanddave/9432335346/",
+          "sha256": "33b91acc76810896a7813b0a6ad630e0d7d8c82bfd362357251311406c9f47ae"
+        },
+        {
+          "src": "samples/sunflowers-train-07.jpg",
+          "cls": 1,
+          "original": "sunflowers/29972905_4cc537ff4b_n.jpg",
+          "credit": "sunflowers/29972905_4cc537ff4b_n.jpg CC-BY by normanack - https://www.flickr.com/photos/29278394@N00/29972905/",
+          "sha256": "a2b2a3a2f4e70e716fd657bcb93af13f66f44a5a0fefe2f7390d85a5940bcacb"
+        },
+        {
+          "src": "samples/sunflowers-train-08.jpg",
+          "cls": 1,
+          "original": "sunflowers/15238348741_c2fb12ecf2_m.jpg",
+          "credit": "sunflowers/15238348741_c2fb12ecf2_m.jpg CC-BY by Erik Drost - https://www.flickr.com/photos/edrost88/15238348741/",
+          "sha256": "f260f8ebfbd182e65ebe353223908fa2a8e1e0ad6103df8c841b99b9207fdef5"
+        },
+        {
+          "src": "samples/daisy-train-21.jpg",
+          "cls": 0,
+          "original": "daisy/5769217520_c90efc3c93_m.jpg",
+          "credit": "daisy/5769217520_c90efc3c93_m.jpg CC-BY by crayonmonkey - https://www.flickr.com/photos/crayonmonkey/5769217520/",
+          "sha256": "8e44cb6dcc710ccbe489e309feace0d13ee9e4a3df7017c70b209e4b7f76e8dd"
+        },
+        {
+          "src": "samples/daisy-train-22.jpg",
+          "cls": 0,
+          "original": "daisy/8887005939_b19e8305ee.jpg",
+          "credit": "daisy/8887005939_b19e8305ee.jpg CC-BY by Luke Gray - https://www.flickr.com/photos/lukewes/8887005939/",
+          "sha256": "eaabdac061032fc219d64b384682bbb23aedf147f74dbcaab2560ef3d557151b"
+        },
+        {
+          "src": "samples/daisy-train-23.jpg",
+          "cls": 0,
+          "original": "daisy/534547364_3f6b7279d2_n.jpg",
+          "credit": "daisy/534547364_3f6b7279d2_n.jpg CC-BY by Emily - https://www.flickr.com/photos/7738710@N06/534547364/",
+          "sha256": "232fdc1f16c02bbd7414974cd4e1339ffcb32215f1fc4d4e89620856accd074f"
+        },
+        {
+          "src": "samples/daisy-train-24.jpg",
+          "cls": 0,
+          "original": "daisy/14332947164_9b13513c71_m.jpg",
+          "credit": "daisy/14332947164_9b13513c71_m.jpg CC-BY by Jocelyn Kinghorn - https://www.flickr.com/photos/joceykinghorn/14332947164/",
+          "sha256": "6695a68a9abd10a2dbb5b11f9f7f0e8226fae2922ec964c85389f7550381a93d"
+        },
+        {
+          "src": "samples/daisy-train-25.jpg",
+          "cls": 0,
+          "original": "daisy/8063844363_db3f4dea85.jpg",
+          "credit": "daisy/8063844363_db3f4dea85.jpg CC-BY by Alias 0591 - https://www.flickr.com/photos/renemensen/8063844363/",
+          "sha256": "507e7df1cb04db6387aa5d27a08edf26d48489fbeb257b60f83c3212b8ad5323"
+        },
+        {
+          "src": "samples/daisy-train-26.jpg",
+          "cls": 0,
+          "original": "daisy/19813618946_93818db7aa_m.jpg",
+          "credit": "daisy/19813618946_93818db7aa_m.jpg CC-BY by Dick Thompson - https://www.flickr.com/photos/dick-thompson-sandian/19813618946/",
+          "sha256": "7546c3579e24fcb7ace67b0cc9acbc0bb44eab5ac07c480885e66c9a0064e4a0"
+        },
+        {
+          "src": "samples/daisy-train-27.jpg",
+          "cls": 0,
+          "original": "daisy/14221848160_7f0a37c395.jpg",
+          "credit": "daisy/14221848160_7f0a37c395.jpg CC-BY by DaveBleasdale - https://www.flickr.com/photos/sidelong/14221848160/",
+          "sha256": "65cb83b6ceb99e87389d4ba3410758dd4eb71385229f36d3ddd4fe9a61a66ab6"
+        },
+        {
+          "src": "samples/daisy-train-28.jpg",
+          "cls": 0,
+          "original": "daisy/3379332157_04724f6480.jpg",
+          "credit": "daisy/3379332157_04724f6480.jpg CC-BY by xlibber - https://www.flickr.com/photos/xlibber/3379332157/",
+          "sha256": "4dee40508eec4ed3ae7fcf405c0eadb23c505723d822f0b8883c1a5536d4b081"
+        },
+        {
+          "src": "samples/sunflowers-train-21.jpg",
+          "cls": 1,
+          "original": "sunflowers/6606820461_952c450f90_n.jpg",
+          "credit": "sunflowers/6606820461_952c450f90_n.jpg CC-BY by Bosque Village - https://www.flickr.com/photos/thebosque/6606820461/",
+          "sha256": "7fa4fc6d527abc1ad086882f0562a04dde9b712098185dc5ed4ff950cb13e848"
+        },
+        {
+          "src": "samples/sunflowers-train-22.jpg",
+          "cls": 1,
+          "original": "sunflowers/4914793782_d0ea760791.jpg",
+          "credit": "sunflowers/4914793782_d0ea760791.jpg CC-BY by liz west - https://www.flickr.com/photos/calliope/4914793782/",
+          "sha256": "a85cb1f0a31801caeb1e826efd15470ee3bbe030011a096a5cc0e163e117c1ef"
+        },
+        {
+          "src": "samples/sunflowers-train-23.jpg",
+          "cls": 1,
+          "original": "sunflowers/15042911059_b6153d94e7_n.jpg",
+          "credit": "sunflowers/15042911059_b6153d94e7_n.jpg CC-BY by Mike Lewinski - https://www.flickr.com/photos/ikewinski/15042911059/",
+          "sha256": "6746ace8e1cab039af0919698cc59619588bc78cb9791719af8725b4c3e3c460"
+        },
+        {
+          "src": "samples/sunflowers-train-24.jpg",
+          "cls": 1,
+          "original": "sunflowers/2807106374_f422b5f00c.jpg",
+          "credit": "sunflowers/2807106374_f422b5f00c.jpg CC-BY by Holly Rowland - https://www.flickr.com/photos/holsro/2807106374/",
+          "sha256": "ea2924f7adfa2479be07660066c83d16cca9c09c600d70ce563af43e36b63251"
+        },
+        {
+          "src": "samples/sunflowers-train-25.jpg",
+          "cls": 1,
+          "original": "sunflowers/6053739964_a1d9ab3ed1_n.jpg",
+          "credit": "sunflowers/6053739964_a1d9ab3ed1_n.jpg CC-BY by jeffreyw - https://www.flickr.com/photos/jeffreyww/6053739964/",
+          "sha256": "98b40cf5ce9749c554d3e33ca556d421b5a5f6e6824f10453c1a827dd5c0f271"
+        },
+        {
+          "src": "samples/sunflowers-train-26.jpg",
+          "cls": 1,
+          "original": "sunflowers/15243175532_ac28c48e14_m.jpg",
+          "credit": "sunflowers/15243175532_ac28c48e14_m.jpg CC-BY by Nicholas A. Tonelli - https://www.flickr.com/photos/nicholas_t/15243175532/",
+          "sha256": "cd5e80272e057e5d49958df26eb9b5d5ddd11ed0a41db929353a69bc42ea0234"
+        },
+        {
+          "src": "samples/sunflowers-train-27.jpg",
+          "cls": 1,
+          "original": "sunflowers/8543642705_b841b0e5f6.jpg",
+          "credit": "sunflowers/8543642705_b841b0e5f6.jpg CC-BY by Shadowgate - https://www.flickr.com/photos/shadowgate/8543642705/",
+          "sha256": "e794b0371a84f9f5db3b402cc9683e7d0e22298cb0d544db05c27a2d65309802"
+        },
+        {
+          "src": "samples/sunflowers-train-28.jpg",
+          "cls": 1,
+          "original": "sunflowers/14858674096_ed0fc1a130.jpg",
+          "credit": "sunflowers/14858674096_ed0fc1a130.jpg CC-BY by travel oriented - https://www.flickr.com/photos/traveloriented/14858674096/",
+          "sha256": "d78ba1fd745fac9f1432e13f8c630b45de678b0b99885f209163ca967864e940"
+        }
+      ],
+      "test": [
+        {
+          "src": "samples/daisy-test-29.jpg",
+          "cls": 0,
+          "original": "daisy/9611923744_013b29e4da_n.jpg",
+          "credit": "daisy/9611923744_013b29e4da_n.jpg CC-BY by Se Re - https://www.flickr.com/photos/96310508@N06/9611923744/",
+          "sha256": "594c04e9af89c58777f1a418ce59682dcd7b7c8631e7f386606a853793aa781a"
+        },
+        {
+          "src": "samples/sunflowers-test-29.jpg",
+          "cls": 1,
+          "original": "sunflowers/7176729812_7c053921fb_m.jpg",
+          "credit": "sunflowers/7176729812_7c053921fb_m.jpg CC-BY by Shreveport-Bossier Convention and Tourist Bureau - https://www.flickr.com/photos/shreveportbossier/7176729812/",
+          "sha256": "4b20d34920dcd41ec3efd0dc2bac0a3ef0dff8bdb2bc52c51aec6f4f8f9ab20c"
+        },
+        {
+          "src": "samples/daisy-test-30.jpg",
+          "cls": 0,
+          "original": "daisy/2567033807_8e918c53d8_n.jpg",
+          "credit": "daisy/2567033807_8e918c53d8_n.jpg CC-BY by Tomi Tapio K - https://www.flickr.com/photos/tomitapio/2567033807/",
+          "sha256": "d7374298dbd5fe43d702f85d7b5a8a29017539a94393d2c320ad7fa2936751f5"
+        },
+        {
+          "src": "samples/sunflowers-test-30.jpg",
+          "cls": 1,
+          "original": "sunflowers/4746648726_e37a2de16d_n.jpg",
+          "credit": "sunflowers/4746648726_e37a2de16d_n.jpg CC-BY by Maggie McCain - https://www.flickr.com/photos/vamcmag/4746648726/",
+          "sha256": "cff95223b5ec14d74c34635c197f058a7b8e99c8c62df42b77639a02482d55e3"
+        },
+        {
+          "src": "samples/daisy-test-31.jpg",
+          "cls": 0,
+          "original": "daisy/450128527_fd35742d44.jpg",
+          "credit": "daisy/450128527_fd35742d44.jpg CC-BY by Luz Adriana Villa - https://www.flickr.com/photos/luchilu/450128527/",
+          "sha256": "8d95393068db9ed61f78bd5ef0cd53216ae860c78f60bb4f8aacd45ff767f951"
+        },
+        {
+          "src": "samples/sunflowers-test-31.jpg",
+          "cls": 1,
+          "original": "sunflowers/2723995667_31f32294b4.jpg",
+          "credit": "sunflowers/2723995667_31f32294b4.jpg CC-BY by Frank de Kleine - https://www.flickr.com/photos/frankdekleine/2723995667/",
+          "sha256": "411b2884b903990a2141d24846b577f85bef029ed31918c2282e1fcc0928af2a"
+        },
+        {
+          "src": "samples/daisy-test-32.jpg",
+          "cls": 0,
+          "original": "daisy/16291797949_a1b1b7c2bd_n.jpg",
+          "credit": "daisy/16291797949_a1b1b7c2bd_n.jpg CC-BY by Heather - https://www.flickr.com/photos/58754750@N08/16291797949/",
+          "sha256": "65d149258ec55bd8f3fe5964bc1e952981bfa535139c6e111fa353353befad15"
+        },
+        {
+          "src": "samples/sunflowers-test-32.jpg",
+          "cls": 1,
+          "original": "sunflowers/7728953426_abd179ab63.jpg",
+          "credit": "sunflowers/7728953426_abd179ab63.jpg CC-BY by Elias Gayles - https://www.flickr.com/photos/elias_daniel/7728953426/",
+          "sha256": "bbb043dd352aaf794bb94f40d321c73152f892a58f32ed5cf605240fc4c7f059"
+        },
+        {
+          "src": "samples/daisy-test-33.jpg",
+          "cls": 0,
+          "original": "daisy/16482676953_5296227d40_n.jpg",
+          "credit": "daisy/16482676953_5296227d40_n.jpg CC-BY by Swallowtail Garden Seeds - https://www.flickr.com/photos/swallowtailgardenseeds/16482676953/",
+          "sha256": "8e8107dfde55004e65761eb675fb8842fe9a78ef5c3e68d52314f14d8d52d318"
+        },
+        {
+          "src": "samples/sunflowers-test-33.jpg",
+          "cls": 1,
+          "original": "sunflowers/3681233294_4f06cd8903.jpg",
+          "credit": "sunflowers/3681233294_4f06cd8903.jpg CC-BY by Geekr - https://www.flickr.com/photos/geko78/3681233294/",
+          "sha256": "9e2193c58a47e970446e0ca164d5c4ed71eb77b3eb38eff701e6d88edd1a04a1"
+        },
+        {
+          "src": "samples/daisy-test-34.jpg",
+          "cls": 0,
+          "original": "daisy/17357636476_1953c07aa4_n.jpg",
+          "credit": "daisy/17357636476_1953c07aa4_n.jpg CC-BY by Image Catalog - https://www.flickr.com/photos/image-catalog/17357636476/",
+          "sha256": "f8700cec4e55ce1c336ff760ca8c2c084fd1219c596d8ce667a4223d53f5341b"
+        },
+        {
+          "src": "samples/sunflowers-test-34.jpg",
+          "cls": 1,
+          "original": "sunflowers/7820626738_3be6a52e4e_n.jpg",
+          "credit": "sunflowers/7820626738_3be6a52e4e_n.jpg CC-BY by Rachel Samanyi - https://www.flickr.com/photos/sarairachel/7820626738/",
+          "sha256": "8dec4522c06a189abb5f30b5aabd73935a06ad69abcad5738adb0af876e4166e"
+        },
+        {
+          "src": "samples/daisy-test-35.jpg",
+          "cls": 0,
+          "original": "daisy/19019544592_b64469bf84_n.jpg",
+          "credit": "daisy/19019544592_b64469bf84_n.jpg CC-BY by Elliott Brown - https://www.flickr.com/photos/ell-r-brown/19019544592/",
+          "sha256": "a9dee57401b31459d8b20a548d36327d9915b386ff3dc1c30c80b2393c6b7c6b"
+        },
+        {
+          "src": "samples/sunflowers-test-35.jpg",
+          "cls": 1,
+          "original": "sunflowers/15191613243_82ee8e0fe8.jpg",
+          "credit": "sunflowers/15191613243_82ee8e0fe8.jpg CC-BY by Nick Page - https://www.flickr.com/photos/nicksie2008/15191613243/",
+          "sha256": "8cee6ccb5b7f3f324899a2f9f0bc1e73ac20a4c15df18babca4813a169184ba8"
+        },
+        {
+          "src": "samples/daisy-test-36.jpg",
+          "cls": 0,
+          "original": "daisy/286875003_f7c0e1882d.jpg",
+          "credit": "daisy/286875003_f7c0e1882d.jpg CC-BY by Audrey - https://www.flickr.com/photos/audreyjm529/286875003/",
+          "sha256": "37f06ec09bd6b8cf5006fe447964defcb34f9061083af1d1d3a2987ce599c374"
+        },
+        {
+          "src": "samples/sunflowers-test-36.jpg",
+          "cls": 1,
+          "original": "sunflowers/6050020905_881295ac72_n.jpg",
+          "credit": "sunflowers/6050020905_881295ac72_n.jpg CC-BY by Maciej Lewandowski - https://www.flickr.com/photos/macieklew/6050020905/",
+          "sha256": "6333bb1db68d4924ffe542d54845e2ae534e4c9cbb70a21f6586488d722e868f"
+        },
+        {
+          "src": "samples/daisy-test-37.jpg",
+          "cls": 0,
+          "original": "daisy/2611119198_9d46b94392.jpg",
+          "credit": "daisy/2611119198_9d46b94392.jpg CC-BY by Audrey - https://www.flickr.com/photos/audreyjm529/2611119198/",
+          "sha256": "9cb0597936eb08a4307925bec1ef7ec3942f2e37d59c4480606e98cfa7a6f952"
+        },
+        {
+          "src": "samples/sunflowers-test-37.jpg",
+          "cls": 1,
+          "original": "sunflowers/6080086410_17a02dcfb8.jpg",
+          "credit": "sunflowers/6080086410_17a02dcfb8.jpg CC-BY by Andy Hay - https://www.flickr.com/photos/andyhay/6080086410/",
+          "sha256": "b06fdc87c95059d4c94b1389237d0ff82fb44234c039cc4ea17b300b28a9fa89"
+        },
+        {
+          "src": "samples/daisy-test-38.jpg",
+          "cls": 0,
+          "original": "daisy/10140303196_b88d3d6cec.jpg",
+          "credit": "daisy/10140303196_b88d3d6cec.jpg CC-BY by Irene Grassi - https://www.flickr.com/photos/sun_sand_sea/10140303196/",
+          "sha256": "12123f351f515e2c2b9f548535f2c313ec81e636db162d756a332aa0cd6d600d"
+        },
+        {
+          "src": "samples/sunflowers-test-38.jpg",
+          "cls": 1,
+          "original": "sunflowers/6606815161_3c4372760f.jpg",
+          "credit": "sunflowers/6606815161_3c4372760f.jpg CC-BY by Bosque Village - https://www.flickr.com/photos/thebosque/6606815161/",
+          "sha256": "c912c3219585711acbae34cf4543d9eff257e78a4264f2d9aac19ee372fa5487"
+        }
+      ],
+      "outside": [
+        {
+          "src": "samples/roses-outside-01.jpg",
+          "cls": 2,
+          "original": "roses/16545641666_2781e542a0_m.jpg",
+          "credit": "roses/16545641666_2781e542a0_m.jpg CC-BY by Biodiversity Heritage Library - https://www.flickr.com/photos/biodivlibrary/16545641666/",
+          "sha256": "7af29ac0a8ff49d25721161bb980e15c71477f777d48c8300ea89bf368434795"
+        },
+        {
+          "src": "samples/roses-outside-02.jpg",
+          "cls": 2,
+          "original": "roses/3065719996_c16ecd5551.jpg",
+          "credit": "roses/3065719996_c16ecd5551.jpg CC-BY by Sharon Mollerus - https://www.flickr.com/photos/clairity/3065719996/",
+          "sha256": "e8155709005659df11e2fc985d9b515efe029f9f3218108bb2d1569f031da238"
+        },
+        {
+          "src": "samples/roses-outside-03.jpg",
+          "cls": 2,
+          "original": "roses/3697780051_83e50a6dd1_m.jpg",
+          "credit": "roses/3697780051_83e50a6dd1_m.jpg CC-BY by A♥ - https://www.flickr.com/photos/zenat_el3ain/3697780051/",
+          "sha256": "4f8570eec5f6a98921b0177feb371bb31fc3ae31e270bdd185ad3d4a3d775707"
+        },
+        {
+          "src": "samples/roses-outside-04.jpg",
+          "cls": 2,
+          "original": "roses/8050213579_48e1e7109f.jpg",
+          "credit": "roses/8050213579_48e1e7109f.jpg CC-BY by Ronald Saunders - https://www.flickr.com/photos/ronsaunders47/8050213579/",
+          "sha256": "060322f3b53bf3f8f68e387f944eba7721527191c8ae47fc7ef7d4f6228f3d5c"
+        }
+      ]
+    },
+    {
+      "id": "recycle",
+      "title": "Chai & Lon",
+      "icons": [
+        "🧴",
+        "🥫"
+      ],
+      "names": [
+        "Chai nhựa",
+        "Lon nước"
+      ],
+      "outsideName": "Cốc sứ",
+      "thumb": "samples/recycle/bottle-train-01.jpg",
+      "train": [
+        {
+          "src": "samples/recycle/bottle-train-01.jpg",
+          "cls": 0,
+          "credit": "File:Bottle of Water.jpg — CC0 by Jiafei Slay Queen (https://commons.wikimedia.org/wiki/File:Bottle_of_Water.jpg)",
+          "sha256": "5607e1583207b3b6a80920bb49499553595880ce5810c7dc1dc989692e4d05ff"
+        },
+        {
+          "src": "samples/recycle/can-train-01.jpg",
+          "cls": 1,
+          "credit": "Antique Cragmont Safeway Root Beer Soda Can — CC BY-SA 2.0 by daripas (https://www.flickr.com/photos/194275703@N04/51633136293)",
+          "sha256": "d184284854931b0e8a5ef261beaf1694d6aec8735998f9c17d204380d1c2d814"
+        },
+        {
+          "src": "samples/recycle/bottle-train-02.jpg",
+          "cls": 0,
+          "credit": "File:Plastic Water Bottle.jpg — CC BY-SA 4.0 by Kykywinks (https://commons.wikimedia.org/wiki/File:Plastic_Water_Bottle.jpg)",
+          "sha256": "b3147a1a2244911777c2b604257e84f0940e8a80566fa99a99d2bee3df39b58c"
+        },
+        {
+          "src": "samples/recycle/can-train-02.jpg",
+          "cls": 1,
+          "credit": "04 Soda can reflect — CC BY 2.0 by victorgalle (https://www.flickr.com/photos/196551221@N03/52788308433)",
+          "sha256": "1e9d799dd946980e1886ac030793ac79c4878d25b6cbcf70c2c66852c3d6ea8c"
+        },
+        {
+          "src": "samples/recycle/bottle-train-03.jpg",
+          "cls": 0,
+          "credit": "File:Zamzam water in plastic bottle.jpg — CC BY-SA 4.0 by Ahmer Jamil Khan (https://commons.wikimedia.org/wiki/File:Zamzam_water_in_plastic_bottle.jpg)",
+          "sha256": "ffc4ba83c274e809b3a85b778aff96d8ff17d87e488f7343dbb5e81652e0d588"
+        },
+        {
+          "src": "samples/recycle/can-train-03.jpg",
+          "cls": 1,
+          "credit": "Soda can — CC BY 2.0 by superbluebird (https://www.flickr.com/photos/196526892@N05/52788504255)",
+          "sha256": "0f6280140ba0cd90d7d6f3e82499cba9b3485eafa0746dc6b0454b3f95e2326f"
+        },
+        {
+          "src": "samples/recycle/bottle-train-04.jpg",
+          "cls": 0,
+          "credit": "File:Plastic bottle in water among leaves and rocks in a natural setting during daytime.jpg — CC BY 2.0 by Shixart1985 (https://commons.wikimedia.org/wiki/File:Plastic_bottle_in_water_among_leaves_and_rocks_in_a_natural_setting_during_daytime.jpg)",
+          "sha256": "2fc150e148ad7a7baaee0198c30865e072ea09bae0078767914fbbaea4c2f57d"
+        },
+        {
+          "src": "samples/recycle/can-train-04.jpg",
+          "cls": 1,
+          "credit": "Coca Cola Marvel Can — CC BY 2.0 by Phillip Pessar (https://www.flickr.com/photos/25955895@N03/53706533668)",
+          "sha256": "b51bacfd7198ba354c1618b0fb150715b0f3ee1249599c11994f9863a1ca048f"
+        },
+        {
+          "src": "samples/recycle/bottle-train-05.jpg",
+          "cls": 0,
+          "credit": "Squished plastic water bottle thrown on the ground — CC BY 2.0 by Ivan Radic (https://www.flickr.com/photos/26344495@N05/51401795368)",
+          "sha256": "d821655247034bb8ab2b64ebb4c233f436e240126e1326b40b707a4bb71c72b8"
+        },
+        {
+          "src": "samples/recycle/can-train-05.jpg",
+          "cls": 1,
+          "credit": "Sprite can, Japanese 1977 — CC BY 2.0 by Hugo-90 (https://www.flickr.com/photos/32109282@N00/53752071730)",
+          "sha256": "006952c203969892255722d1d7bac2abe2432552201b2d9c5ff756d2a616214f"
+        },
+        {
+          "src": "samples/recycle/bottle-train-06.jpg",
+          "cls": 0,
+          "credit": "Plastic Water Bottle on Pond Bank — CC0 by Alabama Extension (https://www.flickr.com/photos/184594136@N08/51316206619)",
+          "sha256": "43f3e2474deb9104a2433f84fa0a641b7169563082093ba8eea5b461e4b26b1c"
+        },
+        {
+          "src": "samples/recycle/can-train-06.jpg",
+          "cls": 1,
+          "credit": "Santa Coca Cola Coke Zero Can — CC BY 2.0 by Phillip Pessar (https://www.flickr.com/photos/25955895@N03/54213805985)",
+          "sha256": "69e07238dc7c1fcd7e2fc7f1d24de6ce6cb7933e8511cc3a5a064a19d6de2f38"
+        },
+        {
+          "src": "samples/recycle/bottle-train-07.jpg",
+          "cls": 0,
+          "credit": "Mukutmanipur dam Landscape — CC0 by SHAN DUTTA (https://www.flickr.com/photos/65968950@N06/51406507357)",
+          "sha256": "1eeec58c04191bf3f18bc03173be3732891139adbce99ae049d0f21e53d0f8f0"
+        },
+        {
+          "src": "samples/recycle/can-train-07.jpg",
+          "cls": 1,
+          "credit": "Old Pepsi Can — CC BY 2.0 by Hugo-90 (https://www.flickr.com/photos/32109282@N00/53724286985)",
+          "sha256": "c1c1d5250931f0533f92f0d62a27d1c9e807a7408f05b9232e81d1dee548fc4b"
+        },
+        {
+          "src": "samples/recycle/bottle-train-08.jpg",
+          "cls": 0,
+          "credit": "Water Bottle — CC0 by Alabama Extension (https://www.flickr.com/photos/184594136@N08/51309780179)",
+          "sha256": "f7d12efc88ff23f8a26bb305c18312b81b512bd03cd638cd2f36fc6daa5888d2"
+        },
+        {
+          "src": "samples/recycle/can-train-08.jpg",
+          "cls": 1,
+          "credit": "aluminum can — CC BY 2.0 by taylor93657 (https://www.flickr.com/photos/194785821@N03/51883021034)",
+          "sha256": "0a876e073bd75423533d0255a5e48b6cfde265cc63f875ee6dd93375658a0ca3"
+        }
+      ],
+      "test": [
+        {
+          "src": "samples/recycle/bottle-test-01.jpg",
+          "cls": 0,
+          "credit": "Plastic bottle on the tarmac at a parking lot — CC BY 2.0 by Ivan Radic (https://www.flickr.com/photos/26344495@N05/51443256606)",
+          "sha256": "08697daed487e3e465e0a7219bf33b30f8a792bcb9380ea7255bef24a7df0e81"
+        },
+        {
+          "src": "samples/recycle/can-test-01.jpg",
+          "cls": 1,
+          "credit": "soda can 4k — CC BY 2.0 by NenGen (https://www.flickr.com/photos/191256479@N02/51893716397)",
+          "sha256": "adb84330801fe99a3a7203b0e9518626b8db56aba810f2c86c226665d651cd00"
+        },
+        {
+          "src": "samples/recycle/bottle-test-02.jpg",
+          "cls": 0,
+          "credit": "File:Water fills a plastic bottle at an outdoor tap in a garden setting.jpg — CC BY 2.0 by Shixart1985 (https://commons.wikimedia.org/wiki/File:Water_fills_a_plastic_bottle_at_an_outdoor_tap_in_a_garden_setting.jpg)",
+          "sha256": "043345e49d592844eb7999a037cd04f5096b22114f376a19b21f6620b67fe7a2"
+        },
+        {
+          "src": "samples/recycle/can-test-02.jpg",
+          "cls": 1,
+          "credit": "Marvel Coke Can — CC BY 2.0 by Phillip Pessar (https://www.flickr.com/photos/25955895@N03/53749114592)",
+          "sha256": "2f3cc09656081f3eaad1e946c466ded5b7a28ca4938429c45c2d5278ce1d4e35"
+        },
+        {
+          "src": "samples/recycle/bottle-test-03.jpg",
+          "cls": 0,
+          "credit": "File:An empty bottle water plastic.jpg — CC BY-SA 4.0 by Chic portfolios (https://commons.wikimedia.org/wiki/File:An_empty_bottle_water_plastic.jpg)",
+          "sha256": "90bdf3447831d73eafd6372796c98c340e727eb8371284931478cb95ddd6ded2"
+        },
+        {
+          "src": "samples/recycle/can-test-03.jpg",
+          "cls": 1,
+          "credit": "Coca Cola Zero Sugar Marvel Can — CC BY 2.0 by Phillip Pessar (https://www.flickr.com/photos/25955895@N03/53651150001)",
+          "sha256": "cb24203c4966b2aac32350105a0cde80d5b079dbe3c7fa6b65a6d84ec52b4d28"
+        },
+        {
+          "src": "samples/recycle/bottle-test-04.jpg",
+          "cls": 0,
+          "credit": "File:Large plastic bottle of Devin spring water from Bulgaria.jpg — CC BY-SA 4.0 by Oleg Yunakov (https://commons.wikimedia.org/wiki/File:Large_plastic_bottle_of_Devin_spring_water_from_Bulgaria.jpg)",
+          "sha256": "ddf892cfc7b7613171c79d7d127a8647f2eb5fafc4d62aab2af76683206080cb"
+        },
+        {
+          "src": "samples/recycle/can-test-04.jpg",
+          "cls": 1,
+          "credit": "Alcohol & soft drink cans — CC0 by rawpixel (https://www.rawpixel.com/image/6111981/photo-image-public-domain-leaf-snow)",
+          "sha256": "62984df70ee4c53bb91e1824db3af6ed6b09ff6219a8acb5649af418a69e239a"
+        },
+        {
+          "src": "samples/recycle/bottle-test-05.jpg",
+          "cls": 0,
+          "credit": "River bank covered with plastic bottles — CC BY 2.0 by Ivan Radic (https://www.flickr.com/photos/26344495@N05/52085625965)",
+          "sha256": "e059bc62e25ff4300fac399413e53d3a1756a0fde6a2264da614219c6da958ff"
+        },
+        {
+          "src": "samples/recycle/can-test-05.jpg",
+          "cls": 1,
+          "credit": "Flat Coca Cola Can — CC BY 2.0 by Joost J. Bakker IJmuiden (https://www.flickr.com/photos/194951624@N02/53970065761)",
+          "sha256": "5b735de64b829a350f87bf88885bf0848cf2c040b4e92ae518e7e0f01e6f6a11"
+        },
+        {
+          "src": "samples/recycle/bottle-test-06.jpg",
+          "cls": 0,
+          "credit": "Plastic Bottle Upside Down — CC BY 2.0 by zeevveez (https://www.flickr.com/photos/29001414@N00/14561565904)",
+          "sha256": "1980efd4cfcef7f0b965d5283fcffe48fdd3f3dc5b21a68f0d1261132d588252"
+        },
+        {
+          "src": "samples/recycle/can-test-06.jpg",
+          "cls": 1,
+          "credit": "The beer can spot — CC BY 2.0 by Henry Söderlund (https://www.flickr.com/photos/46563758@N04/52301100649)",
+          "sha256": "c6c9f7a02bf85bc55ee3b5afa62a4f77bd777c445d80b84f4f4f67bc2a95c7f5"
+        }
+      ],
+      "outside": [
+        {
+          "src": "samples/recycle/mug-outside-01.jpg",
+          "cls": 2,
+          "credit": "Nanyang Old Coffee mug, Singapore — CC BY-SA 2.0 by Jon Gudorf Photography (https://www.flickr.com/photos/56351377@N06/19049611658)",
+          "sha256": "2efeb234c1ea3484cdd9c1c2d7576866888496f99527d04384bb470dfdc93abb"
+        },
+        {
+          "src": "samples/recycle/mug-outside-02.jpg",
+          "cls": 2,
+          "credit": "Historically Wrong Coffee Mugs — CC0 by cogdogblog (https://www.flickr.com/photos/37996646802@N01/52253262764)",
+          "sha256": "e2d7bd561e7f5093175c999b80f8af7f1e9eac30e3dec60519b8aa608a2ec0b7"
+        },
+        {
+          "src": "samples/recycle/mug-outside-03.jpg",
+          "cls": 2,
+          "credit": "Coffee Mug — CC0 by Clem Onojeghuo (https://stocksnap.io/photo/coffee-mug-J6PXDIMIUU)",
+          "sha256": "bacc0c794340198f271a0275b479d7c7e5dc3de225f308be6106e8162f8c9d38"
+        }
+      ]
+    },
+    {
+      "id": "fruits",
+      "title": "Hoa quả",
+      "icons": [
+        "🍎",
+        "🍌"
+      ],
+      "names": [
+        "Quả táo",
+        "Quả chuối"
+      ],
+      "outsideName": "Quả cam",
+      "thumb": "samples/fruits/apple-train-01.jpg",
+      "train": [
+        {
+          "src": "samples/fruits/apple-train-01.jpg",
+          "cls": 0,
+          "credit": "Red Apple — CC0 by Micha%u0142%20Grosicki (https://stocksnap.io/photo/red-apple-ZHNG376V5P)",
+          "sha256": "feecc76cf989d43b312391e9900bdc9fc74de75e7290dab53089b18ae4d93307"
+        },
+        {
+          "src": "samples/fruits/banana-train-01.jpg",
+          "cls": 1,
+          "credit": "Free ripe yellow banana image — CC0 by rawpixel (https://www.rawpixel.com/image/5919399/photo-image-public-domain-tropical-fruit)",
+          "sha256": "fecdb3199520478fb954e3799a0f7cedfa0734ecfeda98ef795acbc36cc5f84c"
+        },
+        {
+          "src": "samples/fruits/apple-train-02.jpg",
+          "cls": 0,
+          "credit": "Fine red apples — CC BY 2.0 by muffinn (https://www.flickr.com/photos/26445715@N00/53993963340)",
+          "sha256": "5adeaf5694313a0170c03cb3732a081229a9de213a38344ae42aed767f6dc0d1"
+        },
+        {
+          "src": "samples/fruits/banana-train-02.jpg",
+          "cls": 1,
+          "credit": "Yellow banana background image — CC0 by rawpixel (https://www.rawpixel.com/image/5911388/image-public-domain-fruit-food)",
+          "sha256": "e825c6fb70297b31a723f892d638dc0ea132d36973bc9af182f3fd64e73e6587"
+        },
+        {
+          "src": "samples/fruits/apple-train-03.jpg",
+          "cls": 0,
+          "credit": "Red Apple — CC0 by Mali Maeder (https://stocksnap.io/photo/red-apple-OQGVJXG77S)",
+          "sha256": "64541adb6e5a5354bd539d34555f9caa9166bfc05c74c18bac98981a8683e22a"
+        },
+        {
+          "src": "samples/fruits/banana-train-03.jpg",
+          "cls": 1,
+          "credit": "Free ripe yellow banana image — CC0 by rawpixel (https://www.rawpixel.com/image/5924496/photo-image-public-domain-tropical-fruit)",
+          "sha256": "eb773c27f8278362d112acbab93f10450e2376dcd05279f5aa923c549cc3c458"
+        },
+        {
+          "src": "samples/fruits/apple-train-04.jpg",
+          "cls": 0,
+          "credit": "Red Apple — CC0 by Roberta Sorge (https://stocksnap.io/photo/red-apple-D3EPT7EN7I)",
+          "sha256": "e94a6244160e73c3f098146be8027ffe70d6d5629152c540df0e5d37323590c0"
+        },
+        {
+          "src": "samples/fruits/banana-train-04.jpg",
+          "cls": 1,
+          "credit": "Pile yellow bananas — CC0 by rawpixel (https://www.rawpixel.com/image/6041516/photo-image-public-domain-plant-fruit)",
+          "sha256": "4ef7219de4e374a48363d9a977878da7cb1c5f92a0c9d66cd36bac680872d110"
+        },
+        {
+          "src": "samples/fruits/apple-train-05.jpg",
+          "cls": 0,
+          "credit": "Red Apple — CC0 by Mali Maeder (https://stocksnap.io/photo/red-apple-Z3XIZGQ9YZ)",
+          "sha256": "7f89e0a610fb1ad0dd5167a6609265b07742312d96d9b0c3cd8465d567e1d77a"
+        },
+        {
+          "src": "samples/fruits/banana-train-05.jpg",
+          "cls": 1,
+          "credit": "Pile yellow bananas — CC0 by rawpixel (https://www.rawpixel.com/image/6028898/photo-image-public-domain-plant-fruit)",
+          "sha256": "92597585ce086fbdcad9754922df839ebefad8433dfb52ec29652be07b5dbeae"
+        },
+        {
+          "src": "samples/fruits/apple-train-06.jpg",
+          "cls": 0,
+          "credit": "Red Apple — CC0 by Mali Maeder (https://stocksnap.io/photo/red-apple-BG6U98QE9N)",
+          "sha256": "0665d89c118448f3334d079f2af752c2237469ab45662fb312aa1690e47fc4eb"
+        },
+        {
+          "src": "samples/fruits/banana-train-06.jpg",
+          "cls": 1,
+          "credit": "Closeup yellow banana orange background — CC0 by rawpixel (https://www.rawpixel.com/image/6041506/photo-image-public-domain-fruit-food)",
+          "sha256": "e2ea3b56f45d37cb292f6838b84fc9cba734386200d11330193bec354d3cc5de"
+        },
+        {
+          "src": "samples/fruits/apple-train-07.jpg",
+          "cls": 0,
+          "credit": "Closeup red apple white background — CC0 by rawpixel (https://www.rawpixel.com/image/6032838/photo-image-background-public-domain-fruit)",
+          "sha256": "7c07750ee16fd32b38ff3182aadcdacc96b4f1b59e4e044687f855cab678404a"
+        },
+        {
+          "src": "samples/fruits/banana-train-07.jpg",
+          "cls": 1,
+          "credit": "2023 (365 challenge) - Week 6 (Colour on same colour) - Day 6 bananas on yellow — CC BY 2.0 by ambabheg (https://www.flickr.com/photos/31518985@N04/52678064797)",
+          "sha256": "7a7c20c2f9728f200a4534e448ad5259cdc1aa40c65022d489d3f8bae7f22e90"
+        },
+        {
+          "src": "samples/fruits/apple-train-08.jpg",
+          "cls": 0,
+          "credit": "Free red apple photo — CC0 by rawpixel (https://www.rawpixel.com/image/5918387/image-public-domain-fruit-red)",
+          "sha256": "ce986c2eae7685b8f0faa81b178126281d2c087ede1b1e8532b893ea1fd1e26b"
+        },
+        {
+          "src": "samples/fruits/banana-train-08.jpg",
+          "cls": 1,
+          "credit": "Bananas — CC BY 2.0 by Horse Drawn Zepplin (https://www.flickr.com/photos/7507623@N08/51835443911)",
+          "sha256": "05543544b8e4bbee593cdfae3b6021b4ac9a054e47a3a9b025b4b9d40d322e0d"
+        }
+      ],
+      "test": [
+        {
+          "src": "samples/fruits/apple-test-01.jpg",
+          "cls": 0,
+          "credit": "DALL·E Still life with red apples, red balloons and a blue table — CC BY-SA 2.0 by Dogtrax (https://www.flickr.com/photos/71805365@N00/52569193045)",
+          "sha256": "cd058ff290fca68621e1880ba788bd269570bce003d5cd12662258e2fee9e770"
+        },
+        {
+          "src": "samples/fruits/banana-test-01.jpg",
+          "cls": 1,
+          "credit": "Free ripe yellow banana image — CC0 by rawpixel (https://www.rawpixel.com/image/5904142/photo-image-public-domain-tropical-fruit)",
+          "sha256": "296ec38cbcbd908063637566e9e570c712d5b9c2da4e4e5a86fd8eeb5cf6733f"
+        },
+        {
+          "src": "samples/fruits/apple-test-02.jpg",
+          "cls": 0,
+          "credit": "Red Apple — CC0 by Tom Swinnen (https://stocksnap.io/photo/red-apple-SINXBGG2ZV)",
+          "sha256": "6870507afae55036c56cb10f3d72e899299b8030d07298cb88693b581b61946f"
+        },
+        {
+          "src": "samples/fruits/banana-test-02.jpg",
+          "cls": 1,
+          "credit": "Free ripe yellow banana image — CC0 by rawpixel (https://www.rawpixel.com/image/5906857/photo-image-public-domain-tropical-fruit)",
+          "sha256": "413916e32a3a5a33894f2684eab4c28a05282fae267c0f249b34bd9757138c68"
+        },
+        {
+          "src": "samples/fruits/apple-test-03.jpg",
+          "cls": 0,
+          "credit": "Red Apple — CC0 by Roberta Sorge (https://stocksnap.io/photo/red-apple-W9FJ59TGNF)",
+          "sha256": "050950559fb3b847685bd05a8c8f2819c606137c730df760fda3ffaad5c492fa"
+        },
+        {
+          "src": "samples/fruits/banana-test-03.jpg",
+          "cls": 1,
+          "credit": "Pile yellow bananas — CC0 by rawpixel (https://www.rawpixel.com/image/6037207/photo-image-public-domain-plant-fruit)",
+          "sha256": "87ce51415c1877f16501e05f85a18839e2a41fa2334ea9eb4e7be736ff2b5c07"
+        },
+        {
+          "src": "samples/fruits/apple-test-04.jpg",
+          "cls": 0,
+          "credit": "Red Apple — CC0 by Matt Bango (https://stocksnap.io/photo/red-apple-VXET3VQIV3)",
+          "sha256": "e4dbf2d5abbddfd4e4acbfa422e3ddb246f617a44a4f75925d7f37acfc31943c"
+        },
+        {
+          "src": "samples/fruits/banana-test-04.jpg",
+          "cls": 1,
+          "credit": "Banana Bunch — CC BY-SA 2.0 by alusch (https://www.flickr.com/photos/185077236@N04/52321293984)",
+          "sha256": "b44dc9c08c20f3a0b819007923ef941e587f3d4e9c5521f232a9e6226dccb3aa"
+        },
+        {
+          "src": "samples/fruits/apple-test-05.jpg",
+          "cls": 0,
+          "credit": "Red apples — CC BY-SA 2.0 by tillwe (https://www.flickr.com/photos/98652633@N00/51679929145)",
+          "sha256": "3645ec7296a647f4e55021f80876ad73cd0776eb413827ba145b3e43f1602af3"
+        },
+        {
+          "src": "samples/fruits/banana-test-05.jpg",
+          "cls": 1,
+          "credit": "Organic Bananas — CC BY-SA 2.0 by mikecogh (https://www.flickr.com/photos/89165847@N00/52612923867)",
+          "sha256": "95c05550b7d396c3e7c310dd647505a0e73e807c2b2f498b815be97c92c2992a"
+        },
+        {
+          "src": "samples/fruits/apple-test-06.jpg",
+          "cls": 0,
+          "credit": "Closeup pile red apples — CC0 by rawpixel (https://www.rawpixel.com/image/6029237/photo-image-public-domain-fruit-red)",
+          "sha256": "c71ed164848860b549b4c6516f6f7c33feb7a9f82b5932b67750891fd02c3bb1"
+        },
+        {
+          "src": "samples/fruits/banana-test-06.jpg",
+          "cls": 1,
+          "credit": "Banana Fruit — CC0 by Matt Bango (https://stocksnap.io/photo/banana-fruit-HVUP9HGVTD)",
+          "sha256": "b6cf33db0482a86a8f321f7a898f45066f78e4d9eac57fddc250e8ad90fa9b89"
+        }
+      ],
+      "outside": [
+        {
+          "src": "samples/fruits/orange-outside-01.jpg",
+          "cls": 2,
+          "credit": "Orange Fruit — CC0 by Jonathan Pielmayer (https://stocksnap.io/photo/orange-fruit-WGDEFUYVCJ)",
+          "sha256": "ecd9e0e64378e5a44b0a5228505380a172339447277505810f03103ca8fffa41"
+        },
+        {
+          "src": "samples/fruits/orange-outside-02.jpg",
+          "cls": 2,
+          "credit": "Oranges Fruits — CC0 by Agnieszka Bladzik (https://stocksnap.io/photo/oranges-fruits-WY1RMUVYDA)",
+          "sha256": "98816bb2c9cc12e6fc54a1bcb956ac228d2392d501bb6c7bead0a530e71751a0"
+        },
+        {
+          "src": "samples/fruits/orange-outside-03.jpg",
+          "cls": 2,
+          "credit": "Orange Fruit — CC0 by kinkate (https://stocksnap.io/photo/orange-fruit-B2XKJ5LYXZ)",
+          "sha256": "7eca2dc19a1ab6c6b6d15d753e141b9da5a2f6881d0bfed755546c7631403cbf"
+        }
+      ]
+    },
+    {
+      "id": "pets",
+      "title": "Thú cưng",
+      "icons": [
+        "🐱",
+        "🐶"
+      ],
+      "names": [
+        "Mèo",
+        "Chó"
+      ],
+      "outsideName": "Thỏ",
+      "thumb": "samples/pets/cat-train-01.jpg",
+      "train": [
+        {
+          "src": "samples/pets/cat-train-01.jpg",
+          "cls": 0,
+          "credit": "Cat portrait — CC BY-SA 2.0 by solarisgirl (https://www.flickr.com/photos/7252160@N04/33533092025)",
+          "sha256": "533694c1281a34be5f17ba85fe81cb36633fb175db6aeef27b5ce70262cd5011"
+        },
+        {
+          "src": "samples/pets/dog-train-01.jpg",
+          "cls": 1,
+          "credit": "A dog portrait - Explore - 17/11/22. — CC BY-SA 2.0 by ohefin (https://www.flickr.com/photos/47515486@N05/52501900606)",
+          "sha256": "34287624f576383ba56695e3ec39febc3e7739617d2851099146254e96bfbc60"
+        },
+        {
+          "src": "samples/pets/cat-train-02.jpg",
+          "cls": 0,
+          "credit": "Intimate cat portrait — CC BY 2.0 by Musicaloris (https://www.flickr.com/photos/125008237@N07/52398008702)",
+          "sha256": "941117a227c6ab98b5ed4eb597299e6efc64e7fb7585d570cee184eeee85bb80"
+        },
+        {
+          "src": "samples/pets/dog-train-02.jpg",
+          "cls": 1,
+          "credit": "A dog portrait — CC BY-SA 2.0 by ohefin (https://www.flickr.com/photos/47515486@N05/52312203489)",
+          "sha256": "37f313f459b05ed78b8c175297ed27a1c6015814124c2b7b5ae39e2a2d0bf283"
+        },
+        {
+          "src": "samples/pets/cat-train-03.jpg",
+          "cls": 0,
+          "credit": "Cat portrait — CC BY-SA 2.0 by ohefin (https://www.flickr.com/photos/47515486@N05/52360773193)",
+          "sha256": "c3dc4a2aa9c32e9a51c0be6737716e6a3ee89e0fe7c6a3d51be94c2f5a07e9c0"
+        },
+        {
+          "src": "samples/pets/dog-train-03.jpg",
+          "cls": 1,
+          "credit": "Wisdom in an old dog portrait — CC BY 2.0 by Musicaloris (https://www.flickr.com/photos/125008237@N07/51961076335)",
+          "sha256": "679b9e7b2ccd1795c5182180cd4a2f2a6742539f7a69b1ede18ba3ca748bc677"
+        },
+        {
+          "src": "samples/pets/cat-train-04.jpg",
+          "cls": 0,
+          "credit": "Cat portrait — CC BY-SA 2.0 by tillwe (https://www.flickr.com/photos/98652633@N00/52165795737)",
+          "sha256": "65f9d61d29bba0a6b2b5e1c48c730f9d0bc18ce939059d656fec15a172ce7a10"
+        },
+        {
+          "src": "samples/pets/dog-train-04.jpg",
+          "cls": 1,
+          "credit": "Dog portrait — CC BY 2.0 by Ben124. (https://www.flickr.com/photos/9298216@N08/52556519210)",
+          "sha256": "540a5ffa83ca7f0c53d367e41bf74999bb2739c7f66312257a54d0ed45cfcc98"
+        },
+        {
+          "src": "samples/pets/cat-train-05.jpg",
+          "cls": 0,
+          "credit": "Cat portrait — CC BY 2.0 by sea-eye (https://www.flickr.com/photos/14274667@N03/54396912103)",
+          "sha256": "2a50f02b9cf323d51a5b7cb722e95bb74828e41194ba023eadf42222a13044bb"
+        },
+        {
+          "src": "samples/pets/dog-train-05.jpg",
+          "cls": 1,
+          "credit": "Dog portrait — CC BY-SA 2.0 by ohefin (https://www.flickr.com/photos/47515486@N05/52961817166)",
+          "sha256": "e9d671cdc848ee1f659156bac71794ef2d48a1818a35ca2cff9dba16e57dcbd4"
+        },
+        {
+          "src": "samples/pets/cat-train-06.jpg",
+          "cls": 0,
+          "credit": "Cat portrait, domestic carnivore animal — CC0 by rawpixel (https://www.rawpixel.com/image/11189196/cat-portrait-domestic-carnivore-animal)",
+          "sha256": "17b2e6ecb5dbf9ef6146719e5c31cc7ff31005bb7cb13a5bb82f9e3117d2de78"
+        },
+        {
+          "src": "samples/pets/dog-train-06.jpg",
+          "cls": 1,
+          "credit": "Dog portrait — CC BY 2.0 by Felipenpeixoto (https://www.flickr.com/photos/140600042@N03/52548249193)",
+          "sha256": "ce22258a8a5c6c6dab030f3ad493d6f3a79b7827aa06fa03c8f67d0f8ebc5e2c"
+        },
+        {
+          "src": "samples/pets/cat-train-07.jpg",
+          "cls": 0,
+          "credit": "European shorthair cat, Portrait (2); — CC0 by rawpixel (https://www.rawpixel.com/image/3340966/free-photo-image-cat-abyssinian-animal)",
+          "sha256": "7870a5a520d0fb415e641332de2c774bf0698b1dc977ae14bf87c9d5d94435da"
+        },
+        {
+          "src": "samples/pets/dog-train-07.jpg",
+          "cls": 1,
+          "credit": "Brown dog portrait close face — CC0 by rawpixel (https://www.rawpixel.com/image/6038827/photo-image-face-public-domain-eyes)",
+          "sha256": "ee28002ce63f282589935fda2e5d9db20e0f797f848a808571c802efc46c6d9e"
+        },
+        {
+          "src": "samples/pets/cat-train-08.jpg",
+          "cls": 0,
+          "credit": "I wonder why I love this CAT - IMG_3475-002 — CC0 by iezalel7williams (https://www.flickr.com/photos/181765699@N08/52181630725)",
+          "sha256": "232613bc8c0857195788e3cd8bd4cb11162ef94f7ba3c2a12786c2aec94eb24c"
+        },
+        {
+          "src": "samples/pets/dog-train-08.jpg",
+          "cls": 1,
+          "credit": "Brown dog portrait close face — CC0 by rawpixel (https://www.rawpixel.com/image/6038832/photo-image-face-public-domain-eyes)",
+          "sha256": "8654e8dafc36b258e3dcb4072753e36764a274b3af97360b0d2289bafea5bb4d"
+        }
+      ],
+      "test": [
+        {
+          "src": "samples/pets/cat-test-01.jpg",
+          "cls": 0,
+          "credit": "Cat portrait — CC BY-SA 2.0 by ohefin (https://www.flickr.com/photos/47515486@N05/51481915180)",
+          "sha256": "7cf0d60905c7333502bbee9d245396f85a00fd76501e2bf23ee3825de7d20d46"
+        },
+        {
+          "src": "samples/pets/dog-test-01.jpg",
+          "cls": 1,
+          "credit": "Sled Dog Portrait BW — CC BY 2.0 by Cruise-Pics.com (https://www.flickr.com/photos/31354286@N00/51539729246)",
+          "sha256": "5be2db32668a3918bab28324b5c8f834dbe25d0120560c3be51317f861dfc371"
+        },
+        {
+          "src": "samples/pets/cat-test-02.jpg",
+          "cls": 0,
+          "credit": "Cat Portrait Test — CC BY 2.0 by phudz (https://www.flickr.com/photos/194876109@N06/51956970104)",
+          "sha256": "7d833f37eb1e7b1da3a966d0d559d16ab922d5dfb89268a7ce224f80e1ba8a33"
+        },
+        {
+          "src": "samples/pets/dog-test-02.jpg",
+          "cls": 1,
+          "credit": "Fluffy and smiling dog portrait — CC BY 2.0 by Musicaloris (https://www.flickr.com/photos/125008237@N07/52057087462)",
+          "sha256": "843bff3f5479645a355f8e6c4b90c8222fcb8237f224143ec466a168ede0c40b"
+        },
+        {
+          "src": "samples/pets/cat-test-03.jpg",
+          "cls": 0,
+          "credit": "Cat Portrait — CC BY-SA 2.0 by alusch (https://www.flickr.com/photos/185077236@N04/52264324344)",
+          "sha256": "fd707fdbdd218301e9b253d1f7760b464c73d2731e1b67b7eb63dce5b7309188"
+        },
+        {
+          "src": "samples/pets/dog-test-03.jpg",
+          "cls": 1,
+          "credit": "Dog portrait — CC BY-SA 2.0 by ohefin (https://www.flickr.com/photos/47515486@N05/53061500903)",
+          "sha256": "a23132ce87d834f76eb9cfb9fc878298fc6f5ea1386b2d0c5dd5543cf85176fa"
+        },
+        {
+          "src": "samples/pets/cat-test-04.jpg",
+          "cls": 0,
+          "credit": "Cat portrait — CC0 by rawpixel (https://www.rawpixel.com/image/3296740/free-photo-image-cat-abyssinian-animal)",
+          "sha256": "05ee1a5deaed2aca14bdc29a9147ce6cae483b5c8eae98f8b592a1b39445d4fe"
+        },
+        {
+          "src": "samples/pets/dog-test-04.jpg",
+          "cls": 1,
+          "credit": "Dog portrait — CC BY 2.0 by Felipenpeixoto (https://www.flickr.com/photos/140600042@N03/52548178200)",
+          "sha256": "ea0e81264bbccc987902ea70b184eda1c545f24328f3be14cf623848c9d26a96"
+        },
+        {
+          "src": "samples/pets/cat-test-05.jpg",
+          "cls": 0,
+          "credit": "A White Cat Crosses My Path Every Day, Too — CC BY 2.0 by aturkus (https://www.flickr.com/photos/76345376@N00/294955320)",
+          "sha256": "59ec796859b4f46f7531011b0ee0a6dcb27bfd4a023970d0b278f8decdbc1e9d"
+        },
+        {
+          "src": "samples/pets/dog-test-05.jpg",
+          "cls": 1,
+          "credit": "Black dog portrait — CC0 by rawpixel (https://www.rawpixel.com/image/3283283/free-photo-image-dog-retriever-labrador-animal)",
+          "sha256": "dfb433ffe2f27aa3cadd1fc5a5d4ee25f6b20b4cd43be5ff4e28dc357f6dbbda"
+        },
+        {
+          "src": "samples/pets/cat-test-06.jpg",
+          "cls": 0,
+          "credit": "IMG_4907 — CC BY-SA 2.0 by gidlark (https://www.flickr.com/photos/155724623@N08/51712663918)",
+          "sha256": "2325cfacbae1c13e79af751cc8ca836c6a29d1fb7f6268d8ad5fb0c35e1bbeaf"
+        },
+        {
+          "src": "samples/pets/dog-test-06.jpg",
+          "cls": 1,
+          "credit": "Leo — CC BY-SA 2.0 by szeke (https://www.flickr.com/photos/43355249@N00/44420193840)",
+          "sha256": "36919c4ce521b54ad9fcaba2e39e781c81b877f06280796a7a635971afc00e8a"
+        }
+      ],
+      "outside": [
+        {
+          "src": "samples/pets/rabbit-outside-01.jpg",
+          "cls": 2,
+          "credit": "Baby Bunny Surprise! (Explore April 14, 2022) — CC BY-SA 2.0 by DaPuglet (https://www.flickr.com/photos/43810158@N07/52004413148)",
+          "sha256": "a7973449d88e511df7019230236a4af9d650c52badd379dce88e4a332f8652a7"
+        },
+        {
+          "src": "samples/pets/rabbit-outside-02.jpg",
+          "cls": 2,
+          "credit": "Clover — CC BY-SA 2.0 by notjake (https://www.flickr.com/photos/77909845@N00/27215366053)",
+          "sha256": "e83fa14c9b9778c2e36ce5ec971bc05730b8423a8fde2165f96e18b28f7e8339"
+        },
+        {
+          "src": "samples/pets/rabbit-outside-03.jpg",
+          "cls": 2,
+          "credit": "Dandelion Breakfast — CC BY-SA 2.0 by Kurayba (https://www.flickr.com/photos/48503330@N08/52141720335)",
+          "sha256": "ea5e042bd12903ba596835af0c8060ed2f1dbf2f4d7e23c08819afaeedea7241"
+        }
+      ]
+    }
+  ]
+}
