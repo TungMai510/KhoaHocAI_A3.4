@@ -153,6 +153,7 @@ try {
 
     // 1. Course catalog -> Bai 2, Step 0 minimal words, 3D Mít, dataset gallery & Vietnamese MP3 voice
     await nav('khoa_hoc.html');
+    await e("localStorage.removeItem('ai4.bai2.q4.v1')");
     await click('a[href="bai-2/index.html"]');
     await until("location.pathname.endsWith('bai-2/index.html') && document.readyState === 'complete'");
     await check("!!document.querySelector('a.course-link')", `${label}: Bai 2 has back-to-catalog link`);
@@ -211,6 +212,16 @@ try {
       throw Error(`${label}: #pool-shuffle did not rotate visible pool photos`);
     }
     reports.push(`${label}: #pool-shuffle rotates sample pool photos`);
+
+    // Wrong-tray hint: drag a class-1 tile into Khay A -> hints to click × -> remove it cleanly
+    await dragElementTo('#sample-pool .pool-tile[data-cls="1"]', '#tray-0');
+    await until("document.querySelectorAll('#tray-0 .photo').length === 1", 150);
+    await check(
+      "document.querySelector('#speech').textContent.includes('×') && document.querySelector('#step-status').textContent.includes('×')",
+      `${label}: Wrong-tray drag shows clear undo (×) hint`
+    );
+    await click('#tray-0 [data-remove]');
+    await until("document.querySelectorAll('#tray-0 .photo').length === 0", 120);
 
     // Drag 1 class-0 tile to #tray-0 and 1 class-1 tile to #tray-1 via real pointer events
     await dragElementTo('#sample-pool .pool-tile[data-cls="0"]', '#tray-0');
@@ -298,10 +309,14 @@ try {
       await until("!!document.querySelector('#notebook-dialog').open", 100);
     }
 
-    // 4. Phiếu Q4 Notebook Dialog, Clipboard & Manual Fallback
+    // 4. Phiếu Q4 Notebook Dialog (fills dataset+counts only, does not pre-write step explanations)
     await check('document.documentElement.scrollWidth <= innerWidth', `${label}: Notebook dialog has no horizontal overflow`);
     await click('#fill-current-dataset');
-    await check("document.querySelector('#q4-dataset').value.includes('Hoa cúc')", `${label}: Auto-fills dataset field`);
+    await check(
+      "document.querySelector('#q4-dataset').value.includes('Hoa cúc') && document.querySelector('#q4-dataset').value.includes('ảnh') && document.querySelector('#q4-step1').value === ''",
+      `${label}: Fill button inserts dataset & photo counts without auto-writing learner reflections`
+    );
+    await fill('#q4-step1', 'Em đặt Khay A là Hoa cúc, Khay B là Hoa hướng dương.');
     await fill('#q4-step2', 'Em kéo 3 ảnh hoa cúc và 3 ảnh hướng dương vào hai khay.');
     await fill('#q4-step3', 'Em bấm Dạy Mít học.');
     await fill('#q4-step4', 'Em kéo ảnh hoa chưa học và ảnh hoa hồng ngoài 2 nhóm.');
@@ -341,11 +356,26 @@ try {
     if (label === 'desktop') {
       await pause(250);
       await screenshot('bai2-v3-recycle');
+
+      // Verify generalized Round 2 guard when Round 1 starts with Recycle instead of Flowers
+      await nav('bai-2/index.html');
+      await until("document.querySelectorAll('.dataset-chip[data-dataset]').length === 5", 150);
+      await click('[data-dataset="recycle"]');
+      await click('#open-notebook');
+      await until("!!document.querySelector('#notebook-dialog').open", 100);
+      await click('#reset');
+      await until("!document.querySelector('#notebook-dialog').open && document.body.dataset.step === '0'", 100);
+      await check("!document.querySelector('[data-dataset=\"recycle\"]') && !!document.querySelector('[data-dataset=\"flowers\"]')", `${label}: Round 2 hides recycle when recycle was Round 1 and keeps flowers`);
+      await fill('#name-0', 'Chai nhựa');
+      await fill('#name-1', 'Lon nước');
+      await click('#step0-next');
+      await check("document.body.dataset.step === '0' && document.querySelector('#step-status').textContent.includes('khác')", `${label}: Round 2 blocks manually reusing Chai nhựa - Lon nước from Round 1`);
     }
 
     // 6. Huong dan 4 buoc page
     await nav('bai-2/huong-dan.html');
     await check("document.querySelectorAll('.step-card').length === 4", `${label}: Huong dan shows 4 step cards`);
+    await check("!document.body.textContent.includes('Ảnh càng đa dạng, Mít học càng tốt')", `${label}: Huong dan avoids overclaiming diversity guarantees`);
     await check('document.documentElement.scrollWidth <= innerWidth', `${label}: Huong dan has no horizontal overflow`);
 
     // 7. Azota embed mode for Bai 2

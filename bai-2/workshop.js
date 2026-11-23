@@ -4,6 +4,7 @@ const $ = s => document.querySelector(s);
 const state = {
   step: 0,
   round: 'q3',
+  round1: null,
   datasets: [],
   datasetsPromise: null,
   datasetId: 'flowers',
@@ -154,9 +155,20 @@ function setStatus(s) {
   if (el) el.textContent = s;
 }
 
-function isFlowerPair(a, b) {
-  const pair = [a.trim().toLocaleLowerCase(), b.trim().toLocaleLowerCase()].sort();
-  return pair[0] === 'hoa cúc' && pair[1] === 'hoa hướng dương';
+function normalizePair(a, b) {
+  return [a.trim().toLocaleLowerCase(), b.trim().toLocaleLowerCase()].sort();
+}
+
+function matchesRound1Pair(a, b) {
+  const ref = state.round1?.names || ['Hoa cúc', 'Hoa hướng dương'];
+  const p1 = normalizePair(a, b);
+  const p2 = normalizePair(ref[0], ref[1]);
+  return p1[0] === p2[0] && p1[1] === p2[1];
+}
+
+function round1Label() {
+  const ref = state.round1?.names || ['Hoa cúc', 'Hoa hướng dương'];
+  return `${ref[0]} – ${ref[1]}`;
 }
 
 function samePair(aList, bList) {
@@ -171,7 +183,7 @@ function validNames() {
   const b = state.names[1].trim();
   if (!a || !b) return false;
   if (a.toLocaleLowerCase() === b.toLocaleLowerCase()) return false;
-  if (state.round === 'q4' && isFlowerPair(a, b)) return false;
+  if (state.round === 'q4' && matchesRound1Pair(a, b)) return false;
   return true;
 }
 
@@ -331,12 +343,21 @@ async function addPoolPhoto(entry, chosenTray) {
     invalidate();
     window.MitSound?.play('pop');
     window.dispatchEvent(new CustomEvent('mitPhotoFly', { detail: { cls: chosenTray, url: item.url } }));
-    setStatus('');
 
     if (typeof entry.cls === 'number' && entry.cls !== chosenTray) {
-      say(`Ơ, ảnh này trông giống ${state.names[entry.cls]} hơn nhỉ? Thử xem Mít học thế nào nhé!`, 'wrong_tray');
-    } else if (state.sets.every(x => x.length >= 3)) {
-      say('Đủ ảnh rồi! Bạn có thể kéo thêm ảnh khác góc chụp hoặc bấm Dạy Mít nào!', 'ready');
+      setStatus('Mẹo: Bấm dấu × trên ảnh trong khay nếu em kéo nhầm.');
+      say(
+        `Ơ, ảnh này giống ${state.names[entry.cls]} hơn! Em bấm × trên ảnh để bỏ ra xếp lại, hoặc giữ nguyên xem Mít học nhầm ra sao nhé.`,
+        'wrong_tray'
+      );
+    } else {
+      setStatus('');
+      if (state.sets.every(x => x.length >= 3)) {
+        say(
+          'Đủ 3 ảnh mỗi khay rồi! Em có thể dạy ngay hoặc kéo thêm (5–8 ảnh nhiều góc) rồi tự kiểm tra nhé!',
+          'ready'
+        );
+      }
     }
   } catch (e) {
     setStatus(e.message);
@@ -478,9 +499,9 @@ function selectDataset(id) {
   }
   const ds = state.datasets.find(d => d.id === id);
   if (!ds) return;
-  if (state.round === 'q4' && isFlowerPair(ds.names[0], ds.names[1])) {
-    setStatus('Lượt 2 (Q4) chọn kho ảnh khác Hoa cúc – Hướng dương nhé!');
-    say('Lượt 2 bạn chọn bộ ảnh khác với Hoa cúc và Hướng dương nhé!', 'need_diff');
+  if (state.round === 'q4' && matchesRound1Pair(ds.names[0], ds.names[1])) {
+    setStatus(`Lượt 2 (Q4) chọn cặp khác ${round1Label()} nhé!`);
+    say('Lượt 2 bạn hãy chọn bộ ảnh khác với lượt đầu nhé!', 'need_diff');
     return;
   }
   state.datasetId = ds.id;
@@ -510,10 +531,12 @@ function renderTrays() {
       (items.length >= 3 ? `<span class="t-ok">✓ ${items.length} ảnh</span>` : `<span class="t-ok">${items.length}/3</span>`) +
       `</div>`;
 
+    const q4Hint0 = state.round1?.datasetId === 'recycle' ? 'Ví dụ: Quả táo' : 'Ví dụ: Chai nhựa';
+    const q4Hint1 = state.round1?.datasetId === 'recycle' ? 'Ví dụ: Quả chuối' : 'Ví dụ: Lon nước';
     tray.innerHTML =
       `<div class="tray-heading"><span>KHAY ${i === 0 ? 'A' : 'B'}</span><small class="tray-count">${items.length ? items.length + ' ảnh' : 'Trống'}</small></div>` +
       (state.step === 0
-        ? `<input id="name-${i}" type="text" maxlength="30" autocomplete="off" aria-label="Tên nhóm khay ${i === 0 ? 'A' : 'B'}" value="${esc(state.names[i])}" placeholder="${i === 0 ? (state.round === 'q4' ? 'Ví dụ: Chai nhựa' : 'Ví dụ: Hoa cúc') : (state.round === 'q4' ? 'Ví dụ: Lon nước' : 'Ví dụ: Hoa hướng dương')}">`
+        ? `<input id="name-${i}" type="text" maxlength="30" autocomplete="off" aria-label="Tên nhóm khay ${i === 0 ? 'A' : 'B'}" value="${esc(state.names[i])}" placeholder="${i === 0 ? (state.round === 'q4' ? q4Hint0 : 'Ví dụ: Hoa cúc') : (state.round === 'q4' ? q4Hint1 : 'Ví dụ: Hoa hướng dương')}">`
         : `<h2 class="tray-name">${esc(state.names[i])}</h2>`) +
       (state.step === 1 ? dotsHtml : '') +
       (items.length
@@ -535,8 +558,8 @@ function renderTrays() {
       const match = state.datasets.find(d => samePair(state.names, d.names));
       state.datasetId = match ? match.id : 'custom';
       invalidate();
-      if (state.round === 'q4' && isFlowerPair(state.names[0], state.names[1])) {
-        setStatus('Lượt 2 (Q4) chọn cặp khác Hoa cúc – Hướng dương nhé!');
+      if (state.round === 'q4' && matchesRound1Pair(state.names[0], state.names[1])) {
+        setStatus(`Lượt 2 (Q4) chọn cặp khác ${round1Label()} nhé!`);
       } else {
         setStatus('');
       }
@@ -615,7 +638,8 @@ function renderArena() {
         }))
       : fallbackChips;
 
-    const visibleList = state.round === 'q4' ? sourceList.filter(d => d.id !== 'flowers') : sourceList;
+    const blockedId = state.round1?.datasetId || 'flowers';
+    const visibleList = state.round === 'q4' ? sourceList.filter(d => d.id !== blockedId) : sourceList;
     const chipsHtml =
       visibleList
         .map(d => {
@@ -860,7 +884,9 @@ function renderArena() {
         if (state.history.length) state.history[0].feedback = state.feedback;
         render();
         say(
-          state.feedback === 'yes' ? 'Hoan hô! Mít học giỏi quá!' : 'Ôi nhầm rồi! Mình thêm ảnh rõ hơn nhé.',
+          state.feedback === 'yes'
+            ? 'Hoan hô! Mít học giỏi quá!'
+            : 'Ôi nhầm rồi! Thử kéo thêm ảnh rõ, nhiều góc chụp (5–8 ảnh mỗi khay) rồi dạy lại để kiểm tra nhé.',
           state.feedback === 'yes' ? 'happy' : 'oops'
         );
         pose(state.feedback === 'yes' ? 'happy' : 'sad');
@@ -900,9 +926,9 @@ function go(step) {
   if (state.busy) return;
   if (step === state.step) return;
   if (step > 0 && !validNames()) {
-    if (state.round === 'q4' && isFlowerPair(state.names[0], state.names[1])) {
-      setStatus('Lượt 2 (Q4) chọn cặp khác Hoa cúc – Hướng dương nhé!');
-      say('Lượt 2 bạn chọn bộ ảnh khác với Hoa cúc và Hướng dương nhé!', 'need_diff');
+    if (state.round === 'q4' && matchesRound1Pair(state.names[0], state.names[1])) {
+      setStatus(`Lượt 2 (Q4) chọn cặp khác ${round1Label()} nhé!`);
+      say('Lượt 2 bạn hãy chọn bộ ảnh khác với lượt đầu nhé!', 'need_diff');
     } else {
       setStatus('Đặt 2 tên khác nhau cho Khay A và Khay B nhé.');
     }
@@ -1169,6 +1195,11 @@ function clearWorksets() {
 
 function startRound2() {
   if (state.busy) return;
+  if (state.round === 'q3') {
+    const n0 = state.names[0].trim() || 'Hoa cúc';
+    const n1 = state.names[1].trim() || 'Hoa hướng dương';
+    state.round1 = { datasetId: state.datasetId || null, names: [n0, n1] };
+  }
   clearWorksets();
   invalidate();
   state.round = 'q4';
@@ -1201,13 +1232,13 @@ const QUIZ_ITEMS = [
     no: 'Chưa đúng: dùng lại ảnh đã học giống như xem lại đáp án cũ vậy!'
   },
   {
-    q: 'Cách nào giúp Mít phân biệt ảnh tốt hơn?',
+    q: 'Cách nào có thể giúp Mít phân biệt ảnh tốt hơn?',
     choices: [
       { id: 'dup', text: 'Chép 10 bản giống hệt nhau của 1 ảnh' },
       { id: 'diverse', text: 'Thêm ảnh rõ, nhiều góc chụp và nền khác nhau' }
     ],
     right: 'diverse',
-    ok: 'Đúng rồi! Ảnh đa dạng góc và nền giúp Mít học giỏi hơn.',
+    ok: 'Đúng rồi! Ảnh rõ, đúng nhóm và đa dạng góc, nền có thể giúp Mít phân biệt tốt hơn — em hãy thử lại để kiểm tra nhé.',
     no: '10 bản giống hệt không giúp Mít nhận ra vật ở góc chụp khác đâu.'
   },
   {
@@ -1344,24 +1375,10 @@ function bindQ4Fields() {
   $('#fill-current-dataset').onclick = () => {
     const a = state.names[0].trim() || 'Nhóm A';
     const b = state.names[1].trim() || 'Nhóm B';
-    state.q4.dataset = `${a} và ${b}`;
+    state.q4.dataset = `${a} (${state.sets[0].length} ảnh) và ${b} (${state.sets[1].length} ảnh)`;
     $('#q4-dataset').value = state.q4.dataset;
-    if (!state.q4.step1.trim()) {
-      state.q4.step1 = `Đặt Khay A là ${a}, Khay B là ${b}.`;
-      $('#q4-step1').value = state.q4.step1;
-    }
-    if (!state.q4.step2.trim() && state.sets.flat().length) {
-      state.q4.step2 = `Kéo ${state.sets[0].length} ảnh ${a} và ${state.sets[1].length} ảnh ${b} vào khay.`;
-      $('#q4-step2').value = state.q4.step2;
-    }
-    if (!state.q4.step3.trim() && state.trained.length) {
-      state.q4.step3 = 'Bấm Dạy Mít học để máy học từ ảnh mẫu.';
-      $('#q4-step3').value = state.q4.step3;
-    }
-    if (!state.q4.step4.trim() && state.result) {
-      state.q4.step4 = `Kéo ảnh mới cho Mít đoán ${state.names[state.result.cls]}. Em tự kiểm tra lại.`;
-      $('#q4-step4').value = state.q4.step4;
-    }
+    $('#copyStatus').textContent = 'Đã điền tên bộ ảnh! Em tự viết ngắn gọn 4 bước bên dưới nhé.';
+    if (!state.q4.step1.trim()) $('#q4-step1')?.focus();
     syncQ4Preview();
     saveQ4Draft();
   };
