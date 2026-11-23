@@ -1404,7 +1404,7 @@ $('#copy').onclick = async () => {
   const text = buildQ4Report();
   try {
     await navigator.clipboard.writeText(text);
-    $('#copyStatus').textContent = '✓ Đã sao chép! Dán nộp lên Azota nhé.';
+    $('#copyStatus').textContent = '✓ Đã sao chép! Dán nộp lên Moodle nhé.';
     $('#manual-copy-wrap').hidden = true;
   } catch {
     $('#copyStatus').textContent = 'Sao chép ô bên dưới nhé:';
@@ -1443,3 +1443,9 @@ bindQ4Fields();
 loadDatasets();
 render();
 emitTrays();
+
+const embedNote = document.querySelector('.azota-submit-note');
+if (embedNote) {
+  embedNote.textContent = 'Khi xong, sao chép phiếu Q4 và dán nộp vào mục Bài tập Q4 trên Moodle.';
+}
+

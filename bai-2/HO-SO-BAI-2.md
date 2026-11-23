@@ -14,18 +14,17 @@ Phương án giữ đúng hồ sơ: thực hiện Q3 bằng TM/Chai–Lon như �
 Nếu chọn bộ hoa, câu MT3 đề xuất: “Thực hiện đủ bốn bước với công cụ Vườn học của Mít theo hướng dẫn mẫu của giáo viên, dùng bộ Hoa cúc–Hoa hướng dương.” MT4: “Chọn bộ dữ liệu khác, lặp lại đủ bốn bước và mô tả thao tác ở mỗi bước.”
 
 ## Học liệu và lịch học
-Giữ Q3 35 phút, Q4 35 phút như BT4.2; mốc xem 15 phút của liên kết Azota chỉ là thời lượng học liệu, không thay lịch 70 phút.
+Giữ Q3 35 phút, Q4 35 phút như BT4.2; mốc xem 15 phút của liên kết Moodle chỉ là thời lượng học liệu, không thay lịch 70 phút.
 - Q3: 5 phút đặt vấn đề/chọn tệp; 5 phút đọc thẻ trên LMS; 5 phút GV làm mẫu; 16 phút thực hành đổi vai; 4 phút chốt và bảng kiểm.
 - Q4: 4 phút nhắc mục tiêu; 22 phút hai lượt thực hành với dữ liệu khác; 6 phút mô tả; 3 phút phản hồi.
 Ba học liệu phân biệt: thẻ bốn bước (huong-dan.html), bộ ảnh thật có tập học/tập thử và nguồn (samples), công cụ Mít (index.html). Không tính một ảnh đơn lẻ hay từng file CSS là một học liệu.
 
-## Thiết lập cần thêm trong Azota
+## Thiết lập trong Moodle
 1. Thẻ hướng dẫn: “Bốn bước dạy máy”, liên kết đến bai-2/huong-dan.html; 5 phút.
 2. Thực hành Q3: liên kết web đã có; 15 phút là thời lượng xem tham khảo. Mỗi em tự thao tác; bạn cùng máy quan sát rồi đổi vai. Nút tự nạp mẫu chỉ dùng làm quen, không thay minh chứng em tự thêm ảnh.
 3. Q3 — Giáo viên kiểm tra bốn bước: ghi nhận từng cá nhân bằng bảng kiểm dưới đây, nhận xét và cho làm lại bước còn thiếu.
-4. Q4 — Em dạy máy với dữ liệu mới: bài nộp cá nhân trên LMS, dùng nội dung mẫu dưới đây. Nếu em nói thay viết, GV ghi nhận lời nói và thao tác.
+4. Q4 — Em dạy máy với dữ liệu mới: bài nộp cá nhân trên Moodle, dùng nội dung mẫu dưới đây. Nếu em nói thay viết, GV ghi nhận lời nói và thao tác.
 5. Câu hỏi tự kiểm tra có phản hồi: phân biệt ảnh học/ảnh thử; thêm ảnh khác góc/nền; ảnh ngoài hai nhóm. Đây là hỗ trợ hiểu, không thay quan sát thực hành.
-Chưa tạo các nhiệm vụ Q3/Q4 trên Azota trong bản cập nhật này. Website không tự gửi điểm hoặc bài làm về LMS.
 
 ## Bảng kiểm Q3 — GV điền từng học sinh
 Họ tên/mã học sinh: …; ngày: …; bộ dữ liệu: …; người quan sát: …
@@ -37,7 +36,7 @@ Họ tên/mã học sinh: …; ngày: …; bộ dữ liệu: …; người quan 
 | Đưa ảnh mới chưa học vào và quan sát kết quả | | |
 Đạt Q3 khi có đủ cả bốn bước theo mẫu. Cho hỗ trợ hoặc làm lại bước chưa đạt. Không chấm thao tác theo tỷ lệ máy đoán đúng; ảnh chụp chỉ là bổ sung.
 
-## Nội dung bài nộp Q4 — sao chép vào Azota
+## Nội dung bài nộp Q4 — sao chép vào Moodle
 Tên bài: Q4 — Em dạy máy với dữ liệu mới
 Yêu cầu: Chọn hai nhóm khác lượt đầu (gợi ý Bút–Thước hoặc Lá–Hoa), tự thực hiện đủ bốn bước rồi trả lời:
 1. Em đặt tên hai nhóm nào? Bộ này khác lượt đầu thế nào?
