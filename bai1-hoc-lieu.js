@@ -1,6 +1,8 @@
 'use strict';
 (() => {
   const get = id => document.getElementById(id);
+  const moodle = window.Bai1Moodle;
+  const stepCount = document.querySelectorAll('.activity-tabs a').length;
   const storageKey = 'ai4.lesson1.draft.v1';
   const fields = [...document.querySelectorAll('textarea[id], input[id], select[id]')]
     .filter(field => field.id !== 'copy-output');
@@ -20,7 +22,9 @@
   fields.forEach(field => field.addEventListener('input', saveDraft));
   function reviewDiary() {
     for (const id of ['translate-action', 'translate-observed', 'ocean-diary-action', 'ocean-diary-result']) {
-      const label = id.endsWith('action') ? 'Em đã làm: ' : 'Máy trả lại: ';
+      const label = moodle
+        ? (id.endsWith('action') ? 'Em đã đưa gì cho máy?\n' : 'Máy trả lại gì?\n')
+        : (id.endsWith('action') ? 'Em đã làm: ' : 'Máy trả lại: ');
       get('review-' + id).textContent = label + (get(id).value.trim() || 'Em chưa ghi. Quay lại hoạt động để điền hoặc ghi lượt cần bù.');
     }
   }
@@ -31,11 +35,24 @@
       if (link.hash === hash) link.setAttribute('aria-current', 'step');
       else link.removeAttribute('aria-current');
     });
+    if (moodle) {
+      const step = Number(hash.slice(2));
+      get('lesson-step').textContent = `Bước ${step} trong ${stepCount}`;
+      const back = get('lesson-back');
+      const next = get('lesson-next');
+      back.hidden = step === 1;
+      next.hidden = step === stepCount;
+      back.hash = '#h' + (step - 1);
+      next.hash = '#h' + (step + 1);
+    }
     reviewDiary();
     get('copy-status').textContent = '';
     get('copy-output').hidden = true;
   }
-  addEventListener('hashchange', route);
+  addEventListener('hashchange', () => {
+    route();
+    if (moodle) document.querySelector('.activity:not([hidden]) h2').focus();
+  });
   route();
   get('check-reading').onclick = () => {
     const correct = get('lan-output').value === 'text' && get('nam-input').value === 'photo' &&
@@ -49,7 +66,9 @@
     get('copy-output').hidden = true;
     try {
       await navigator.clipboard.writeText(text);
-      get('copy-status').textContent = 'Đã sao chép. Em nộp tại mục thầy cô giao hoặc ghi vào phiếu riêng.';
+      get('copy-status').textContent = moodle
+        ? 'Đã sao chép. Em mở bài nộp trên Moodle rồi dán phần trả lời.'
+        : 'Đã sao chép. Em nộp tại mục thầy cô giao hoặc ghi vào phiếu riêng.';
     } catch {
       get('copy-output').value = text;
       get('copy-output').hidden = false;
@@ -60,7 +79,11 @@
   }
   get('q1-form').onsubmit = event => {
     event.preventDefault();
-    copy('Q1 – Hai việc AI có thể giúp\nTrong học tập: ' + value('study') + '\nTrong đời sống: ' + value('life'));
+    if (moodle) {
+      copy(`${moodle.examplesTitle}\nKhi em học bài: ${value('study')}\nTrong cuộc sống: ${value('life')}`);
+    } else {
+      copy('Q1 – Hai việc AI có thể giúp\nTrong học tập: ' + value('study') + '\nTrong đời sống: ' + value('life'));
+    }
   };
   get('q2-form').onsubmit = event => {
     event.preventDefault();
@@ -68,6 +91,17 @@
     if (ids.some(id => !value(id)) && !value('pending')) {
       get('copy-status').textContent = 'Em ghi đủ hai lượt, hoặc ghi rõ lượt cần làm bù.';
       get('pending').focus();
+      return;
+    }
+    if (moodle) {
+      const entry = (title, action, observed) =>
+        `${title}\nEm đã đưa gì cho máy? ${value(action)}\nMáy trả lại gì? ${value(observed)}`;
+      copy([
+        moodle.diaryTitle,
+        entry('Lần em thử dịch', 'translate-action', 'translate-observed'),
+        entry('Lần em thử với ảnh', 'ocean-diary-action', 'ocean-diary-result'),
+        'Cần làm bù hoặc kiểm tra thêm: ' + value('pending')
+      ].join('\n\n'));
       return;
     }
     copy('Q2 – Nhật ký hai lượt thực hành\nGoogle Dịch\nEm làm: ' + value('translate-action') +

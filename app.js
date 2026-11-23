@@ -1,10 +1,16 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const page = document.body.dataset.page;
-const steps = [['Khám phá','hl1_kham_pha.html'],['Thử dự đoán','hl2_mo_phong.html'],['Tự luyện','hl3_luyen_tap.html'],['Nộp Q1','hl3_luyen_tap.html#q1']];
+const moodle = window.Bai1Moodle;
+const steps = moodle ? [
+  ['Khám phá', moodle.url('/mod/url/view.php?id=45')],
+  ['Thử dự đoán', moodle.url('/mod/url/view.php?id=57')],
+  ['Tự luyện', moodle.url('/mod/url/view.php?id=58')],
+  ['Gửi ví dụ của em', moodle.url('/mod/assign/view.php?id=59')]
+] : [['Khám phá','hl1_kham_pha.html'],['Thử dự đoán','hl2_mo_phong.html'],['Tự luyện','hl3_luyen_tap.html'],['Nộp Q1','hl3_luyen_tap.html#q1']];
 // Chỉ thể hiện vị trí đang học, không xác nhận đã nộp bài trên Azota.
 function progress(step){
-  $('journey').innerHTML=steps.map(([label,href],i)=>`<a href="${href}" ${i+1===step?'aria-current="step"':''} class="${i+1<step?'done':''}"><span class="number">${i+1}</span>${label}</a>`).join('');
+  $('journey').innerHTML=steps.map(([label,href],i)=>`<a href="${href}" ${moodle?'target="_top"':''} ${i+1===step?'aria-current="step"':''} class="${i+1<step?'done':''}"><span class="number">${i+1}</span>${label}</a>`).join('');
   $('progress-label').textContent=step?`Chặng ${step}: ${steps[step-1][0]}`:'Mỗi manh mối, một khám phá!';
   $('progress-count').textContent=step?`${step} / 4`:'4 chặng nhỏ';
   document.querySelector('.progress-fill').style.width=`${step*25}%`;
@@ -98,8 +104,19 @@ if(page==='practice'){
     $('manual-copy').hidden=true;
     const study=$('study').value.trim(),life=$('life').value.trim();
     if(!study||!life){feedback('copy-status','Em hãy viết đủ cả hai ví dụ, mỗi ví dụ có ứng dụng AI và việc AI hỗ trợ.',false);(!study?$('study'):$('life')).focus();return;}
-    const text=`Q1 – Ứng dụng AI quanh em\n1. Trong học tập: ${study}\n2. Trong đời sống: ${life}`;
-    try{await navigator.clipboard.writeText(text);feedback('copy-status','Đã sao chép! Em hãy mở Azota, vào bài Q1, dán câu trả lời và nộp bài.');}
-    catch{feedback('copy-status','Trình duyệt chưa cho phép sao chép tự động. Em hãy sao chép nội dung đã chọn bên dưới, rồi dán vào Q1 trên Azota.',false);$('copy-output').value=text;$('manual-copy').hidden=false;$('copy-output').focus();$('copy-output').select();}
+    const text = moodle
+      ? `${moodle.examplesTitle}\nKhi em học bài: ${study}\nTrong cuộc sống: ${life}`
+      : `Q1 – Ứng dụng AI quanh em\n1. Trong học tập: ${study}\n2. Trong đời sống: ${life}`;
+    try {
+      await navigator.clipboard.writeText(text);
+      feedback('copy-status', moodle
+        ? 'Đã sao chép! Mở bài nộp trên Moodle rồi dán câu trả lời của em.'
+        : 'Đã sao chép! Em hãy mở Azota, vào bài Q1, dán câu trả lời và nộp bài.');
+    } catch {
+      feedback('copy-status', moodle
+        ? 'Sao chép phần đã chọn bên dưới rồi dán vào bài nộp trên Moodle.'
+        : 'Trình duyệt chưa cho phép sao chép tự động. Em hãy sao chép nội dung đã chọn bên dưới, rồi dán vào Q1 trên Azota.', false);
+      $('copy-output').value=text;$('manual-copy').hidden=false;$('copy-output').focus();$('copy-output').select();
+    }
   };
 }

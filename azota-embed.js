@@ -24,14 +24,24 @@
     const toolbar=document.createElement('div'); toolbar.className='azota-toolbar';
     const title=document.createElement('span');title.textContent='Cùng Sóc thử nhé!';
     const expand=document.createElement('a');expand.className='azota-expand';expand.textContent='Mở rộng hoạt động ↗';
-    const url=new URL(location.href);url.searchParams.set('embed','azota');expand.href=url.href;expand.target='_blank';expand.rel='noopener noreferrer';
-    expand.addEventListener('click',()=>{const current=new URL(location.href);current.searchParams.set('embed','azota');expand.href=current.href;});
+    const updateExpandLink = () => {
+      const url = new URL(location.href);
+      url.searchParams.set('embed', 'azota');
+      if (window.Bai1Moodle) url.searchParams.set('classroom', 'moodle');
+      expand.href = url.href;
+    };
+    updateExpandLink();
+    expand.target = '_blank';
+    expand.rel = 'noopener noreferrer';
+    expand.addEventListener('click', updateExpandLink);
     toolbar.append(title,expand);document.body.prepend(toolbar);
-    const page=document.body.dataset.page,lesson=document.body.dataset.lesson;
-    const note=document.createElement('p');note.className='azota-submit-note';
-    note.textContent=lesson==='2'?'Khi xong, sao chép phiếu Q4 và nộp theo hướng dẫn của giáo viên trên Azota.':lesson==='3'?'Khi xong, sao chép phiếu và chọn đúng mục Q5 trên Azota. Q6 là phần mở rộng.':lesson==='4'?'Khi xong, sao chép báo cáo và chọn đúng mục Q7 trên Azota.':page==='practice'?'Khi xong, chọn đúng mục Q1 trên Azota để nộp câu trả lời.':'Em có thể làm lại ngay tại đây.';
-    note.textContent+=' Điểm chính thức do Azota ghi nhận.';
-    document.querySelector('main')?.append(note);
+    if (!window.Bai1Moodle) {
+      const page=document.body.dataset.page,lesson=document.body.dataset.lesson;
+      const note=document.createElement('p');note.className='azota-submit-note';
+      note.textContent=lesson==='2'?'Khi xong, sao chép phiếu Q4 và nộp theo hướng dẫn của giáo viên trên Azota.':lesson==='3'?'Khi xong, sao chép phiếu và chọn đúng mục Q5 trên Azota. Q6 là phần mở rộng.':lesson==='4'?'Khi xong, sao chép báo cáo và chọn đúng mục Q7 trên Azota.':page==='practice'?'Khi xong, chọn đúng mục Q1 trên Azota để nộp câu trả lời.':'Em có thể làm lại ngay tại đây.';
+      note.textContent+=' Điểm chính thức do Azota ghi nhận.';
+      document.querySelector('main')?.append(note);
+    }
     markLinks();
     new MutationObserver(records=>{if(records.some(r=>r.addedNodes.length))markLinks();}).observe(document.body,{childList:true,subtree:true});
     // No resize requests or parent DOM access. The iframe keeps its own scrolling.
