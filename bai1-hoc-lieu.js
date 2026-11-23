@@ -51,7 +51,10 @@
   }
   addEventListener('hashchange', () => {
     route();
-    if (moodle) document.querySelector('.activity:not([hidden]) h2').focus();
+    if (moodle) {
+      document.querySelector('.activity:not([hidden]) h2').focus({ preventScroll: true });
+      window.scrollTo(0, 0);
+    }
   });
   route();
   get('check-reading').onclick = () => {
