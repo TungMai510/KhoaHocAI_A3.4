@@ -1,11 +1,52 @@
 <!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#225e49"><meta name="description" content="Bàn điều tra của Thám tử AI: chọn câu, thử dịch, xoay vật chứng và tự kiểm tra. Bài học lớp 4."><title data-moodle-text="Tự luyện với hai tình huống">Tự luyện và Nộp Q1 · Thám tử AI quanh em</title><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css"><script src="app.js?v=moodle-labels" defer></script><link rel="stylesheet" href="azota-embed.css"><script src="bai1-moodle.js?v=moodle-labels"></script><script src="azota-embed.js?v=moodle-labels"></script></head>
-<body data-page="practice"><a class="skip" href="#main">Đến nhiệm vụ chính</a><header><div class="top"><a class="brand" href="index.html"><img src="assets/favicon.svg" width="43" height="43" alt=""><span>Thám tử AI quanh em<small>Bàn điều tra của những bạn nhỏ</small></span></a><a class="course-link" href="khoa_hoc.html">← Mục lục</a></div></header><main class="wrap" id="main"><nav class="journey" aria-label="Tiến trình bài học" id="journey"></nav><div class="progress-copy"><span id="progress-label">Hành trình thám tử</span><span id="progress-count">4 chặng</span></div><div class="progress-track" role="progressbar" aria-label="Vị trí trong bài học" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"><div class="progress-fill"></div></div>
-<div id="practice-heading" class="mission-heading"><div><span class="eyebrow">Chặng 3 · Hai tình huống mới</span><h1>Thám tử tự ra tay!</h1><p>Chọn câu trả lời rồi đọc lời nhắn của Sóc.</p></div><img class="squirrel-host" src="assets/squirrel.svg" alt="Sóc đồng hành cùng em"></div>
-<section class="practice-board" id="practice"><div class="quiz-exhibit" id="quiz-exhibit" aria-hidden="true"></div><div class="quiz-content"><p class="question-count" id="quiz-count"></p><h2 id="quiz-question" tabindex="-1"></h2><div class="choices" id="quiz-answers"></div><div class="feedback" id="quiz-feedback" role="status" hidden></div><div class="actions"><button class="btn" id="quiz-next" disabled>Câu tiếp theo →</button><button class="btn text-btn" id="quiz-reset">↻ Làm lại</button></div></div></section>
-<section class="panel summary-board" id="quiz-summary" hidden><div class="solved-stamp" aria-hidden="true">★</div><span class="eyebrow">Hoàn thành tự luyện</span><h2 class="score" id="score" tabindex="-1"></h2><p>Giờ hãy ghi hai ứng dụng AI vào báo cáo của em.</p><div class="actions centered"><a class="btn" href="#q1" data-moodle-text="Gửi ví dụ của em">Viết và nộp Q1 →</a><button class="btn secondary" id="quiz-again">Làm lại tự luyện</button></div></section><p class="simulation-note" id="practice-score-note" data-moodle-text="Điểm tự luyện chỉ hiện ở đây.">Điểm tự luyện chỉ hiển thị trên web, không gửi sang Azota.</p>
-<section class="panel q1" id="q1" hidden><span class="eyebrow">Chặng 4 · Hoàn thành hồ sơ</span><h1 data-moodle-text="AI giúp em học và giúp mọi người làm gì?">Báo cáo của thám tử</h1><p data-moodle-text="Em kể hai ví dụ: một khi học bài, một trong cuộc sống. Với mỗi ví dụ, em nói AI giúp làm việc gì.">Viết tên ứng dụng AI và việc AI hỗ trợ vào mỗi ô.</p><div class="submission-steps"><span>1. Viết 2 ví dụ</span><span>2. Sao chép</span><span data-moodle-text="3. Dán vào bài nộp trên Moodle">3. Dán vào Q1 trên Azota</span></div>
-<label for="study" data-moodle-text="Khi em học bài">Một ứng dụng AI trong học tập</label><p class="muted" id="study-help">Viết theo mẫu: [Ứng dụng AI] giúp em [việc được hỗ trợ].</p><textarea id="study" rows="3" aria-describedby="study-help" placeholder="Ví dụ: Ứng dụng dịch có AI giúp em hiểu một câu tiếng Anh."></textarea>
-<label for="life" data-moodle-text="Trong cuộc sống">Một ứng dụng AI trong đời sống</label><p class="muted" id="life-help">Nêu cả tên ứng dụng và việc AI hỗ trợ.</p><textarea id="life" rows="3" aria-describedby="life-help" placeholder="Ví dụ: Ứng dụng nhận dạng ảnh có AI giúp gợi ý phân loại chai và lon."></textarea>
-<div class="actions"><button class="btn" id="copy">Sao chép câu trả lời</button><a class="btn secondary" id="azota" data-moodle-href="/mod/assign/view.php?id=59" data-moodle-text="Mở bài nộp trên Moodle" href="https://azota.vn/vi/khoa-hoc/ireehs" target="_blank" rel="noopener noreferrer">Mở Azota ↗</a></div><p class="feedback" id="copy-status" role="status" hidden></p><div id="manual-copy" hidden><p class="muted">Chọn toàn bộ nội dung dưới đây rồi sao chép thủ công:</p><textarea class="copy-output" id="copy-output" readonly rows="6" aria-label="Câu trả lời để sao chép thủ công"></textarea></div>
-<aside class="note yellow" data-moodle-text="Mở bài nộp trên Moodle, dán hai ví dụ của em rồi lưu bài."><strong>Trên Azota:</strong> Đăng nhập tài khoản học sinh nếu được yêu cầu → mở bài Q1 → dán câu trả lời → bấm nộp theo hướng dẫn. Mở Azota chưa có nghĩa là đã nộp bài.</aside><p class="muted" data-moodle-text="Em có thể viết nháp ở đây rồi sao chép sang bài nộp.">Hai ô này không tự gửi bài. Điểm tự luyện hiển thị trên web; bài Q1 được nộp qua Azota. Không nhập thông tin cá nhân.</p><div class="actions"><a class="btn secondary" href="index.html">Về trang đầu</a><a class="btn secondary" href="#practice" id="back-practice">Xem lại tự luyện</a></div></section><footer class="footer"><span>A3.4 · Ứng dụng AI quanh em</span><span>AI gợi ý. Em tự kiểm tra. <span aria-hidden="true">✦</span></span></footer></main></body></html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#225e49">
+<meta name="description" content="Bàn điều tra của Thám tử AI: chọn câu, thử dịch, xoay vật chứng và tự kiểm tra. Bài học lớp 4.">
+<title data-moodle-text="Tự luyện với hai tình huống">Tự luyện cùng Sóc · Thám tử AI quanh em</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<script src="app.js?v=tung-buoc" defer></script><link rel="stylesheet" href="azota-embed.css">
+<script src="bai1-moodle.js?v=moodle-labels"></script><script src="azota-embed.js?v=tung-buoc"></script><link rel="stylesheet" href="bai1-hoc-lieu.css?v=tung-buoc">
+</head>
+<body data-page="practice" class="student-task">
+<a class="skip" href="#main">Đến nhiệm vụ chính</a><main class="wrap" id="main">
+<div id="practice-heading" class="mission-heading">
+<div>
+<h1>Em sẽ kiểm tra thế nào?</h1>
+<p>Chọn cách em sẽ làm.</p>
+</div>
+<img class="squirrel-host" src="assets/squirrel.svg" alt="Sóc đồng hành cùng em">
+</div>
+<section class="practice-board" id="practice"><div class="quiz-exhibit" id="quiz-exhibit" aria-hidden="true"></div>
+<div class="quiz-content">
+<p class="question-count" id="quiz-count"></p>
+<h2 id="quiz-question" tabindex="-1"></h2>
+<div class="choices" id="quiz-answers"></div>
+<div class="feedback" id="quiz-feedback" role="status" hidden></div>
+<div class="actions">
+<button class="btn" id="quiz-next" disabled>Câu tiếp theo →</button><button class="quiet-action" id="quiz-reset">Làm lại</button>
+</div>
+</div></section>
+<section class="panel summary-board" id="quiz-summary" hidden><div class="solved-stamp" aria-hidden="true">★</div>
+<h2 class="score" id="score" tabindex="-1"></h2>
+<div class="actions centered">
+<a class="btn" href="#q1" data-moodle-href="/mod/quiz/view.php?id=53" data-moodle-text="Làm đề ôn tập">Tiếp tục</a><button class="quiet-action" id="quiz-again">Làm lại</button>
+</div></section><p class="simulation-note" id="practice-score-note">Điểm tự luyện chỉ hiện trong trò chơi.</p>
+<section class="panel q1" id="q1" hidden><h1>AI giúp em làm gì?</h1>
+<p>Nêu hai ví dụ và việc AI giúp trong từng ví dụ.</p>
+<label for="study">Khi em học bài</label><textarea id="study" rows="3"></textarea>
+<label for="life">Trong cuộc sống</label><textarea id="life" rows="3"></textarea>
+<div class="actions">
+<button class="btn" id="copy">Sao chép câu trả lời</button><a class="btn secondary" id="azota" data-moodle-href="/mod/assign/view.php?id=59" data-moodle-text="Mở bài nộp trên Moodle" href="https://azota.vn/vi/khoa-hoc/ireehs" target="_blank" rel="noopener noreferrer">Mở Azota ↗</a>
+</div>
+<p class="feedback" id="copy-status" role="status" hidden></p>
+<div id="manual-copy" hidden>
+<p class="muted">Chọn toàn bộ nội dung dưới đây rồi sao chép thủ công:</p>
+<textarea class="copy-output" id="copy-output" readonly rows="6" aria-label="Câu trả lời để sao chép thủ công"></textarea>
+</div>
+<div class="actions"><a class="quiet-action" href="#practice" id="back-practice">Quay lại</a></div></section></main>
+</body>
+</html>

@@ -1,9 +1,52 @@
 <!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#225e49"><meta name="description" content="Bàn điều tra của Thám tử AI: chọn câu, thử dịch, xoay vật chứng và tự kiểm tra. Bài học lớp 4."><title>Quầy món ăn của Sóc · Thám tử AI quanh em</title><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css"><script src="app.js?v=moodle-labels" defer></script><link rel="stylesheet" href="azota-embed.css"><script src="bai1-moodle.js?v=moodle-labels"></script><script src="azota-embed.js?v=moodle-labels"></script></head>
-<body data-page="explore"><a class="skip" href="#main">Đến nhiệm vụ chính</a><header><div class="top"><a class="brand" href="index.html"><img src="assets/favicon.svg" width="43" height="43" alt=""><span>Thám tử AI quanh em<small>Bàn điều tra của những bạn nhỏ</small></span></a><a class="course-link" href="khoa_hoc.html">← Mục lục</a></div></header><main class="wrap" id="main"><nav class="journey" aria-label="Tiến trình bài học" id="journey"></nav><div class="progress-copy"><span id="progress-label">Hành trình thám tử</span><span id="progress-count">4 chặng</span></div><div class="progress-track" role="progressbar" aria-label="Vị trí trong bài học" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"><div class="progress-fill"></div></div>
-<section class="food-mission" aria-labelledby="food-title"><div class="mission-heading"><div><span class="eyebrow">Hồ sơ 01 · AI hỗ trợ học tập</span><h1 id="food-title">Giúp Sóc làm bảng món ăn</h1><p id="food-instruction">Sóc nhờ em: Chọn một thẻ câu rồi bấm <strong>Thử dịch</strong>.</p></div><img class="squirrel-host" src="assets/squirrel.svg" alt="Sóc nhờ em giúp làm bảng món ăn"></div>
-<div class="food-stall"><div class="awning" aria-hidden="true"></div><div class="stall-sign"><span aria-hidden="true">✦</span> QUẦY MÓN NGON CỦA SÓC <span aria-hidden="true">✦</span></div>
-<div id="choose-stage"><div class="food-cards" id="food-cards" aria-label="Chọn câu tiếng Anh"><button class="food-card" data-food="apple" aria-pressed="false"><span class="food-picture"><img src="assets/apple.svg" alt="Táo"></span><span lang="en">I like apples.</span><small>Chọn thẻ này</small></button><button class="food-card" data-food="banana" aria-pressed="false"><span class="food-picture"><img src="assets/banana.svg" alt="Chuối"></span><span lang="en">I like bananas.</span><small>Chọn thẻ này</small></button><button class="food-card" data-food="milk" aria-pressed="false"><span class="food-picture"><img src="assets/milk.svg" alt="Sữa"></span><span lang="en">I like milk.</span><small>Chọn thẻ này</small></button></div><div class="stall-action"><p id="selected-sentence" class="status-line" role="status">Em muốn thử câu nào?</p><button class="btn" id="try-translate" disabled>Thử dịch <span aria-hidden="true">✦</span></button></div></div>
-<div id="translation-panel" hidden><div class="translation-ticket"><span class="eyebrow">Gợi ý bản dịch · Mô phỏng</span><p id="source-sentence" lang="en"></p><h2 id="translation-result"></h2></div><h2 class="check-prompt">Món nào khớp với bản dịch?</h2><div class="food-checks" id="food-checks"><button class="food-check" data-check="apple" aria-pressed="false" aria-label="Chọn táo"><img src="assets/apple.svg" alt="Táo"></button><button class="food-check" data-check="banana" aria-pressed="false" aria-label="Chọn chuối"><img src="assets/banana.svg" alt="Chuối"></button><button class="food-check" data-check="milk" aria-pressed="false" aria-label="Chọn sữa"><img src="assets/milk.svg" alt="Sữa"></button></div><div class="feedback" id="translation-feedback" role="status" hidden></div><div class="actions centered"><a class="btn" id="explore-next" href="hl2_mo_phong.html" hidden>Tiếp theo: Điều tra ảnh mờ →</a><button class="btn secondary" id="change-food">Đổi câu để thử lại</button></div></div>
-</div><p class="simulation-note">Mô phỏng bằng bản dịch có sẵn · Không có AI thật đang chạy.</p></section>
-<footer class="footer"><span>A3.4 · Ứng dụng AI quanh em</span><span>AI gợi ý. Em tự kiểm tra. <span aria-hidden="true">✦</span></span></footer></main></body></html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#225e49">
+<meta name="description" content="Bàn điều tra của Thám tử AI: chọn câu, thử dịch, xoay vật chứng và tự kiểm tra. Bài học lớp 4.">
+<title>Quầy món ăn của Sóc · Thám tử AI quanh em</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<script src="app.js?v=tung-buoc" defer></script><link rel="stylesheet" href="azota-embed.css">
+<script src="bai1-moodle.js?v=moodle-labels"></script><script src="azota-embed.js?v=tung-buoc"></script><link rel="stylesheet" href="bai1-hoc-lieu.css?v=tung-buoc">
+</head>
+<body data-page="explore" class="student-task">
+<a class="skip" href="#main">Đến nhiệm vụ chính</a><main class="wrap" id="main">
+<section class="food-mission" aria-labelledby="food-title"><div class="mission-heading">
+<div>
+<h1 id="food-title">Giúp Sóc làm bảng món ăn</h1>
+<p id="food-instruction">Chọn một câu rồi bấm Thử dịch.</p>
+</div>
+<img class="squirrel-host" src="assets/squirrel.svg" alt="Sóc nhờ em giúp làm bảng món ăn">
+</div>
+<div class="food-stall">
+<div class="awning" aria-hidden="true"></div>
+<div id="choose-stage">
+<div class="food-cards" id="food-cards" aria-label="Chọn câu tiếng Anh">
+<button class="food-card" data-food="apple" aria-pressed="false"><span class="food-picture"><img src="assets/apple.svg" alt="Táo"></span><span lang="en">I like apples.</span></button><button class="food-card" data-food="banana" aria-pressed="false"><span class="food-picture"><img src="assets/banana.svg" alt="Chuối"></span><span lang="en">I like bananas.</span></button><button class="food-card" data-food="milk" aria-pressed="false"><span class="food-picture"><img src="assets/milk.svg" alt="Sữa"></span><span lang="en">I like milk.</span></button>
+</div>
+<div class="stall-action">
+<p id="selected-sentence" class="sr-only" role="status"></p>
+<button class="btn" id="try-translate" disabled>Thử dịch <span aria-hidden="true">✦</span></button>
+</div>
+</div>
+<div id="translation-panel" hidden>
+<div class="translation-ticket">
+<span class="eyebrow">Gợi ý bản dịch · Mô phỏng</span><p id="source-sentence" lang="en"></p>
+<h2 id="translation-result"></h2>
+</div>
+<h2 class="check-prompt">Món nào khớp với bản dịch?</h2>
+<div class="food-checks" id="food-checks">
+<button class="food-check" data-check="apple" aria-pressed="false" aria-label="Chọn táo"><img src="assets/apple.svg" alt="Táo"></button><button class="food-check" data-check="banana" aria-pressed="false" aria-label="Chọn chuối"><img src="assets/banana.svg" alt="Chuối"></button><button class="food-check" data-check="milk" aria-pressed="false" aria-label="Chọn sữa"><img src="assets/milk.svg" alt="Sữa"></button>
+</div>
+<div class="feedback" id="translation-feedback" role="status" hidden></div>
+<div class="actions centered">
+<a class="btn" id="explore-next" href="hl2_mo_phong.html" hidden data-moodle-href="/mod/url/view.php?id=57">Tiếp tục</a><button class="quiet-action" id="change-food">Thử câu khác</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body>
+</html>

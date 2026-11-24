@@ -1,20 +1,136 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bài 1 · Một số ứng dụng AI quen thuộc</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="bai1-hoc-lieu.css?v=moodle-labels"><link rel="stylesheet" href="azota-embed.css"><script src="bai1-moodle.js?v=moodle-labels"></script><script src="azota-embed.js?v=moodle-labels"></script><script src="bai1-hoc-lieu.js?v=moodle-navigation" defer></script></head><body><a class="skip" href="#main">Đến nhiệm vụ</a><main id="main" class="wrap"><header class="mission-heading"><div><span class="eyebrow">Bài 1 · Một số ứng dụng AI quen thuộc</span><h1 data-moodle-text="Cùng Sóc khám phá AI">Cùng Sóc nghe, nhìn và tự thử</h1><p data-moodle-text="Đọc chuyện của Lan và Nam, rồi kể lại bằng hai từ “nghe” và “nhìn”.">Mỗi bạn có lượt thực hành và phiếu riêng.</p></div><img src="assets/squirrel.svg" width="90" alt="Sóc đồng hành"></header><p id="lesson-step" class="moodle-only lesson-step" hidden></p><nav class="moodle-only lesson-controls" aria-label="Điều hướng các bước" hidden><a class="btn secondary" id="lesson-back" href="#h1">Quay lại</a><a class="btn" id="lesson-next" href="#h2">Tiếp tục</a></nav><nav class="activity-tabs" aria-label="Sáu hoạt động"><a href="#h1" data-moodle-text="Nghe chuyện của Lan và Nam">H1 · Chuyện của Lan và Nam</a><a href="#h2" data-moodle-text="Máy nhận gì, trả lại gì?">H2 · Máy nhận gì và trả lại gì?</a><a href="#h3" data-moodle-text="Kể hai ví dụ về AI">H3 · Hai việc AI có thể giúp</a><a href="#h4" data-moodle-text="Giúp Sóc dịch món ăn">H4 · Giúp Sóc làm bảng món ăn</a><a href="#h5" data-moodle-text="Thử cho máy phân loại ảnh">H5 · Cùng máy nhìn xuống biển</a><a href="#h6" data-moodle-text="Đọc lại hai lần thử">H6 · Nhật ký hai lượt thực hành</a></nav><section id="h1" class="panel activity" aria-labelledby="title-h1" hidden><h2 id="title-h1" tabindex="-1" data-moodle-text="Nghe chuyện của Lan và Nam">Chuyện của Lan và Nam</h2><p>Cô nói một câu. Lan muốn đọc lại lời cô. Nam chụp một món đồ để chọn thùng chai hay lon.</p><div class="pair"><article><h2>Lan cần máy nghe</h2><p>Cô nói “Mời cả lớp mở sách”. Ứng dụng giúp Lan xem lại lời cô bằng chữ.</p></article><article><h2>Nam cần máy nhìn</h2><p>Ứng dụng nhìn ảnh và gợi ý chai hoặc lon. Nam nhìn lại nắp trước khi chọn thùng.</p></article></div><label for="warmup">Em kể lại hai chuyện bằng hai từ “nghe” và “nhìn”.</label><textarea id="warmup" rows="2"></textarea><p>Nếu ảnh bị mờ, em muốn nhìn kỹ chi tiết nào trước khi tin gợi ý?</p></section><section id="h2" class="panel activity" aria-labelledby="title-h2" hidden><h2 id="title-h2" tabindex="-1" data-moodle-text="Máy nhận gì, trả lại gì?">Máy nhận gì và trả lại gì?</h2><p>Đọc rồi chọn cách điền cho mỗi chuyện.</p><label for="lan-output">Máy nhận lời cô nói, rồi trả lại gì cho Lan?</label><select id="lan-output"><option value="">Em chọn</option><option value="text">Dòng chữ</option><option value="photo">Một bức ảnh</option></select><label for="nam-input">Để gợi ý chai hoặc lon cho Nam, máy nhận gì?</label><select id="nam-input"><option value="">Em chọn</option><option value="voice">Giọng nói</option><option value="photo">Ảnh món đồ</option></select><p>Cô nói “mở sách”, máy lại viết “mở sạch”.</p><label for="fix-word">Em sửa chữ “sạch” thành chữ gì?</label><input id="fix-word" autocomplete="off"><button type="button" id="check-reading">Kiểm tra</button><p id="reading-feedback" role="status"></p><p>Em nghe lại lời cô để đối chiếu. Với ảnh của Nam, em quan sát nắp và hình dáng đồ vật.</p></section><section id="h3" class="panel activity" aria-labelledby="title-h3" hidden><h2 id="title-h3" tabindex="-1" data-moodle-text="AI giúp em học và giúp mọi người làm gì?">Q1 · Hai việc AI có thể giúp</h2><p data-moodle-text="Em kể hai ví dụ: một khi học bài, một trong cuộc sống. Với mỗi ví dụ, em nói AI giúp làm việc gì.">Viết một ví dụ trong học tập và một ví dụ trong đời sống. Mỗi ví dụ nêu ai cần giúp, ứng dụng nào và ứng dụng giúp việc gì.</p><form id="q1-form"><label for="study" data-moodle-text="Khi em học bài">Trong học tập</label><textarea id="study" name="study" rows="3" required maxlength="1800"></textarea><label for="life" data-moodle-text="Trong cuộc sống">Trong đời sống</label><textarea id="life" name="life" rows="3" required maxlength="1800"></textarea><button data-moodle-text="Sao chép hai ví dụ">Sao chép Q1</button></form><p class="moodle-only" hidden><a class="btn azota-expand" href="/mod/assign/view.php?id=59" data-moodle-href="/mod/assign/view.php?id=59">Gửi ví dụ của em</a></p><p>Đọc lại: bạn có biết ai dùng ứng dụng và dùng để làm gì không? Nếu chưa, em bổ sung vào phiếu.</p></section><section id="h4" class="panel activity" aria-labelledby="title-h4" hidden>
-<h2 id="title-h4" tabindex="-1" data-moodle-text="Giúp Sóc dịch món ăn">Giúp Sóc làm bảng món ăn</h2><p data-moodle-text="Chọn một câu, đoán món, rồi để ý em gõ câu nào và Google Dịch trả lại gì.">Chọn câu, đoán món rồi tự thử Google Dịch.</p>
-<label for="sentence">Câu em chọn</label><select id="sentence"><option>I like bananas.</option><option>I like milk.</option><option>I like apples.</option></select>
-<div class="foods"><figure><img src="assets/apple.svg" alt="Táo"><figcaption>A · Táo</figcaption></figure><figure><img src="assets/banana.svg" alt="Chuối"><figcaption>B · Chuối</figcaption></figure><figure><img src="assets/milk.svg" alt="Sữa"><figcaption>C · Sữa</figcaption></figure></div>
-<label for="food-guess">Trước khi dịch, em đoán hình nào?</label><select id="food-guess"><option value="">Em chọn</option><option>A · Táo</option><option>B · Chuối</option><option>C · Sữa</option></select>
-<a class="btn external-tool" href="https://translate.google.com/?sl=en&amp;tl=vi&amp;op=translate" target="_blank" rel="noopener noreferrer">Mở Google Dịch ↗</a><p data-moodle-text="Chọn Anh sang Việt, tự gõ câu rồi quay lại ghi câu em đã gõ và bản dịch em nhận được.">Chọn Anh sang Việt. Tự gõ câu rồi quay lại ghi điều em thấy.</p>
-<article class="diary-card"><img src="assets/apple.svg" width="45" height="45" alt=""><h3>Nhật ký Google Dịch</h3>
-<label for="translate-action" data-moodle-text="Em đã đưa gì cho máy?">Em đã làm gì?</label><textarea id="translate-action" name="translate-action" rows="2" maxlength="1800" placeholder="Em tự gõ câu…"></textarea><label for="translate-observed">Máy trả lại gì?</label><textarea id="translate-observed" name="translate-observed" rows="2" maxlength="1800" placeholder="Từ chỉ món ăn em đọc được là… Em chọn hình…"></textarea>
-<p class="muted">Chỉ ghi kết quả em vừa thấy. Bạn cùng máy sẽ có lượt riêng.</p><a class="btn secondary" href="#h6" data-moodle-text="Đọc lại hai lần thử →">Đọc lại trong Q2 →</a></article></section><section id="h5" class="panel activity" aria-labelledby="title-h5" hidden>
-<h2 id="title-h5" tabindex="-1" data-moodle-text="Thử cho máy phân loại ảnh">Cùng máy nhìn xuống biển</h2><p data-moodle-text="Khi thử, để ý em đưa những ảnh và nhãn nào cho máy, rồi xem máy xếp hình mới vào nhóm nào.">Tự gắn nhãn rồi xem máy lọc hình mới.</p>
-<a class="btn external-tool" href="https://code.org/oceans" target="_blank" rel="noopener noreferrer">Mở AI for Oceans ↗</a>
-<details><summary>Em cần làm những bước nào?</summary><ol><li>Mở phần thầy cô chỉ. Với từng hình, chọn Fish (cá) hoặc Not Fish (không phải cá).</li><li>Tiếp tục đến phần máy tự lọc hình, chọn một hình trong nhóm máy coi là cá.</li><li>Quan sát kỹ hình đó. Em đồng ý với máy không? Dựa vào chi tiết nào?</li></ol></details>
-<article class="diary-card"><span class="diary-fish" aria-hidden="true">🐟</span><h3>Nhật ký AI for Oceans</h3>
-<label for="ocean-diary-action" data-moodle-text="Em đã đưa gì cho máy?">Em đã làm gì?</label><textarea id="ocean-diary-action" name="ocean-diary-action" rows="2" maxlength="1800" placeholder="Em gắn nhãn… cho hình…"></textarea><label for="ocean-diary-result">Máy trả lại gì?</label><textarea id="ocean-diary-result" name="ocean-diary-result" rows="2" maxlength="1800" placeholder="Khi máy tự lọc, em thấy hình… trong nhóm máy chọn."></textarea>
-<p class="muted">Nếu chưa tới phần kết quả, ghi bước còn thiếu để thầy cô xếp lượt thử tiếp.</p><a class="btn secondary" href="#h6" data-moodle-text="Đọc lại hai lần thử →">Đọc lại trong Q2 →</a></article></section><section id="h6" class="panel activity" aria-labelledby="title-h6" hidden>
-<h2 id="title-h6" tabindex="-1" data-moodle-text="Sóc hỏi: Em đưa gì cho máy? Máy trả lời gì?">Q2 · Nhật ký hai lượt thực hành</h2><p data-moodle-text="Đọc lại câu trả lời cho hai lần thử rồi bổ sung điều còn thiếu.">Nội dung ở H4–H5 hiện bên dưới. Đọc lại rồi sửa nếu cần.</p>
-<form id="q2-form"><article class="diary-card"><h3 data-moodle-text="Lần em thử dịch">Google Dịch</h3><p id="review-translate-action"></p><p id="review-translate-observed"></p><a href="#h4">Viết hoặc sửa nhật ký Google Dịch</a></article>
-<article class="diary-card"><h3 data-moodle-text="Lần em thử với ảnh">AI for Oceans</h3><p id="review-ocean-diary-action"></p><p id="review-ocean-diary-result"></p><a href="#h5">Viết hoặc sửa nhật ký AI for Oceans</a></article>
-<label for="pending">Em còn cần làm bù hoặc muốn kiểm tra điều gì?</label><textarea id="pending" rows="2" maxlength="1800" placeholder="Chưa thử công cụ nào, em ghi ở đây."></textarea>
-<button data-moodle-text="Sao chép nhật ký">Sao chép Q2</button></form><p data-moodle-text="Sao chép nhật ký, rồi dán vào ô trả lời trên Moodle hoặc nộp phiếu đính kèm.">Chọn mục “Q2 – Nhật ký hai lượt thực hành” trên Azota. Dán lượt Google Dịch vào câu 1 và lượt AI for Oceans vào câu 2 rồi nộp.</p><p class="moodle-only" hidden><a class="btn azota-expand" href="/mod/assign/view.php?id=60" data-moodle-href="/mod/assign/view.php?id=60">Gửi nhật ký của em</a></p><p>Thầy cô quan sát và ghi nhận lượt của từng em. Nếu kể miệng, nhờ thầy cô ghi lại lời em.</p></section><p id="copy-status" role="status" aria-live="polite"></p><textarea id="copy-output" aria-label="Nội dung sao chép thủ công" rows="9" readonly hidden></textarea><p class="note" data-moodle-text="Bản nháp được giữ trong thẻ này khi em đổi bước. Trước khi đổi bạn, sao chép phiếu rồi bấm Xóa bản nháp.">Sau khi đọc lại, nộp Q1 hoặc Q2 tại mục thầy cô giao trên Azota, hoặc nộp phiếu riêng có tên. Bản nháp được giữ trong tab này khi em chuyển H1–H6 và tải lại trang. Trước khi đổi bạn, sao chép phiếu rồi bấm Xóa bản nháp.</p><button class="btn secondary" id="clear-draft">Xóa bản nháp để đổi bạn</button></main></body></html>
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#225e49">
+  <title>Cùng Sóc khám phá AI · Bài 1</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="bai1-hoc-lieu.css?v=tung-buoc">
+  <script src="bai1-moodle.js?v=moodle-labels"></script>
+  <script src="bai1-hoc-lieu.js?v=tung-buoc" defer></script>
+</head>
+<body class="guided-lesson">
+  <main class="lesson-book">
+    <div class="lesson-progress">
+      <img src="assets/squirrel.svg" alt="" width="58" height="58">
+      <span id="lesson-step">Bước 1 / 6</span>
+      <progress id="lesson-progress" max="6" value="1" aria-label="Vị trí trong bài"></progress>
+      <button id="lesson-expand" class="quiet-action" type="button" aria-label="Mở rộng hoạt động" title="Mở rộng hoạt động" hidden>⛶</button>
+      <details id="shared-device" hidden>
+        <summary aria-label="Đổi bạn dùng máy" title="Đổi bạn dùng máy">•••</summary>
+        <button id="clear-draft" type="button">Xóa bản nháp để đổi bạn</button>
+      </details>
+    </div>
+
+    <section id="h1" class="activity" aria-labelledby="title-h1">
+      <h1 id="title-h1" tabindex="-1">Lan và Nam nhờ em giúp</h1>
+      <div class="story-pair">
+        <div><h2>Lan</h2><p>Lan muốn đọc lại câu cô vừa nói.</p></div>
+        <div><h2>Nam</h2><p>Nam chụp một món đồ để hỏi máy: “Đây là chai hay lon?”</p></div>
+      </div>
+      <p>Máy cần <strong>nghe</strong> để giúp ai? Cần <strong>nhìn</strong> để giúp ai?</p>
+    </section>
+
+    <section id="h2" class="activity" aria-labelledby="title-h2" hidden>
+      <h1 id="title-h2" tabindex="-1">Kiểm tra cùng Lan và Nam</h1>
+      <form id="reading-form" novalidate>
+        <div class="reading-question">
+        <label for="lan-output">Máy nghe lời cô rồi đưa cho Lan thứ gì?</label>
+        <select id="lan-output" required>
+          <option value="">Em chọn…</option><option value="text">Dòng chữ</option><option value="photo">Bức ảnh</option>
+        </select>
+        </div>
+        <div class="reading-question" hidden>
+        <label for="nam-input">Nam đưa gì cho máy để máy đoán chai hay lon?</label>
+        <select id="nam-input" required>
+          <option value="">Em chọn…</option><option value="voice">Giọng nói</option><option value="photo">Ảnh món đồ</option>
+        </select>
+        </div>
+        <div class="reading-question" hidden>
+        <div class="speech"><p><strong>Cô nói</strong> “Mời cả lớp mở sách.”</p><p><strong>Máy ghi</strong> “Mời cả lớp mở sạch.”</p></div>
+        <label for="fix-word">Em sửa chữ “sạch” thành chữ gì?</label>
+        <input id="fix-word" autocomplete="off" maxlength="32" required>
+        </div>
+        <p class="result" id="reading-feedback" role="status" hidden></p>
+        <button class="btn" id="check-reading">Tiếp tục</button>
+      </form>
+    </section>
+
+    <section id="h3" class="activity" aria-labelledby="title-h3" hidden>
+      <h1 id="title-h3" tabindex="-1">AI giúp em làm gì?</h1>
+      <p id="examples-instruction">Kể một việc AI giúp em học và một việc AI giúp trong cuộc sống.</p>
+      <form id="q1-form" novalidate>
+        <label for="study">Khi em học bài</label>
+        <textarea id="study" rows="2" maxlength="1800" required></textarea>
+        <label for="life">Trong cuộc sống</label>
+        <textarea id="life" rows="2" maxlength="1800" required></textarea>
+        <button class="btn" id="examples-copy">Sao chép hai ví dụ</button>
+      </form>
+      <a class="btn" id="examples-submit" target="_blank" rel="noopener" hidden>Viết hai ví dụ trên Moodle</a>
+    </section>
+
+    <section id="h4" class="activity" aria-labelledby="title-h4" hidden>
+      <h1 id="title-h4" tabindex="-1">Giúp Sóc dịch món ăn</h1>
+      <div id="translate-setup">
+        <label for="sentence">Chọn một câu tiếng Anh.</label>
+        <select id="sentence" lang="en"><option>I like bananas.</option><option>I like milk.</option><option>I like apples.</option></select>
+        <div class="foods" aria-hidden="true">
+          <img src="assets/apple.svg" alt=""><img src="assets/banana.svg" alt=""><img src="assets/milk.svg" alt="">
+        </div>
+        <label for="food-guess">Em đoán món nào?</label>
+        <select id="food-guess"><option value="">Em chọn…</option><option value="A · Táo">Táo</option><option value="B · Chuối">Chuối</option><option value="C · Sữa">Sữa</option><option>Em chưa chắc</option></select>
+      </div>
+      <p id="translate-instruction">Gõ câu em chọn vào Google Dịch, rồi quay lại đây.</p>
+      <a class="btn" id="translate-tool" href="https://translate.google.com/?sl=en&amp;tl=vi&amp;op=translate" target="_blank" rel="noopener noreferrer">Mở Google Dịch</a>
+      <div id="translate-diary" hidden>
+        <label for="translate-action">Em đã gõ câu nào?</label>
+        <textarea id="translate-action" rows="2" maxlength="1800"></textarea>
+        <label for="translate-observed">Máy dịch thế nào?</label>
+        <textarea id="translate-observed" rows="2" maxlength="1800"></textarea>
+      </div>
+    </section>
+
+    <section id="h5" class="activity" aria-labelledby="title-h5" hidden>
+      <h1 id="title-h5" tabindex="-1">Dạy máy tìm cá</h1>
+      <p id="ocean-instruction">Chọn <strong lang="en">Fish</strong> cho cá và <strong lang="en">Not Fish</strong> cho vật khác. Xem máy xếp một hình mới rồi quay lại.</p>
+      <a class="btn" id="ocean-tool" href="https://code.org/oceans" target="_blank" rel="noopener noreferrer">Mở AI for Oceans</a>
+      <div id="ocean-diary" hidden>
+        <label for="ocean-diary-action">Em đã gắn nhãn gì cho hình nào?</label>
+        <textarea id="ocean-diary-action" rows="2" maxlength="1800"></textarea>
+        <label for="ocean-diary-result">Máy xếp hình mới thế nào?</label>
+        <textarea id="ocean-diary-result" rows="2" maxlength="1800"></textarea>
+      </div>
+    </section>
+
+    <section id="h6" class="activity" aria-labelledby="title-h6" hidden>
+      <h1 id="title-h6" tabindex="-1">Đọc lại hai lần thử</h1>
+      <form id="q2-form">
+        <div class="diary-entry"><h2>Lần em thử dịch</h2>
+          <p id="review-translate-action"></p><p id="review-translate-observed"></p>
+          <a href="#h4" aria-label="Sửa lần em thử dịch">Sửa</a>
+        </div>
+        <div class="diary-entry"><h2>Lần em thử với ảnh</h2>
+          <p id="review-ocean-diary-action"></p><p id="review-ocean-diary-result"></p>
+          <a href="#h5" aria-label="Sửa lần em thử với ảnh">Sửa</a>
+        </div>
+        <div id="pending-field"><label for="pending">Em cần thử lại việc gì?</label>
+          <textarea id="pending" rows="2" maxlength="1800"></textarea>
+        </div>
+        <button class="btn" id="diary-copy">Sao chép nhật ký</button>
+      </form>
+      <p id="submit-instruction" hidden></p>
+      <a class="btn" id="diary-submit" target="_blank" rel="noopener" hidden>Mở bài nộp trên Moodle</a>
+    </section>
+
+    <p id="copy-status" class="result" role="status" hidden></p>
+    <textarea id="copy-output" aria-label="Chọn và sao chép phần trả lời" rows="5" readonly hidden></textarea>
+    <nav class="lesson-controls" aria-label="Đi tiếp trong bài">
+      <a id="lesson-back" class="quiet-action" href="#h1" hidden>Quay lại</a>
+      <a id="lesson-next" class="btn" href="#h2">Tiếp tục</a>
+    </nav>
+
+  </main>
+</body>
+</html>

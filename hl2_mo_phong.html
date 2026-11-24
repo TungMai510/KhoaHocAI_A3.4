@@ -1,10 +1,76 @@
 <!doctype html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#225e49"><meta name="description" content="Bàn điều tra của Thám tử AI: chọn câu, thử dịch, xoay vật chứng và tự kiểm tra. Bài học lớp 4."><title>Bí ẩn sau ảnh mờ · Thám tử AI quanh em</title><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css"><script src="evidence-model.js" defer></script><script src="app.js?v=moodle-labels" defer></script><link rel="stylesheet" href="azota-embed.css"><script src="bai1-moodle.js?v=moodle-labels"></script><script src="azota-embed.js?v=moodle-labels"></script></head>
-<body data-page="challenge"><a class="skip" href="#main">Đến nhiệm vụ chính</a><header><div class="top"><a class="brand" href="index.html"><img src="assets/favicon.svg" width="43" height="43" alt=""><span>Thám tử AI quanh em<small>Bàn điều tra của những bạn nhỏ</small></span></a><a class="course-link" href="khoa_hoc.html">← Mục lục</a></div></header><main class="wrap" id="main"><nav class="journey" aria-label="Tiến trình bài học" id="journey"></nav><div class="progress-copy"><span id="progress-label">Hành trình thám tử</span><span id="progress-count">4 chặng</span></div><div class="progress-track" role="progressbar" aria-label="Vị trí trong bài học" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"><div class="progress-fill"></div></div>
-<section class="investigation" aria-labelledby="case-title"><div class="mission-heading compact"><div><span class="eyebrow">Hồ sơ 02 · AI hỗ trợ đời sống</span><h1 id="case-title">Bí ẩn sau ảnh mờ</h1><p id="case-instruction">Nhìn vật chứng và chọn dự đoán của em.</p></div><span class="case-badge" aria-hidden="true">⌕<small>02</small></span></div>
-<div class="evidence-desk"><div class="desk-tab" aria-hidden="true">VẬT CHỨNG A</div>
-<div id="blur-stage"><div class="blur-layout"><figure class="evidence-photo"><span class="photo-pin" aria-hidden="true"></span><div class="photo-frame blurred"><img src="assets/can.svg" alt="Ảnh mờ một đồ vật màu xanh, chưa rõ chi tiết."></div><figcaption>Ảnh đầu tiên · Chưa rõ chi tiết</figcaption></figure><div class="prediction-controls"><h2>Em đoán đây là gì?</h2><div id="predictions" class="choices"><button class="choice" data-predict="Chai" aria-pressed="false">Một chiếc chai</button><button class="choice" data-predict="Lon" aria-pressed="false">Một chiếc lon</button><button class="choice" data-predict="Chưa chắc" aria-pressed="false">Em chưa chắc</button></div><div id="ai-feedback" class="feedback" role="status" hidden></div><button class="btn" id="more-clue" hidden>Xin thêm manh mối <span aria-hidden="true">⌕</span></button></div></div></div>
-<div id="investigate-stage" hidden><h2 class="viewer-heading">Xoay vật chứng. Chạm chi tiết em muốn kiểm tra.</h2><div id="model-host"></div><div class="feedback" id="clue-feedback" role="status" hidden></div><div id="verdict" class="verdict" hidden><h2>Em chốt lại: đây là gì?</h2><div class="verdict-choices"><button class="btn secondary" data-verdict="Chai" aria-pressed="false">Đây là chai</button><button class="btn" data-verdict="Lon" aria-pressed="false">Đây là lon</button></div><div class="feedback" id="verdict-feedback" role="status" hidden></div></div></div>
-<div id="case-solved" class="case-solved" hidden><div class="solved-stamp" aria-hidden="true">✓</div><span class="eyebrow">Đã kiểm tra vật chứng!</span><h2>Em đã tìm ra chiếc lon.</h2><p>Chi tiết em tìm thấy là <strong>khoen kéo trên nắp lon</strong>. Trong ảnh mờ, khoen kéo và mép nắp bị nhoè nên AI mô phỏng đã gợi ý nhầm.</p><div class="compare"><div><small>GỢI Ý LÚC ẢNH MỜ</small><strong>AI: “Chai”</strong><span id="initial-guess"></span></div><div><small>SAU KHI EM KIỂM TRA</small><strong>Em: “Lon” ✓</strong><span>Đã thấy khoen kéo trên nắp.</span></div></div><p class="takeaway">AI nhận hình ảnh và gợi ý phân loại chai/lon. Em xem rõ chi tiết hoặc nhìn vật thật để kiểm tra.</p><a class="btn" id="challenge-next" hidden href="hl3_luyen_tap.html">Tiếp theo: Tự luyện →</a></div>
-</div><div class="under-stage"><p class="simulation-note">Mô phỏng gợi ý AI bằng kết quả có sẵn.</p><button class="btn text-btn" id="challenge-reset">↻ Làm lại thử thách</button></div></section>
-<footer class="footer"><span>A3.4 · Ứng dụng AI quanh em</span><span>AI gợi ý. Em tự kiểm tra. <span aria-hidden="true">✦</span></span></footer></main></body></html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#225e49">
+<meta name="description" content="Bàn điều tra của Thám tử AI: chọn câu, thử dịch, xoay vật chứng và tự kiểm tra. Bài học lớp 4.">
+<title>Bí ẩn sau ảnh mờ · Thám tử AI quanh em</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
+<script src="evidence-model.js" defer></script><script src="app.js?v=tung-buoc" defer></script><link rel="stylesheet" href="azota-embed.css">
+<script src="bai1-moodle.js?v=moodle-labels"></script><script src="azota-embed.js?v=tung-buoc"></script><link rel="stylesheet" href="bai1-hoc-lieu.css?v=tung-buoc">
+</head>
+<body data-page="challenge" class="student-task">
+<a class="skip" href="#main">Đến nhiệm vụ chính</a><main class="wrap" id="main">
+<section class="investigation" aria-labelledby="case-title"><div class="mission-heading compact"><div>
+<h1 id="case-title">Bí ẩn sau ảnh mờ</h1>
+<p id="case-instruction">Nhìn ảnh mờ. Em đoán đây là chai hay lon?</p>
+</div></div>
+<div class="evidence-desk">
+<div id="blur-stage"><div class="blur-layout">
+<figure class="evidence-photo"><span class="photo-pin" aria-hidden="true"></span><div class="photo-frame blurred"><img src="assets/can.svg" alt="Ảnh mờ một đồ vật màu xanh, chưa rõ chi tiết."></div></figure><div class="prediction-controls">
+<div id="predictions" class="choices">
+<button class="choice" data-predict="Chai" aria-pressed="false">Một chiếc chai</button><button class="choice" data-predict="Lon" aria-pressed="false">Một chiếc lon</button><button class="choice" data-predict="Chưa chắc" aria-pressed="false">Em chưa chắc</button>
+</div>
+<div id="ai-feedback" class="feedback" role="status" hidden></div>
+<button class="btn" id="more-clue" hidden>Xin thêm manh mối <span aria-hidden="true">⌕</span></button>
+</div>
+</div></div>
+<div id="investigate-stage" hidden>
+<h2 class="viewer-heading">Chạm vào chi tiết em muốn kiểm tra.</h2>
+<div id="model-host"></div>
+<div class="feedback" id="clue-feedback" role="status" hidden></div>
+<div id="verdict" class="verdict" hidden>
+<h2>Em chốt lại: đây là gì?</h2>
+<div id="verdict-arena" class="verdict-arena">
+<div id="hand-cursor" class="hand-cursor" hidden aria-hidden="true">
+<svg class="cursor-ring-svg" viewBox="0 0 64 64" width="56" height="56">
+<circle cx="32" cy="32" r="24" fill="none" stroke="#ffffffcc" stroke-width="5"></circle>
+<circle id="cursor-ring-fg" cx="32" cy="32" r="24" fill="none" stroke="#d96b1b" stroke-width="5" stroke-dasharray="150.8" stroke-dashoffset="150.8"></circle>
+</svg>
+<span class="cursor-finger">👆</span>
+</div>
+<div class="verdict-choices">
+<button class="choice" data-verdict="Chai" aria-pressed="false">Đây là chai</button><button class="choice" data-verdict="Lon" aria-pressed="false">Đây là lon</button>
+</div>
+</div>
+<div class="camera-actions">
+<button type="button" class="quiet-action" id="camera-toggle-btn" aria-expanded="false">✋ Chọn bằng tay qua camera (tùy chọn)</button>
+<button type="button" class="quiet-action" id="camera-stop-btn" hidden>⏹ Tắt camera</button>
+</div>
+<div id="camera-panel" class="camera-panel" hidden>
+<div class="camera-video-wrap">
+<video id="camera-video" playsinline muted></video>
+<canvas id="camera-canvas" width="280" height="210" aria-hidden="true"></canvas>
+</div>
+<p class="feedback" id="camera-status" role="status" hidden></p>
+</div>
+<div class="feedback" id="verdict-feedback" role="status" hidden></div>
+</div>
+</div>
+<div id="case-solved" class="case-solved" hidden>
+<div class="solved-stamp" aria-hidden="true">✓</div>
+<h2>Em đã tìm ra chiếc lon.</h2>
+<p>Khoen kéo trên nắp giúp em nhận ra chiếc lon. Trong ảnh mờ, máy đã đoán nhầm.</p>
+<p id="initial-guess"></p>
+<a class="btn" id="challenge-next" hidden href="hl3_luyen_tap.html" data-moodle-href="/mod/url/view.php?id=58">Tiếp tục</a>
+</div>
+</div>
+<div class="under-stage">
+
+<button class="quiet-action" id="challenge-reset">Làm lại</button>
+</div></section>
+</main>
+</body>
+</html>

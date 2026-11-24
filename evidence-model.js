@@ -24,6 +24,7 @@
     .evidence-viewer .fallback-hotspot:hover,.evidence-viewer .fallback-hotspot:focus-visible{border-color:#286b48;background:#fff3b44d}
     .evidence-viewer .model-mode{border:0;background:transparent;text-decoration:underline;font-size:.8rem;display:block;margin:6px auto 0}
     .evidence-viewer .model-rotate{font-size:1rem;padding:5px 14px;min-width:44px}
+    .evidence-viewer .model-lid-btn{font-size:.9rem;font-weight:700;background:#fff5c4;border-color:#cfa83c}
     @media(max-width:500px){.evidence-viewer .model-stage{height:280px;min-height:230px}.evidence-viewer .clue-options{gap:5px}.evidence-viewer .clue-options button{padding:7px;font-size:.78rem;flex-basis:85px}.evidence-viewer .model-instruction{font-size:.77rem}.evidence-viewer .model-tools{gap:5px}.evidence-viewer .model-rotate{padding:6px 11px}}
   `;
   document.head.append(style);
@@ -31,21 +32,24 @@
   function createEvidenceModel(host, onSelect) {
     host.classList.add('evidence-viewer');
     host.innerHTML = `<div class="model-stage">
-      <canvas class="model-canvas" tabindex="0" role="img" aria-label="Mô hình vật chứng có thể xoay. Dùng phím mũi tên để xoay, hoặc chọn chi tiết bằng các nút dưới hình."></canvas>
+      <canvas class="model-canvas" tabindex="0" role="img" aria-label="Mô hình vật chứng có thể xoay và phóng to. Dùng phím mũi tên để xoay, phím cộng trừ để phóng to thu nhỏ, hoặc chọn chi tiết bằng các nút dưới hình."></canvas>
       <div class="fallback-art" hidden><img src="assets/can.svg" alt="Ảnh rõ của cùng vật chứng. Chọn một chi tiết trên nắp, thân hoặc đáy.">
         <button class="fallback-hotspot" data-hotspot="tab" style="left:48%;top:23%" aria-label="Chọn chi tiết trên nắp"></button>
         <button class="fallback-hotspot" data-hotspot="body" style="left:49%;top:53%" aria-label="Chọn thân màu xanh"></button>
         <button class="fallback-hotspot" data-hotspot="base" style="left:50%;top:81%" aria-label="Chọn đáy đồ vật"></button>
       </div>
     </div>
-    <div class="model-tools" aria-label="Xoay vật chứng">
+    <div class="model-tools" aria-label="Xoay và phóng to vật chứng">
+      <button class="model-rotate model-lid-btn" data-rotate="lid" aria-label="Xem phần nắp">Xem phần nắp</button>
       <button class="model-rotate" data-rotate="left" aria-label="Xoay sang trái">↶</button>
       <button class="model-rotate" data-rotate="right" aria-label="Xoay sang phải">↷</button>
       <button class="model-rotate" data-rotate="up" aria-label="Nhìn từ trên xuống">↑</button>
       <button class="model-rotate" data-rotate="down" aria-label="Nhìn từ phía dưới">↓</button>
+      <button class="model-rotate" data-rotate="zoom-in" aria-label="Phóng to">+</button>
+      <button class="model-rotate" data-rotate="zoom-out" aria-label="Thu nhỏ">−</button>
       <button class="model-rotate" data-rotate="reset" aria-label="Đặt lại góc nhìn">↺</button>
     </div>
-    <p class="model-instruction">Kéo ngang để xoay · Vuốt dọc để cuộn · Chạm chi tiết em chọn.</p>
+    <p class="model-instruction">Kéo để xoay · Bấm Xem phần nắp hoặc chạm vào chi tiết.</p>
     <div class="clue-options" role="group" aria-label="Chọn chi tiết bằng bàn phím hoặc nút">
       <button data-clue="tab" aria-pressed="false">Chi tiết trên nắp</button>
       <button data-clue="body" aria-pressed="false">Thân màu xanh</button>
@@ -55,7 +59,7 @@
     const canvas = host.querySelector('canvas'), fallback = host.querySelector('.fallback-art');
     const instruction = host.querySelector('.model-instruction'), toggle = host.querySelector('#model-fallback');
     const tools = host.querySelector('.model-tools');
-    let gl, program, buffer, ro, yaw = -.42, pitch = .28, destroyed = false, pointer = null, mode = '2d';
+    let gl, program, buffer, ro, yaw = -.42, pitch = .28, zoom = 1, destroyed = false, pointer = null, mode = '2d';
     let vertices = [], faces = [], selectedClue = null;
     const clamp = (n,a,b) => Math.max(a,Math.min(b,n));
     function choose(part) {
@@ -71,12 +75,12 @@
       canvas.hidden = view !== '3d'; fallback.hidden = view === '3d'; tools.hidden = view !== '3d';
       toggle.textContent = view === '3d' ? 'Dùng ảnh thay thế' : gl ? 'Trở lại mô hình 3D' : 'Đang dùng ảnh tương tác';
       toggle.hidden = !gl;
-      instruction.textContent = view === '3d' ? 'Kéo ngang để xoay · Vuốt dọc để cuộn · Chạm chi tiết em chọn.' : 'Chạm một chi tiết trong ảnh, hoặc chọn bằng các nút bên dưới.';
+      instruction.textContent = view === '3d' ? 'Kéo để xoay · Bấm Xem phần nắp hoặc chạm vào chi tiết.' : 'Chạm một chi tiết trong ảnh, hoặc chọn bằng các nút bên dưới.';
       if(view === '3d') render(); else positionHotspots();
     }
     toggle.onclick=()=>changeView(mode==='3d'?'2d':'3d');
 
-    const green=[.09,.48,.36], lightGreen=[.15,.62,.46], silver=[.77,.84,.77], darkSilver=[.39,.52,.44], gold=[.98,.79,.28];
+    const green=[.09,.48,.36], lightGreen=[.15,.62,.46], silver=[.78,.85,.79], darkSilver=[.39,.52,.44], gold=[.98,.79,.28], brightTab=[.95,.97,.90];
     function triangle(a,b,c,color,part='body') {
       const u=b.map((x,i)=>x-a[i]), v=c.map((x,i)=>x-a[i]);
       let n=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];
@@ -85,16 +89,23 @@
       faces.push({a,b,c,part});
     }
     function quad(a,b,c,d,color,part) {triangle(a,b,c,color,part);triangle(a,c,d,color,part);}
-    function cylinder(radius, y1,y2,color,part='body',radius2=radius) {
-      for(let i=0;i<80;i++) {
-        const t=i/80*Math.PI*2,t2=(i+1)/80*Math.PI*2;
+    function box(x1,x2,y1,y2,z1,z2,color,part='tab') {
+      const p000=[x1,y1,z1],p100=[x2,y1,z1],p110=[x2,y2,z1],p010=[x1,y2,z1];
+      const p001=[x1,y1,z2],p101=[x2,y1,z2],p111=[x2,y2,z2],p011=[x1,y2,z2];
+      quad(p010,p110,p111,p011,color,part);quad(p000,p001,p101,p100,color,part);
+      quad(p001,p011,p111,p101,color,part);quad(p100,p110,p010,p000,color,part);
+      quad(p000,p010,p011,p001,color,part);quad(p101,p111,p110,p100,color,part);
+    }
+    function cylinder(radius, y1,y2,color,part='body',radius2=radius,segs=80) {
+      for(let i=0;i<segs;i++) {
+        const t=i/segs*Math.PI*2,t2=(i+1)/segs*Math.PI*2;
         const a=[Math.cos(t)*radius,y1,Math.sin(t)*radius],b=[Math.cos(t2)*radius,y1,Math.sin(t2)*radius];
         const c=[Math.cos(t2)*radius2,y2,Math.sin(t2)*radius2],d=[Math.cos(t)*radius2,y2,Math.sin(t)*radius2];
         quad(a,d,c,b,color,part);
       }
     }
-    function disk(radius,y,color,part) {
-      for(let i=0;i<80;i++){let t=i/80*Math.PI*2,t2=(i+1)/80*Math.PI*2;triangle([0,y,0],[Math.cos(t)*radius,y,Math.sin(t)*radius],[Math.cos(t2)*radius,y,Math.sin(t2)*radius],color,part);}
+    function disk(radius,y,color,part,segs=80) {
+      for(let i=0;i<segs;i++){let t=i/segs*Math.PI*2,t2=(i+1)/segs*Math.PI*2;triangle([0,y,0],[Math.cos(t)*radius,y,Math.sin(t)*radius],[Math.cos(t2)*radius,y,Math.sin(t2)*radius],color,part);}
     }
     function ring(rx,rz,tube,y,zc,color,part='tab') {
       const point=(u,v)=>[(rx+tube*Math.cos(v))*Math.cos(u),y+tube*Math.sin(v),zc+(rz+tube*Math.cos(v))*Math.sin(u)];
@@ -103,16 +114,22 @@
         quad(point(u,v),point(u2,v),point(u2,v2),point(u,v2),color,part);
       }
     }
-    // Rolled rims, shoulders, body, recessed metal lid, and raised pull ring.
+    // Rolled rims, shoulders, body, recessed metal lid, and sculpted 3D pull-tab.
     cylinder(.65,-1.13,-1.07,silver,'base',.73); cylinder(.73,-1.07,-.91,darkSilver,'base',.76);
     cylinder(.76,-.94,.86,green); cylinder(.76,.86,1.03,lightGreen,'body',.69);
     cylinder(.69,1.03,1.10,silver,'body',.70);disk(.70,1.10,silver,'body');
     ring(.70,.70,.027,1.10,0,silver,'body');ring(.63,.63,.014,1.107,0,darkSilver,'body');
     ring(.70,.70,.025,-1.10,0,silver,'base');disk(.65,-1.13,darkSilver,'base');
-    // Dark opening beside the ring, shaped in the lid plane.
-    for(let i=0;i<50;i++){const t=i/50*Math.PI*2,t2=(i+1)/50*Math.PI*2;triangle([0,1.114,-.28],[.18*Math.cos(t),1.114,-.28+.22*Math.sin(t)],[.18*Math.cos(t2),1.114,-.28+.22*Math.sin(t2)],[.13,.23,.18],'body');}
-    ring(.13,.235,.034,1.158,.13,[.92,.94,.85]);
-    quad([-.12,1.16,-.025],[.12,1.16,-.025],[.12,1.16,.035],[-.12,1.16,.035],silver,'tab');
+    // Dark scored drink opening beside the ring, shaped in the lid plane.
+    for(let i=0;i<50;i++){const t=i/50*Math.PI*2,t2=(i+1)/50*Math.PI*2;triangle([0,1.114,-.28],[.19*Math.cos(t),1.114,-.28+.22*Math.sin(t)],[.19*Math.cos(t2),1.114,-.28+.22*Math.sin(t2)],[.12,.22,.17],'tab');}
+    ring(.19,.22,.013,1.118,-.28,darkSilver,'tab');
+    // Raised pull-tab ring, lever bridge, and central rivet.
+    ring(.145,.225,.038,1.164,.16,brightTab,'tab');
+    box(-.11,.11,1.14,1.178,-.16,.04,brightTab,'tab');
+    box(-.135,-.065,1.142,1.18,-.03,.12,silver,'tab');
+    box(.065,.135,1.142,1.18,-.03,.12,silver,'tab');
+    cylinder(.06,1.12,1.192,gold,'tab',.06,28);
+    disk(.06,1.192,gold,'tab',28);
     // Gold circular leaf label, gently curved around the front of the body.
     const label=(x,y,r=.773)=>[x,y,Math.sqrt(r*r-x*x)];
     for(let band=0;band<12;band++)for(let i=0;i<64;i++) {
@@ -133,12 +150,13 @@
     }
     function matrix() {
       const a=rotate([1,0,0]),b=rotate([0,1,0]),c=rotate([0,0,1]);
-      const aspect=canvas.clientWidth/canvas.clientHeight;
-      const sx=1/(1.62*aspect),sy=1/1.62;
+      const aspect=(canvas.clientWidth||1)/(canvas.clientHeight||1);
+      const scale=1.62/zoom;
+      const sx=1/(scale*aspect),sy=1/scale;
       return new Float32Array([a[0]*sx,a[1]*sy,-a[2]/8,0,b[0]*sx,b[1]*sy,-b[2]/8,0,c[0]*sx,c[1]*sy,-c[2]/8,0,0,0,0,1]);
     }
     function render() {
-      host.dataset.yaw=yaw.toFixed(3); host.dataset.pitch=pitch.toFixed(3);
+      host.dataset.yaw=yaw.toFixed(3); host.dataset.pitch=pitch.toFixed(3); host.dataset.zoom=zoom.toFixed(2);
       if(!gl || mode!=='3d' || destroyed) return;
       const dpr=Math.min(window.devicePixelRatio||1,2),w=Math.round(canvas.clientWidth*dpr),h=Math.round(canvas.clientHeight*dpr);
       if(!w||!h)return;if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
@@ -164,29 +182,53 @@
     } catch (_) {gl=null;changeView('2d');}
 
     function hitTest(x,y) {
-      const r=canvas.getBoundingClientRect(), aspect=r.width/r.height;
-      const project=p=>{const v=rotate(p);return [(v[0]/(1.62*aspect)+1)*r.width/2,(1-v[1]/1.62)*r.height/2,v[2]];};
+      const r=canvas.getBoundingClientRect(), aspect=r.width/r.height, scale=1.62/zoom;
+      const project=p=>{const v=rotate(p);return [(v[0]/(scale*aspect)+1)*r.width/2,(1-v[1]/scale)*r.height/2,v[2]];};
       const tab=project([0,1.16,.13]);
       // A generous touch target over the small physical detail, while it is visible.
-      if(pitch>.13 && Math.hypot(x-tab[0],y-tab[1])<24)return 'tab';
+      if(pitch>.13 && Math.hypot(x-tab[0],y-tab[1])<26*zoom)return 'tab';
       let found=null,depth=-Infinity;
       for(const f of faces){const [a,b,c]=[f.a,f.b,f.c].map(project),den=(b[1]-c[1])*(a[0]-c[0])+(c[0]-b[0])*(a[1]-c[1]);if(Math.abs(den)<.001)continue;const u=((b[1]-c[1])*(x-c[0])+(c[0]-b[0])*(y-c[1]))/den,v=((c[1]-a[1])*(x-c[0])+(a[0]-c[0])*(y-c[1]))/den,w=1-u-v;if(u>=0&&v>=0&&w>=0){const z=u*a[2]+v*b[2]+w*c[2];if(z>depth){depth=z;found=f.part;}}}
       return found;
     }
-    canvas.onpointerdown=ev=>{if(mode!=='3d')return;pointer={id:ev.pointerId,x:ev.clientX,y:ev.clientY,start:ev.clientX,vertical:ev.clientY,moved:false};canvas.setPointerCapture(ev.pointerId);};
-    canvas.onpointermove=ev=>{if(!pointer||pointer.id!==ev.pointerId)return;const dx=ev.clientX-pointer.x,dy=ev.clientY-pointer.y;if(Math.hypot(ev.clientX-pointer.start,ev.clientY-pointer.vertical)>7)pointer.moved=true;if(Math.abs(ev.clientX-pointer.start)>Math.abs(ev.clientY-pointer.vertical)){yaw+=dx*.013;render();}pointer.x=ev.clientX;pointer.y=ev.clientY;};
+    canvas.onpointerdown=ev=>{if(mode!=='3d')return;pointer={id:ev.pointerId,type:ev.pointerType,x:ev.clientX,y:ev.clientY,start:ev.clientX,vertical:ev.clientY,moved:false};try{canvas.setPointerCapture(ev.pointerId);}catch(_){}};
+    canvas.onpointermove=ev=>{
+      if(!pointer||pointer.id!==ev.pointerId)return;
+      const dx=ev.clientX-pointer.x,dy=ev.clientY-pointer.y;
+      if(Math.hypot(ev.clientX-pointer.start,ev.clientY-pointer.vertical)>7)pointer.moved=true;
+      if(Math.abs(ev.clientX-pointer.start)>Math.abs(ev.clientY-pointer.vertical)){
+        yaw+=dx*.013;
+        if(pointer.type!=='touch')pitch=clamp(pitch+dy*.01,-.45,1.15);
+        render();
+      } else if(pointer.type!=='touch' && pointer.moved){
+        pitch=clamp(pitch+dy*.01,-.45,1.15);
+        render();
+      }
+      pointer.x=ev.clientX;pointer.y=ev.clientY;
+    };
     canvas.onpointerup=ev=>{if(!pointer||pointer.id!==ev.pointerId)return;if(!pointer.moved){const r=canvas.getBoundingClientRect(),part=hitTest(ev.clientX-r.left,ev.clientY-r.top);if(part)choose(part);}pointer=null;};
     canvas.onpointercancel=()=>{pointer=null;};
-    function turn(dir){if(dir==='reset'){yaw=-.42;pitch=.28;}if(dir==='left')yaw-=.35;if(dir==='right')yaw+=.35;if(dir==='up')pitch=clamp(pitch+.23,-.45,1.15);if(dir==='down')pitch=clamp(pitch-.23,-.45,1.15);render();}
+    canvas.addEventListener('wheel',ev=>{if(mode!=='3d')return;ev.preventDefault();zoom=clamp(zoom+(ev.deltaY<0?.12:-.12),.8,1.75);render();},{passive:false});
+    function turn(dir){
+      if(dir==='reset'){yaw=-.42;pitch=.28;zoom=1;}
+      if(dir==='lid'){yaw=-.22;pitch=.88;zoom=1.35;}
+      if(dir==='left')yaw-=.35;
+      if(dir==='right')yaw+=.35;
+      if(dir==='up')pitch=clamp(pitch+.23,-.45,1.15);
+      if(dir==='down')pitch=clamp(pitch-.23,-.45,1.15);
+      if(dir==='zoom-in')zoom=clamp(zoom+.16,.8,1.75);
+      if(dir==='zoom-out')zoom=clamp(zoom-.16,.8,1.75);
+      render();
+    }
     host.querySelectorAll('[data-rotate]').forEach(b=>b.onclick=()=>turn(b.dataset.rotate));
-    canvas.onkeydown=ev=>{const key={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down',Home:'reset'}[ev.key];if(key){ev.preventDefault();turn(key);}};
+    canvas.onkeydown=ev=>{const key={ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down',Home:'reset','+':'zoom-in','=':'zoom-in','-':'zoom-out','_':'zoom-out',l:'lid',L:'lid'}[ev.key];if(key){ev.preventDefault();turn(key);}};
     canvas.addEventListener('webglcontextlost',ev=>{ev.preventDefault();gl=null;changeView('2d');});
     ro=new ResizeObserver(()=>{render();positionHotspots();});ro.observe(host);
     function positionHotspots(){const r=fallback.getBoundingClientRect();if(!r.width||!r.height)return;const width=Math.min(r.width,r.height*440/360),height=width*360/440,left=(r.width-width)/2,top=(r.height-height)/2;const points={tab:[.465,.225],body:[.50,.55],base:[.50,.805]};for(const b of host.querySelectorAll('[data-hotspot]')){const p=points[b.dataset.hotspot];b.style.left=`${left+p[0]*width}px`;b.style.top=`${top+p[1]*height}px`;}}
     fallback.querySelector('img').onload=positionHotspots;
-    host.dataset.yaw=yaw.toFixed(3);host.dataset.pitch=pitch.toFixed(3);
+    host.dataset.yaw=yaw.toFixed(3);host.dataset.pitch=pitch.toFixed(3);host.dataset.zoom=zoom.toFixed(2);
     return {
-      reset(){yaw=-.42;pitch=.28;selectedClue=null;host.querySelectorAll('[data-clue]').forEach(b=>b.setAttribute('aria-pressed','false'));render();},
+      reset(){yaw=-.42;pitch=.28;zoom=1;selectedClue=null;host.querySelectorAll('[data-clue]').forEach(b=>b.setAttribute('aria-pressed','false'));render();},
       useFallback(){changeView('2d');positionHotspots();},
       destroy(){destroyed=true;ro.disconnect();if(gl){gl.deleteBuffer(buffer);gl.deleteProgram(program);}host.replaceChildren();},
       get mode(){return mode;},get selected(){return selectedClue;}

@@ -2,21 +2,16 @@
 const $ = id => document.getElementById(id);
 const page = document.body.dataset.page;
 const moodle = window.Bai1Moodle;
-const steps = moodle ? [
-  ['Khám phá', moodle.url('/mod/url/view.php?id=45')],
-  ['Thử dự đoán', moodle.url('/mod/url/view.php?id=57')],
-  ['Tự luyện', moodle.url('/mod/url/view.php?id=58')],
-  ['Gửi ví dụ của em', moodle.url('/mod/assign/view.php?id=59')]
-] : [['Khám phá','hl1_kham_pha.html'],['Thử dự đoán','hl2_mo_phong.html'],['Tự luyện','hl3_luyen_tap.html'],['Nộp Q1','hl3_luyen_tap.html#q1']];
-// Chỉ thể hiện vị trí đang học, không xác nhận đã nộp bài trên Azota.
-function progress(step){
-  $('journey').innerHTML=steps.map(([label,href],i)=>`<a href="${href}" ${moodle?'target="_top"':''} ${i+1===step?'aria-current="step"':''} class="${i+1<step?'done':''}"><span class="number">${i+1}</span>${label}</a>`).join('');
-  $('progress-label').textContent=step?`Chặng ${step}: ${steps[step-1][0]}`:'Mỗi manh mối, một khám phá!';
-  $('progress-count').textContent=step?`${step} / 4`:'4 chặng nhỏ';
-  document.querySelector('.progress-fill').style.width=`${step*25}%`;
-  document.querySelector('[role=progressbar]').setAttribute('aria-valuenow',step);
+// Standalone pupils enter these practice pages after the guided notebook.
+const guided = new URLSearchParams(location.search).get('flow') === 'lesson1';
+if (guided && !moodle) {
+  const onward = $('explore-next') || $('challenge-next');
+  if (onward) {
+    const url = new URL(onward.href);
+    url.searchParams.set('flow', 'lesson1');
+    onward.href = url.href;
+  }
 }
-progress({home:0,explore:1,challenge:2,practice:3}[page]);
 function feedback(id,text,correct=true){const el=$(id);el.hidden=false;el.textContent=text;el.className='feedback'+(correct?'':' wrong');if(correct&&window.AzotaEmbed?.active)el.classList.add('azota-success');}
 function selected(container,button){document.querySelectorAll(`#${container} button`).forEach(b=>b.setAttribute('aria-pressed',String(b===button)));}
 function bringIntoView(el){if(el.getBoundingClientRect().top<0||el.getBoundingClientRect().bottom>innerHeight)el.scrollIntoView({block:'nearest'});}
@@ -27,11 +22,10 @@ if(page==='explore'){
   function clearTranslation(){translated=false;$('translation-panel').hidden=true;$('translation-result').textContent='';$('source-sentence').textContent='';$('translation-feedback').hidden=true;$('explore-next').hidden=true;document.querySelectorAll('[data-check]').forEach(b=>b.setAttribute('aria-pressed','false'));}
   document.querySelectorAll('[data-food]').forEach(b=>b.addEventListener('click',()=>{
     food=b.dataset.food;clearTranslation();selected('food-cards',b);$('try-translate').disabled=false;$('selected-sentence').textContent=`Em đã chọn: ${foods[food].source}`;
-    b.querySelector('small').textContent='Đã chọn ✓';document.querySelectorAll('[data-food]').forEach(other=>{if(other!==b)other.querySelector('small').textContent='Chọn thẻ này';});
   }));
   $('try-translate').onclick=()=>{
     if(!food)return;translated=true;$('choose-stage').hidden=true;$('translation-panel').hidden=false;$('source-sentence').textContent=foods[food].source;$('translation-result').textContent=foods[food].translation;
-    $('food-instruction').textContent='Chọn món khớp với bản dịch để kiểm tra giúp Sóc.';
+    $('food-instruction').textContent='Chọn món khớp với bản dịch.';
     document.querySelector('[data-check]').focus({preventScroll:true});bringIntoView($('translation-panel'));
   };
   document.querySelectorAll('[data-check]').forEach(b=>b.onclick=()=>{
@@ -40,12 +34,120 @@ if(page==='explore'){
     $('explore-next').hidden=!correct;bringIntoView($('translation-feedback'));
   });
   $('change-food').onclick=()=>{
-    clearTranslation();food=null;$('choose-stage').hidden=false;$('try-translate').disabled=true;$('selected-sentence').textContent='Em muốn thử câu nào?';$('food-instruction').innerHTML='Sóc nhờ em: Chọn một thẻ câu rồi bấm <strong>Thử dịch</strong>.';document.querySelectorAll('[data-food]').forEach(b=>{b.setAttribute('aria-pressed','false');b.querySelector('small').textContent='Chọn thẻ này';});document.querySelector('[data-food]').focus({preventScroll:true});bringIntoView($('choose-stage'));
+    clearTranslation();food=null;$('choose-stage').hidden=false;$('try-translate').disabled=true;$('selected-sentence').textContent='Em muốn thử câu nào?';$('food-instruction').innerHTML='Chọn một câu rồi bấm <strong>Thử dịch</strong>.';document.querySelectorAll('[data-food]').forEach(b=>{b.setAttribute('aria-pressed','false');});document.querySelector('[data-food]').focus({preventScroll:true});bringIntoView($('choose-stage'));
   };
 }
 
 if(page==='challenge'){
   let guess=null,clueFound=false,solved=false,viewer=null;
+  let cameraActive=false,mediaStream=null,handLandmarker=null,rafId=0;
+  let cursorNormX=.5,cursorNormY=.5,cursorReady=false,dwellTarget=null,dwellStart=0,gestureLocked=null;
+  const DWELL_MS=1000,RING_LEN=150.8,clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+
+  function updateDwellRing(target,progress){
+    const pct=clamp(progress,0,1);
+    const fg=$('cursor-ring-fg');
+    if(fg)fg.style.strokeDashoffset=String(RING_LEN*(1-pct));
+    document.querySelectorAll('[data-verdict]').forEach(b=>{
+      b.classList.toggle('gesture-hover',b.dataset.verdict===target&&pct>0);
+    });
+  }
+  function cancelDwell(){dwellTarget=null;dwellStart=0;updateDwellRing(null,0);}
+  function stopCamera(msg=''){
+    cameraActive=false;
+    if(rafId){cancelAnimationFrame(rafId);rafId=0;}
+    cancelDwell();cursorReady=false;
+    const video=$('camera-video');
+    if(video){try{video.pause();}catch(_){}video.srcObject=null;}
+    if(mediaStream){try{mediaStream.getTracks().forEach(t=>t.stop());}catch(_){}mediaStream=null;}
+    if(handLandmarker&&typeof handLandmarker.close==='function'){try{handLandmarker.close();}catch(_){}handLandmarker=null;}
+    if($('hand-cursor'))$('hand-cursor').hidden=true;
+    if($('camera-toggle-btn')){$('camera-toggle-btn').setAttribute('aria-expanded','false');$('camera-toggle-btn').hidden=false;}
+    if($('camera-stop-btn'))$('camera-stop-btn').hidden=true;
+    if(msg&&$('camera-status')){feedback('camera-status',msg);}
+    else if($('camera-panel'))$('camera-panel').hidden=true;
+  }
+  async function loadHandLandmarker(){
+    if(typeof window.__createHandLandmarker==='function')return await window.__createHandLandmarker();
+    const vision=await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/vision_bundle.mjs');
+    const fileset=await vision.FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/wasm');
+    const modelAssetPath='https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task';
+    try{return await vision.HandLandmarker.createFromOptions(fileset,{baseOptions:{modelAssetPath,delegate:'GPU'},runningMode:'VIDEO',numHands:1});}
+    catch(_){return await vision.HandLandmarker.createFromOptions(fileset,{baseOptions:{modelAssetPath,delegate:'CPU'},runningMode:'VIDEO',numHands:1});}
+  }
+  function processHandFrame(){
+    if(!cameraActive||!handLandmarker)return;
+    const video=$('camera-video'),arena=$('verdict-arena'),cursor=$('hand-cursor');
+    if(video&&(video.readyState>=2||video.srcObject)&&arena&&cursor){
+      const now=performance.now();
+      let res=null;try{res=handLandmarker.detectForVideo(video,now);}catch(_){}
+      const lm=res?.landmarks;
+      const cnv=$('camera-canvas');
+      if(cnv){
+        const ctx=cnv.getContext('2d');ctx.clearRect(0,0,cnv.width,cnv.height);
+        if(lm?.length&&lm[0][8]){
+          const tip=lm[0][8];
+          ctx.beginPath();ctx.arc((1-tip.x)*cnv.width,tip.y*cnv.height,8,0,Math.PI*2);
+          ctx.fillStyle='#ff6b35';ctx.fill();ctx.lineWidth=2;ctx.strokeStyle='#fff';ctx.stroke();
+        }
+      }
+      if(lm?.length&&lm[0][8]){
+        const tip=lm[0][8],rx=clamp(1-tip.x,0,1),ry=clamp(tip.y,0,1);
+        if(!cursorReady){cursorNormX=rx;cursorNormY=ry;cursorReady=true;}
+        else{cursorNormX+=(rx-cursorNormX)*.45;cursorNormY+=(ry-cursorNormY)*.45;}
+        const ar=arena.getBoundingClientRect(),lx=cursorNormX*ar.width,ly=cursorNormY*ar.height;
+        const sx=ar.left+lx,sy=ar.top+ly;
+        cursor.hidden=false;cursor.style.left=`${lx}px`;cursor.style.top=`${ly}px`;
+        let hovered=null;
+        for(const b of document.querySelectorAll('[data-verdict]')){
+          const br=b.getBoundingClientRect();
+          if(sx>=br.left&&sx<=br.right&&sy>=br.top&&sy<=br.bottom){hovered=b.dataset.verdict;break;}
+        }
+        if(!hovered){gestureLocked=null;cancelDwell();}
+        else if(gestureLocked===hovered){cancelDwell();}
+        else{
+          if(dwellTarget!==hovered){dwellTarget=hovered;dwellStart=now;}
+          const elapsed=now-dwellStart,prog=clamp(elapsed/DWELL_MS,0,1);
+          updateDwellRing(hovered,prog);
+          if(elapsed>=DWELL_MS){
+            gestureLocked=hovered;cancelDwell();
+            const btn=document.querySelector(`[data-verdict="${hovered}"]`);
+            btn?.click();
+            return;
+          }
+        }
+      }else{
+        cursor.hidden=true;cursorReady=false;gestureLocked=null;cancelDwell();
+      }
+    }
+    if(cameraActive)rafId=requestAnimationFrame(processHandFrame);
+  }
+  async function startCamera(){
+    if(cameraActive){stopCamera();return;}
+    const panel=$('camera-panel');
+    panel.hidden=false;
+    feedback('camera-status','Đang chuẩn bị camera...');
+    if(!navigator.mediaDevices?.getUserMedia){
+      feedback('camera-status','Thiết bị hoặc khung nhúng không hỗ trợ camera. Em hãy bấm chọn trực tiếp Đây là chai hoặc Đây là lon nhé.',false);
+      return;
+    }
+    try{
+      mediaStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:640},height:{ideal:480}},audio:false});
+      const video=$('camera-video');video.srcObject=mediaStream;await video.play();
+      handLandmarker=await loadHandLandmarker();
+      cameraActive=true;
+      $('camera-toggle-btn').setAttribute('aria-expanded','true');$('camera-toggle-btn').hidden=true;
+      $('camera-stop-btn').hidden=false;
+      feedback('camera-status','Đưa ngón trỏ vào ô Đây là chai hoặc Đây là lon và giữ khoảng 1 giây để chọn.');
+      rafId=requestAnimationFrame(processHandFrame);
+    }catch(_){
+      stopCamera();panel.hidden=false;
+      feedback('camera-status','Chưa bật được camera trên thiết bị này. Em hãy bấm chọn trực tiếp Đây là chai hoặc Đây là lon nhé.',false);
+    }
+  }
+  $('camera-toggle-btn')?.addEventListener('click',startCamera);
+  $('camera-stop-btn')?.addEventListener('click',()=>stopCamera());
+
   document.querySelectorAll('[data-predict]').forEach(b=>b.onclick=()=>{
     guess=b.dataset.predict;selected('predictions',b);
     feedback('ai-feedback',`Em dự đoán: ${guess}. AI mô phỏng gợi ý: “Chai”.`);
@@ -61,7 +163,7 @@ if(page==='challenge'){
     bringIntoView(clueFound?$('verdict'):$('clue-feedback'));
   }
   $('more-clue').onclick=()=>{
-    if(!guess)return;$('blur-stage').hidden=true;$('investigate-stage').hidden=false;$('case-instruction').textContent='Xoay vật chứng và chọn một chi tiết để kiểm tra.';
+    if(!guess)return;$('blur-stage').hidden=true;$('investigate-stage').hidden=false;$('case-instruction').textContent='Tìm chi tiết giúp em phân biệt chai và lon.';
     // Module cung cấp sẵn cả WebGL và ảnh tương tác, không cần tải mạng.
     viewer=window.createEvidenceModel($('model-host'),clueSelected);
     bringIntoView($('investigate-stage'));
@@ -71,15 +173,18 @@ if(page==='challenge'){
     if(b.dataset.verdict!=='Lon'){
       feedback('verdict-feedback','Em xem lại chi tiết trên nắp nhé. Nó có giống cách mở một chiếc chai không?',false);return;
     }
+    stopCamera();
     solved=true;$('case-solved').hidden=false;$('challenge-next').hidden=false;$('investigate-stage').hidden=true;$('initial-guess').textContent=`Lúc đầu em đoán: ${guess}.`;$('case-instruction').textContent='Em đã tự tìm manh mối và kiểm tra gợi ý của AI!';viewer?.destroy();viewer=null;bringIntoView($('case-solved'));
   });
   $('challenge-reset').onclick=()=>{
+    stopCamera();
     viewer?.destroy();viewer=null;guess=null;clueFound=false;solved=false;
     $('model-host').replaceChildren();delete $('model-host').dataset.view;
-    $('blur-stage').hidden=false;$('investigate-stage').hidden=true;$('case-solved').hidden=true;$('challenge-next').hidden=true;$('ai-feedback').hidden=true;$('more-clue').hidden=true;$('clue-feedback').hidden=true;$('verdict').hidden=true;$('verdict-feedback').hidden=true;$('case-instruction').textContent='Nhìn vật chứng và chọn dự đoán của em.';
+    $('blur-stage').hidden=false;$('investigate-stage').hidden=true;$('case-solved').hidden=true;$('challenge-next').hidden=true;$('ai-feedback').hidden=true;$('more-clue').hidden=true;$('clue-feedback').hidden=true;$('verdict').hidden=true;$('verdict-feedback').hidden=true;$('case-instruction').textContent='Nhìn ảnh mờ. Em đoán đây là chai hay lon?';
     document.querySelectorAll('[data-predict],[data-verdict]').forEach(b=>b.setAttribute('aria-pressed','false'));document.querySelector('[data-predict]').focus({preventScroll:true});bringIntoView($('blur-stage'));
   };
-  window.addEventListener('pagehide',()=>viewer?.destroy());
+  window.addEventListener('pagehide',()=>{stopCamera();viewer?.destroy();});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&cameraActive)stopCamera();});
 }
 
 if(page==='practice'){
@@ -87,6 +192,11 @@ if(page==='practice'){
     {q:'Mai nói một từ tiếng Anh. Ứng dụng có AI nghe và gợi ý cách phát âm. AI đang giúp Mai việc gì?',a:['Luyện phát âm tiếng Anh.','Tự học thay Mai mọi môn học.','Giúp Mai không cần luyện nói nữa.'],key:0,why:['AI nghe giọng nói và gợi ý phát âm để Mai luyện tập. Mai vẫn cần tự nói và kiểm tra.','Ứng dụng này hỗ trợ phát âm, không học mọi môn thay Mai.','AI chỉ hỗ trợ. Mai vẫn cần luyện nói để tiến bộ.'],scene:'🗣️',bubble:'Hello!',label:'Mai luyện nói'},
     {q:'AI gợi ý cây trong ảnh là cây xoài. Nam chưa chắc. Nam nên làm gì?',a:['Ghi ngay “cây xoài” vì AI luôn đúng.','Nhìn rõ lá, quả và hỏi người biết về cây để đối chiếu.','Chọn đại một tên cây khác.'],key:1,why:['AI có thể nhầm khi ảnh thiếu chi tiết. Nam cần kiểm tra trước khi dùng tên cây.','Quan sát lá, quả và hỏi người biết về cây giúp Nam kiểm tra gợi ý của AI.','Đoán một tên khác chưa phải là kiểm tra. Nam cần xem đặc điểm thật và đối chiếu.'],scene:'🌳',bubble:'Cây xoài?',label:'Nam kiểm tra ảnh'}
   ];
+  if (guided && !moodle) {
+    const finish = document.querySelector('#quiz-summary a');
+    finish.href = 'index.html';
+    finish.textContent = 'Về đầu bài';
+  }
   let current=0,answers=Array(quiz.length).fill(null),completed=false;
   function renderQuiz(focus=false){
     const d=quiz[current];$('quiz-count').textContent=`Tình huống ${current+1} / ${quiz.length}`;$('quiz-question').textContent=d.q;
@@ -95,10 +205,10 @@ if(page==='practice'){
     d.a.forEach((a,i)=>{const b=document.createElement('button');b.className='choice';b.textContent=a;b.setAttribute('aria-pressed','false');b.onclick=()=>{answers[current]=i;selected('quiz-answers',b);feedback('quiz-feedback',(i===d.key?'Đúng rồi! ':'Chưa đúng. ')+d.why[i],i===d.key);$('quiz-next').disabled=false;};$('quiz-answers').append(b);});
     if(focus){$('quiz-question').focus({preventScroll:true});bringIntoView($('practice'));}
   }
-  function restart(){current=0;completed=false;answers.fill(null);$('practice').hidden=false;$('quiz-summary').hidden=true;location.hash='practice';renderQuiz(true);}
-  $('quiz-next').onclick=()=>{if(answers[current]===null)return;if(current<quiz.length-1){current++;renderQuiz(true);}else{completed=true;const score=answers.reduce((sum,a,i)=>sum+Number(a===quiz[i].key),0);$('practice').hidden=true;$('quiz-summary').hidden=false;$('score').textContent=`Em đúng ${score} / ${quiz.length} tình huống.`;$('score').focus({preventScroll:true});bringIntoView($('quiz-summary'));}};
+  function restart(){$('practice-score-note').hidden=true;current=0;completed=false;answers.fill(null);$('practice').hidden=false;$('quiz-summary').hidden=true;location.hash='practice';renderQuiz(true);}
+  $('quiz-next').onclick=()=>{if(answers[current]===null)return;if(current<quiz.length-1){current++;renderQuiz(true);}else{completed=true;$('practice-score-note').hidden=false;const score=answers.reduce((sum,a,i)=>sum+Number(a===quiz[i].key),0);$('practice').hidden=true;$('quiz-summary').hidden=false;$('score').textContent=`Em đúng ${score} / ${quiz.length} tình huống.`;$('score').focus({preventScroll:true});bringIntoView($('quiz-summary'));}};
   $('quiz-reset').onclick=restart;$('quiz-again').onclick=restart;
-  function route(){const isQ1=location.hash==='#q1';$('q1').hidden=!isQ1;$('practice-heading').hidden=isQ1;$('practice').hidden=isQ1||completed;$('quiz-summary').hidden=isQ1||!completed;$('practice-score-note').hidden=isQ1;progress(isQ1?4:3);}
+  function route(){const isQ1=location.hash==='#q1';$('q1').hidden=!isQ1;$('practice-heading').hidden=isQ1;$('practice').hidden=isQ1||completed;$('quiz-summary').hidden=isQ1||!completed;$('practice-score-note').hidden=isQ1||!completed;}
   window.addEventListener('hashchange',route);renderQuiz();route();
   $('copy').onclick=async()=>{
     $('manual-copy').hidden=true;

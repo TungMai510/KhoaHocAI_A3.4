@@ -34,11 +34,14 @@
     expand.target = '_blank';
     expand.rel = 'noopener noreferrer';
     expand.addEventListener('click', updateExpandLink);
-    toolbar.append(title,expand);document.body.prepend(toolbar);
-    if (!window.Bai1Moodle) {
-      const page=document.body.dataset.page,lesson=document.body.dataset.lesson;
+    const studentTask = document.body.classList.contains('student-task');
+    if (!studentTask) toolbar.append(title);
+    toolbar.append(expand);
+    if (!studentTask || self !== top) document.body.prepend(toolbar);
+    if (!studentTask && !window.Bai1Moodle) {
+      const lesson=document.body.dataset.lesson;
       const note=document.createElement('p');note.className='azota-submit-note';
-      note.textContent=lesson==='2'?'Khi xong, sao chép phiếu Q4 và nộp theo hướng dẫn của giáo viên trên Azota.':lesson==='3'?'Khi xong, sao chép phiếu và chọn đúng mục Q5 trên Azota. Q6 là phần mở rộng.':lesson==='4'?'Khi xong, sao chép báo cáo và chọn đúng mục Q7 trên Azota.':page==='practice'?'Khi xong, chọn đúng mục Q1 trên Azota để nộp câu trả lời.':'Em có thể làm lại ngay tại đây.';
+      note.textContent=lesson==='2'?'Khi xong, sao chép phiếu Q4 và nộp theo hướng dẫn của giáo viên trên Azota.':lesson==='3'?'Khi xong, sao chép phiếu và chọn đúng mục Q5 trên Azota. Q6 là phần mở rộng.':lesson==='4'?'Khi xong, sao chép báo cáo và chọn đúng mục Q7 trên Azota.':'Em có thể làm lại ngay tại đây.';
       note.textContent+=' Điểm chính thức do Azota ghi nhận.';
       document.querySelector('main')?.append(note);
     }
