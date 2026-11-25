@@ -27,8 +27,8 @@ Năm video hoạt hình được tạo bằng Google Flow. Học sinh có thể 
 | --- | --- | --- |
 | 1 | HL01_Khoi_dong.mp4 | Trang mở đầu. Sóc giới thiệu cuộc điều tra trước khi em bấm Bắt đầu. |
 | 2 | HL02_Kham_pha.mp4 | Đầu H1. Sóc gợi hỏi về khả năng nghe và nhận dạng ảnh của máy. |
-| 3 | HL03_Quay_mon_ngon.mp4 | Phần dẫn của trò chơi web. Sóc giới thiệu nhiệm vụ trước khi em vào quầy. |
+| 3 | HL03_Quay_mon_ngon.mp4 | Cuối H6 trong luồng Moodle và phần dẫn của trò chơi web. Sóc giới thiệu nhiệm vụ trước khi em vào quầy. |
 | 4 | HL04_Bi_an_anh_mo.mp4 | Trước lượt dự đoán chai hay lon. Em chuẩn bị kiểm tra gợi ý của máy bằng vật chứng. |
 | 5 | HL05_Tong_ket.mp4 | Kết quả tự luyện. Sóc nhắc em kiểm tra gợi ý của AI trước khi em chuyển sang phần đánh giá. |
 
-Video 03 xuất hiện ở bản web. Hoạt động SCORM Moodle 66 dùng gói SCORM 1.2 hiện hành.
+Trong Moodle, sau khi mở bài nộp nhật ký và quay lại H6, học sinh có thể xem video 03 ngay trước nút **Vào quầy của Sóc**. Nút này mở hoạt động SCORM 66 và dùng được ngay. Học sinh mở SCORM trực tiếp từ danh sách hoạt động sẽ vào trang SCORM; video dẫn nằm trong H6. Moodle sử dụng gói SCORM 1.2 hiện hành.
