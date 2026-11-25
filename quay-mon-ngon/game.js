@@ -12,25 +12,49 @@ if (!api && new URLSearchParams(location.search).get('flow') === 'lesson1') {
   $('onward').href = '../hl2_mo_phong.html?flow=lesson1';
   $('onward').target = '_self';
 }
-let done=0;
-if(connected) {
-  const saved=Number(api.LMSGetValue('cmi.core.lesson_location'));
-  if(Number.isInteger(saved) && saved>=0 && saved<=3) done=saved;
+let done = 0;
+let officialSession = false;
+let hasOfficialProgress = false;
+if (connected) {
+  const saved = Number(api.LMSGetValue('cmi.core.lesson_location'));
+  const status = api.LMSGetValue('cmi.core.lesson_status');
+  const mode = api.LMSGetValue('cmi.core.lesson_mode');
+  if (Number.isInteger(saved) && saved >= 0 && saved <= orders.length) done = saved;
+  if (status === 'completed' || status === 'passed') done = orders.length;
+  officialSession = mode === 'normal' && done < orders.length;
 }
 function record(){
-  if(!connected) return;
+  if (!officialSession) return;
+  hasOfficialProgress = true;
   const values={'cmi.core.score.min':'0','cmi.core.score.max':'100','cmi.core.score.raw':String(Math.round(done*100/3)),'cmi.core.lesson_location':String(done),'cmi.core.lesson_status':done===3?'completed':'incomplete'};
   const ok=Object.entries(values).every(([key,value])=>api.LMSSetValue(key,value)==='true') && api.LMSCommit('')==='true';
   $('sync').textContent=ok?'':'Moodle chưa xác nhận lưu.';
 }
-addEventListener('pagehide',()=>{if(connected)api.LMSFinish('');});
+function finishOfficialSession() {
+  if (!officialSession) return;
+  officialSession = false;
+  // Moodle can write the current result on Finish. Close the official
+  // session before resetting the local counter for a practice round.
+  if (hasOfficialProgress) api.LMSFinish('');
+}
+addEventListener('pagehide', finishOfficialSession);
+
+const introVideo = document.querySelector('#intro video');
+introVideo?.addEventListener('error', () => {
+  introVideo.hidden = true;
+  introVideo.nextElementSibling.hidden = false;
+});
 function show(){
+  introVideo?.pause();
   $('intro').hidden=true; $('game').hidden=false; $('choices').replaceChildren();
   $('next').hidden=true; $('feedback').textContent=''; $('hint').textContent='';
   $('translate').hidden=done===3;
-  $('onward').hidden=done!==3;
+  $('result').hidden=done!==orders.length;
+  $('served').hidden=done===orders.length;
+  $('served').textContent=done+'/'+orders.length+' món';
   if(done===3){
     $('order').textContent='Sóc đã giao đủ ba món!';
+    $('score').textContent='Kết quả: '+done+'/'+orders.length+' món.';
     $('onward').focus();
     return;
   }
@@ -39,6 +63,12 @@ function show(){
 }
 $('start').onclick=show;
 $('next').onclick=show;
+$('replay').onclick=()=>{
+  finishOfficialSession();
+  done = 0;
+  show();
+  $('order').focus();
+};
 $('translate').onclick=()=>{
   const [answer]=orders[done];
   $('translate').hidden=true;

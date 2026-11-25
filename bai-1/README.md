@@ -31,4 +31,10 @@ Năm video hoạt hình được tạo bằng Google Flow. Học sinh có thể 
 | 4 | HL04_Bi_an_anh_mo.mp4 | Trước lượt dự đoán chai hay lon. Em chuẩn bị kiểm tra gợi ý của máy bằng vật chứng. |
 | 5 | HL05_Tong_ket.mp4 | Kết quả tự luyện. Sóc nhắc em kiểm tra gợi ý của AI trước khi em chuyển sang phần đánh giá. |
 
-Trong Moodle, sau khi mở bài nộp nhật ký và quay lại H6, học sinh có thể xem video 03 ngay trước nút **Vào quầy của Sóc**. Nút này mở hoạt động SCORM 66 và dùng được ngay. Học sinh mở SCORM trực tiếp từ danh sách hoạt động sẽ vào trang SCORM; video dẫn nằm trong H6. Moodle sử dụng gói SCORM 1.2 hiện hành.
+Trong Moodle, sau khi mở bài nộp nhật ký và quay lại H6, học sinh có thể xem video 03 ngay trước nút **Vào quầy của Sóc**. Nút này mở hoạt động SCORM 66 và dùng được ngay. Học sinh mở SCORM trực tiếp có thể xem video 03 ở phần giới thiệu trong trò chơi. Phần giới thiệu SCORM tải video từ GitHub Pages và vẫn cho vào quầy nếu video không tải được.
+
+### Chơi lại Quầy món ngon của Sóc
+
+Ở màn hình kết quả, chọn **Chơi lại** để luyện tập từ đơn thứ nhất hoặc **Tiếp tục** để sang nhiệm vụ kế tiếp. Lượt luyện tập chỉ đổi bộ đếm trên màn hình. Moodle giữ kết quả chính thức của lượt đã lưu. Bản web cũng hỗ trợ chơi lại.
+
+Gói cập nhật SCORM 1.2 dùng đúng hoạt động Moodle 66 khi triển khai. Manifest, định danh SCO, hình ảnh và đường dẫn sang nhiệm vụ kế tiếp được giữ nguyên. Cần xác minh điểm và lịch sử trên Moodle sau khi thay gói.
