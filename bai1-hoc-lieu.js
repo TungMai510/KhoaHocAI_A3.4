@@ -149,6 +149,7 @@
       instruction.hidden = !moodle || !flow.diaryCopied;
       instruction.textContent = flow.diaryOpened ? 'Nộp xong, em quay lại đây để vào quầy của Sóc.' : 'Dán nhật ký vào bài nộp trên Moodle rồi quay lại đây.';
       next.hidden = Boolean(moodle && !flow.diaryOpened);
+      get("moodle-food-video").hidden = !moodle || next.hidden;
       next.textContent = 'Vào quầy của Sóc';
       next.href = moodle ? moodle.url('/mod/scorm/view.php?id=66') : 'quay-mon-ngon/index.html?flow=lesson1';
       next.target = moodle ? '_top' : '_self';
