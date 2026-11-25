@@ -15,7 +15,7 @@ Học liệu lớp 4 của Nhóm 7, học phần Đào tạo điện tử và �
 
 - `bai-1/`, `bai-2/`, `bai-3/`, `bai-4/` chứa mục lục từng bài và điểm vào trực tuyến. Bài 2 có mã nguồn ngay trong thư mục. Bài 4 có thêm thư mục `video/`.
 - Các tệp đang được Moodle và Azota tải vẫn ở đường dẫn đã công bố. Các điểm vào mới của Bài 1, 3, 4 dùng `shared/mo-hoc-lieu.js` để mở học liệu ở cùng khung hoặc tab, giữ nguyên query và fragment. Bài 2 phục vụ trực tiếp.
-- Tài nguyên web dùng chung gồm `styles.css`, `assets/favicon.svg`, `assets/squirrel.svg`, bộ nhúng `azota-embed.*` và `lesson-styles.css`. Ảnh `assets/can.svg` được Bài 1 và Bài 4 sử dụng. README từng bài liệt kê các tệp cần dùng.
+- Tài nguyên web dùng chung gồm `styles.css`, `assets/favicon.svg`, `assets/squirrel.svg`, bộ nhúng `azota-embed.*` và `lesson-styles.css`. Ảnh `assets/can.svg` được Bài 1, 3 và 4 sử dụng. README từng bài liệt kê các tệp cần dùng.
 - `tests/` chứa kiểm thử trình duyệt. Chạy `python -m http.server 8340 --bind 127.0.0.1` từ thư mục gốc rồi mở `http://127.0.0.1:8340/khoa_hoc.html`.
 
 ## Xuất gói học liệu

@@ -30,7 +30,7 @@ LESSON_FILES = {
         "Moodle/Quay_mon_ngon_SCORM12.zip",
     ),
     2: ("assets/favicon.svg", "azota-embed.css", "azota-embed.js"),
-    3: (*LESSON_STYLES, "bai3_y_tuong.html", "lesson3.js"),
+    3: (*LESSON_STYLES, "bai3_y_tuong.html", "lesson3.js", "assets/can.svg"),
     4: (
         *LESSON_STYLES, "bai4_cai_tien.html", "lesson4.js", "assets/can.svg",
         "assets/test-bottle.svg", "assets/test-bottle-side.svg",
