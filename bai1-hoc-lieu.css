@@ -95,3 +95,7 @@ button.quiet-action { background: none; border: 0; padding: 0; text-decoration: 
 }
 .camera-video-wrap video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); display: block; }
 .camera-video-wrap canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+.lesson-video { width: min(100%, 20rem); margin: .6rem auto; }
+.lesson-video video { width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: .75rem; background: #203d34; }
+#blur-stage > .lesson-video { margin-bottom: 1rem; }

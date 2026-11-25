@@ -24,7 +24,7 @@ LESSON_FILES = {
     1: (
         *SHARED_WEB, "index.html", "bai1_hoc_lieu.html", "hl1_kham_pha.html",
         "hl2_mo_phong.html", "hl3_luyen_tap.html", "bai1-hoc-lieu.css",
-        "bai1-hoc-lieu.js", "bai1-moodle.js", "app.js", "evidence-model.js",
+        "bai1-hoc-lieu.js", "bai1-moodle.js", "bai1-video.js", "app.js", "evidence-model.js",
         "assets/apple.svg", "assets/banana.svg", "assets/can.svg",
         "assets/detective-desk.svg", "assets/milk.svg",
         "Moodle/Quay_mon_ngon_SCORM12.zip",
@@ -88,12 +88,13 @@ def export_lesson(lesson, output):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=OUTPUT)
+    parser.add_argument("--lesson", type=int, choices=LESSON_FILES, help="Export only the selected lesson.")
     args = parser.parse_args()
     output = args.output.resolve()
     if output.is_relative_to(ROOT):
         parser.error("Choose an output directory outside the repository.")
     output.mkdir(parents=True, exist_ok=True)
-    for lesson in LESSON_FILES:
+    for lesson in (args.lesson,) if args.lesson else LESSON_FILES:
         print(export_lesson(lesson, output))
 
 

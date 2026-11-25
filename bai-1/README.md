@@ -17,4 +17,18 @@ Trong vở học liệu, thứ tự là **H1** tình huống Lan và Nam → **H
 
 Giải nén gói, chạy `python -m http.server 8340 --bind 127.0.0.1` và mở `http://127.0.0.1:8340/index.html`. Bản web dùng `app.js`, `bai1-hoc-lieu.*`, `bai1-moodle.js`, `styles.css`, `azota-embed.*` và các SVG trong `assets/`. Gói SCORM 1.2 chứa đủ sáu tệp để chạy trong LMS hỗ trợ SCORM. Bản xem web của trò chơi chạy riêng và lượt làm web chỉ dùng để luyện tập.
 
-Mô hình vật chứng dùng WebGL. Có thể mở `hl2_mo_phong.html?view=2d` hoặc chọn trực tiếp bằng chuột, chạm và bàn phím. Cử chỉ tay là tùy chọn, cần camera, quyền của trình duyệt/iframe và Internet để tải MediaPipe. Bài này có thể bổ sung video về sau bằng thư mục `bai-1/video/`.
+Mô hình vật chứng dùng WebGL. Có thể mở `hl2_mo_phong.html?view=2d` hoặc chọn trực tiếp bằng chuột, chạm và bàn phím. Cử chỉ tay là tùy chọn, cần camera, quyền của trình duyệt/iframe và Internet để tải MediaPipe.
+
+### Video Sóc Thám Tử
+
+Năm video hoạt hình được tạo bằng Google Flow. Học sinh có thể phát, tạm dừng, chỉnh âm lượng và tiếp tục bài học bất cứ lúc nào.
+
+| Thứ tự | Video trong bai-1/video | Vị trí và mục đích |
+| --- | --- | --- |
+| 1 | HL01_Khoi_dong.mp4 | Trang mở đầu. Sóc giới thiệu cuộc điều tra trước khi em bấm Bắt đầu. |
+| 2 | HL02_Kham_pha.mp4 | Đầu H1. Sóc gợi hỏi về khả năng nghe và nhận dạng ảnh của máy. |
+| 3 | HL03_Quay_mon_ngon.mp4 | Phần dẫn của trò chơi web. Sóc giới thiệu nhiệm vụ trước khi em vào quầy. |
+| 4 | HL04_Bi_an_anh_mo.mp4 | Trước lượt dự đoán chai hay lon. Em chuẩn bị kiểm tra gợi ý của máy bằng vật chứng. |
+| 5 | HL05_Tong_ket.mp4 | Kết quả tự luyện. Sóc nhắc em kiểm tra gợi ý của AI trước khi em chuyển sang phần đánh giá. |
+
+Video 03 xuất hiện ở bản web. Hoạt động SCORM Moodle 66 dùng gói SCORM 1.2 hiện hành.
