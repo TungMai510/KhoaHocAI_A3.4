@@ -8,8 +8,8 @@
 <title data-moodle-text="Tự luyện với hai tình huống">Tự luyện cùng Sóc · Thám tử AI quanh em</title>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css">
-<script src="app.js?v=tung-buoc" defer></script><link rel="stylesheet" href="azota-embed.css">
-<script src="bai1-moodle.js?v=moodle-labels"></script><script src="azota-embed.js?v=tung-buoc"></script><link rel="stylesheet" href="bai1-hoc-lieu.css?v=flow-video">
+<script src="app.js?v=video-intro" defer></script><link rel="stylesheet" href="azota-embed.css">
+<script src="bai1-moodle.js?v=moodle-labels"></script><script src="azota-embed.js?v=tung-buoc"></script><link rel="stylesheet" href="bai1-hoc-lieu.css?v=video-intro">
 </head>
 <body data-page="practice" class="student-task">
 <a class="skip" href="#main">Đến nhiệm vụ chính</a><main class="wrap" id="main">
@@ -30,12 +30,16 @@
 <button class="btn" id="quiz-next" disabled>Câu tiếp theo →</button><button class="quiet-action" id="quiz-reset">Làm lại</button>
 </div>
 </div></section>
-<section class="panel summary-board" id="quiz-summary" hidden><div class="solved-stamp" aria-hidden="true">★</div>
+<section id="quiz-summary" hidden>
+<section class="video-intro" data-video-target="quiz-score-content" id="quiz-video-intro" hidden>
+<div class="lesson-video"><video controls playsinline preload="none" width="320" height="180" aria-label="Sóc nhắc cách kiểm tra gợi ý của AI" poster="bai-1/video/HL05_Tong_ket.webp" src="bai-1/video/HL05_Tong_ket.mp4">Em có thể tiếp tục hoạt động.</video><p role="status" hidden>Video chưa tải được. Em có thể tiếp tục.</p></div>
+<button class="btn" type="button" data-video-continue>Chuyển sang phần đánh giá</button>
+</section>
+<div id="quiz-score-content" class="panel summary-board"><div class="solved-stamp" aria-hidden="true">★</div>
 <h2 class="score" id="score" tabindex="-1"></h2>
-<div class="lesson-video"><video controls playsinline preload="none" width="320" height="180" aria-label="Sóc nhắc cách kiểm tra gợi ý của AI" src="bai-1/video/HL05_Tong_ket.mp4">Em có thể tiếp tục hoạt động.</video><p role="status" hidden>Video chưa tải được. Em có thể tiếp tục.</p></div>
 <div class="actions centered">
 <a class="btn" href="#q1" data-moodle-href="/mod/quiz/view.php?id=53" data-moodle-text="Làm đề ôn tập">Tiếp tục</a><button class="quiet-action" id="quiz-again">Làm lại</button>
-</div></section><p class="simulation-note" id="practice-score-note">Điểm tự luyện chỉ hiện trong trò chơi.</p>
+</div><p class="simulation-note">Điểm tự luyện chỉ hiện trong trò chơi.</p></div></section>
 <section class="panel q1" id="q1" hidden><h1>AI giúp em làm gì?</h1>
 <p>Nêu hai ví dụ và việc AI giúp trong từng ví dụ.</p>
 <label for="study">Khi em học bài</label><textarea id="study" rows="3"></textarea>
@@ -50,4 +54,4 @@
 </div>
 <div class="actions"><a class="quiet-action" href="#practice" id="back-practice">Quay lại</a></div></section></main>
 </body>
-<script src="bai1-video.js" defer></script></html>
+<script src="bai1-video.js?v=video-intro" defer></script></html>

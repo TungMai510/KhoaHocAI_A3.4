@@ -96,6 +96,48 @@ button.quiet-action { background: none; border: 0; padding: 0; text-decoration: 
 .camera-video-wrap video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); display: block; }
 .camera-video-wrap canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
-.lesson-video { width: min(100%, 20rem); margin: .6rem auto; }
-.lesson-video video { width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: .75rem; background: #203d34; }
-#blur-stage > .lesson-video { margin-bottom: 1rem; }
+.video-intro {
+  box-sizing: border-box;
+  width: min(100%, 52rem);
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: clamp(.75rem, 3vw, 1.5rem);
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+.video-intro[hidden], .video-intro [hidden] { display: none !important; }
+.video-intro .lesson-video {
+  width: min(100%, max(13rem, calc((100dvh - 8rem) * 1.77778)));
+}
+.video-intro video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  border: 2px solid #aac39c;
+  border-radius: .9rem;
+  background: #203d34;
+  box-shadow: 0 5px 0 #dce1cf;
+}
+.video-intro p { margin: .5rem 0 0; }
+.video-intro > button { min-height: 48px; }
+#quiz-summary .video-intro { min-height: calc(100dvh - 4rem); }
+body:has(> .video-intro:not([hidden])) > .skip { display: none; }
+main:has(> .game-video-intro:not([hidden])) {
+  max-width: none;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+}
+.game-video-intro > button {
+  padding: .65rem 1.2rem;
+  background: #225e49;
+  border-color: #1e5a40;
+  color: white;
+  font-weight: 750;
+}

@@ -21,17 +21,17 @@ Mô hình vật chứng dùng WebGL. Có thể mở `hl2_mo_phong.html?view=2d` 
 
 ### Video Sóc Thám Tử
 
-Năm video hoạt hình được tạo bằng Google Flow. Học sinh có thể phát, tạm dừng, chỉnh âm lượng và tiếp tục bài học bất cứ lúc nào.
+Năm video hoạt hình được tạo bằng Google Flow. Mỗi video nằm giữa một màn hình dẫn 16:9 với ảnh chờ lấy từ video và một nút chuyển tiếp. Học sinh có thể phát, tạm dừng, chỉnh âm lượng hoặc bấm tiếp ngay. Khi bấm tiếp, nội dung kế tiếp mới hiện ra.
 
 | Thứ tự | Video trong bai-1/video | Vị trí và mục đích |
 | --- | --- | --- |
 | 1 | HL01_Khoi_dong.mp4 | Trang mở đầu. Sóc giới thiệu cuộc điều tra trước khi em bấm Bắt đầu. |
 | 2 | HL02_Kham_pha.mp4 | Đầu H1. Sóc gợi hỏi về khả năng nghe và nhận dạng ảnh của máy. |
-| 3 | HL03_Quay_mon_ngon.mp4 | Cuối H6 trong luồng Moodle và phần dẫn của trò chơi web. Sóc giới thiệu nhiệm vụ trước khi em vào quầy. |
+| 3 | HL03_Quay_mon_ngon.mp4 | Phần dẫn Quầy món ngon trong bản web và SCORM 66. Sóc giới thiệu nhiệm vụ ngay trước khi em vào quầy. |
 | 4 | HL04_Bi_an_anh_mo.mp4 | Trước lượt dự đoán chai hay lon. Em chuẩn bị kiểm tra gợi ý của máy bằng vật chứng. |
 | 5 | HL05_Tong_ket.mp4 | Kết quả tự luyện. Sóc nhắc em kiểm tra gợi ý của AI trước khi em chuyển sang phần đánh giá. |
 
-Trong Moodle, sau khi mở bài nộp nhật ký và quay lại H6, học sinh có thể xem video 03 ngay trước nút **Vào quầy của Sóc**. Nút này mở hoạt động SCORM 66 và dùng được ngay. Học sinh mở SCORM trực tiếp có thể xem video 03 ở phần giới thiệu trong trò chơi. Phần giới thiệu SCORM tải video từ GitHub Pages và vẫn cho vào quầy nếu video không tải được.
+Trong Moodle, cuối H6 dẫn thẳng tới hoạt động SCORM 66. Video 03 chỉ xuất hiện ở màn hình dẫn của trò chơi, dù học sinh đến từ H6 hay mở SCORM trực tiếp. Phần giới thiệu SCORM tải video từ GitHub Pages và vẫn cho vào quầy nếu video không tải được.
 
 ### Chơi lại Quầy món ngon của Sóc
 
