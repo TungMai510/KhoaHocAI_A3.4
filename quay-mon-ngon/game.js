@@ -46,7 +46,7 @@ introVideo?.addEventListener('error', () => {
 });
 function show(){
   introVideo?.pause();
-  $('intro').hidden=true; $('game').hidden=false; $('choices').replaceChildren();
+  $('intro').hidden=true; $('game-heading').hidden=false; $('game').hidden=false; $('choices').replaceChildren();
   $('next').hidden=true; $('feedback').textContent=''; $('hint').textContent='';
   $('translate').hidden=done===3;
   $('result').hidden=done!==orders.length;

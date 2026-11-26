@@ -9,16 +9,20 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="styles.css">
 <script src="evidence-model.js" defer></script><script src="app.js?v=tung-buoc" defer></script><link rel="stylesheet" href="azota-embed.css">
-<script src="bai1-moodle.js?v=moodle-labels"></script><script src="azota-embed.js?v=tung-buoc"></script><link rel="stylesheet" href="bai1-hoc-lieu.css?v=flow-video">
+<script src="bai1-moodle.js?v=moodle-labels"></script><script src="azota-embed.js?v=tung-buoc"></script><link rel="stylesheet" href="bai1-hoc-lieu.css?v=video-intro">
 </head>
 <body data-page="challenge" class="student-task">
+<section class="video-intro" data-video-target="main" data-video-start hidden>
+<div class="lesson-video"><video controls playsinline preload="none" width="320" height="180" aria-label="Bí ẩn sau ảnh mờ" poster="bai-1/video/HL04_Bi_an_anh_mo.webp" src="bai-1/video/HL04_Bi_an_anh_mo.mp4">Em có thể tiếp tục hoạt động.</video><p role="status" hidden>Video chưa tải được. Em có thể tiếp tục.</p></div>
+<button class="btn" type="button" data-video-continue>Xem ảnh mờ</button>
+</section>
 <a class="skip" href="#main">Đến nhiệm vụ chính</a><main class="wrap" id="main">
 <section class="investigation" aria-labelledby="case-title"><div class="mission-heading compact"><div>
 <h1 id="case-title">Bí ẩn sau ảnh mờ</h1>
 <p id="case-instruction">Nhìn ảnh mờ. Em đoán đây là chai hay lon?</p>
 </div></div>
 <div class="evidence-desk">
-<div id="blur-stage"><div class="lesson-video"><video controls playsinline preload="none" width="320" height="180" aria-label="Bí ẩn sau ảnh mờ" src="bai-1/video/HL04_Bi_an_anh_mo.mp4">Em có thể tiếp tục hoạt động.</video><p role="status" hidden>Video chưa tải được. Em có thể tiếp tục.</p></div><div class="blur-layout">
+<div id="blur-stage"><div class="blur-layout">
 <figure class="evidence-photo"><span class="photo-pin" aria-hidden="true"></span><div class="photo-frame blurred"><img src="assets/can.svg" alt="Ảnh mờ một đồ vật màu xanh, chưa rõ chi tiết."></div></figure><div class="prediction-controls">
 <div id="predictions" class="choices">
 <button class="choice" data-predict="Chai" aria-pressed="false">Một chiếc chai</button><button class="choice" data-predict="Lon" aria-pressed="false">Một chiếc lon</button><button class="choice" data-predict="Chưa chắc" aria-pressed="false">Em chưa chắc</button>
@@ -73,4 +77,4 @@
 </div></section>
 </main>
 </body>
-<script src="bai1-video.js" defer></script></html>
+<script src="bai1-video.js?v=video-intro" defer></script></html>

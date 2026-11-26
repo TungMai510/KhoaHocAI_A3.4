@@ -7,12 +7,16 @@
   <title>Cùng Sóc khám phá AI · Bài 1</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="bai1-hoc-lieu.css?v=flow-video">
+  <link rel="stylesheet" href="bai1-hoc-lieu.css?v=video-intro">
   <script src="bai1-moodle.js?v=moodle-labels"></script>
-  <script src="bai1-hoc-lieu.js?v=video-h6" defer></script>
-<script src="bai1-video.js" defer></script></head>
+  <script src="bai1-hoc-lieu.js?v=video-intro" defer></script>
+<script src="bai1-video.js?v=video-intro" defer></script></head>
 <body class="guided-lesson">
-  <main class="lesson-book">
+  <section class="video-intro" data-video-target="lesson-content" data-video-hash="#h1" hidden>
+<div class="lesson-video"><video controls playsinline preload="none" width="320" height="180" aria-label="Sóc đặt câu hỏi khám phá" poster="bai-1/video/HL02_Kham_pha.webp" src="bai-1/video/HL02_Kham_pha.mp4">Em có thể tiếp tục hoạt động.</video><p role="status" hidden>Video chưa tải được. Em có thể tiếp tục.</p></div>
+<button class="btn" type="button" data-video-continue>Khám phá cùng Sóc</button>
+</section>
+  <main class="lesson-book" id="lesson-content">
     <div class="lesson-progress">
       <img src="assets/squirrel.svg" alt="" width="58" height="58">
       <span id="lesson-step">Bước 1 / 6</span>
@@ -26,7 +30,6 @@
 
     <section id="h1" class="activity" aria-labelledby="title-h1">
       <h1 id="title-h1" tabindex="-1">Lan và Nam nhờ em giúp</h1>
-      <div class="lesson-video"><video controls playsinline preload="none" width="320" height="180" aria-label="Sóc đặt câu hỏi khám phá" src="bai-1/video/HL02_Kham_pha.mp4">Em có thể tiếp tục hoạt động.</video><p role="status" hidden>Video chưa tải được. Em có thể tiếp tục.</p></div>
       <div class="story-pair">
         <div><h2>Lan</h2><p>Lan muốn đọc lại câu cô vừa nói.</p></div>
         <div><h2>Nam</h2><p>Nam chụp một món đồ để hỏi máy: “Đây là chai hay lon?”</p></div>
@@ -123,11 +126,6 @@
       </form>
       <p id="submit-instruction" hidden></p>
       <a class="btn" id="diary-submit" target="_blank" rel="noopener" hidden>Mở bài nộp trên Moodle</a>
-      <div class="lesson-video" id="moodle-food-video" hidden>
-        <video controls playsinline preload="none" width="320" height="180"
-          aria-label="Sóc giới thiệu quầy món ăn" src="bai-1/video/HL03_Quay_mon_ngon.mp4">Em có thể vào quầy của Sóc.</video>
-        <p role="status" hidden>Video chưa tải được. Em có thể vào quầy của Sóc.</p>
-      </div>
     </section>
 
     <p id="copy-status" class="result" role="status" hidden></p>

@@ -198,6 +198,8 @@ if(page==='practice'){
     finish.textContent = 'Về đầu bài';
   }
   let current=0,answers=Array(quiz.length).fill(null),completed=false;
+  const videoIntro = $('quiz-video-intro');
+  const scoreContent = $('quiz-score-content');
   function renderQuiz(focus=false){
     const d=quiz[current];$('quiz-count').textContent=`Tình huống ${current+1} / ${quiz.length}`;$('quiz-question').textContent=d.q;
     $('quiz-exhibit').innerHTML=`<span class="scene-emoji">${d.scene}</span><span class="exhibit-bubble">${d.bubble}</span><span class="exhibit-label">${d.label}</span>`;
@@ -205,10 +207,26 @@ if(page==='practice'){
     d.a.forEach((a,i)=>{const b=document.createElement('button');b.className='choice';b.textContent=a;b.setAttribute('aria-pressed','false');b.onclick=()=>{answers[current]=i;selected('quiz-answers',b);feedback('quiz-feedback',(i===d.key?'Đúng rồi! ':'Chưa đúng. ')+d.why[i],i===d.key);$('quiz-next').disabled=false;};$('quiz-answers').append(b);});
     if(focus){$('quiz-question').focus({preventScroll:true});bringIntoView($('practice'));}
   }
-  function restart(){$('practice-score-note').hidden=true;current=0;completed=false;answers.fill(null);$('practice').hidden=false;$('quiz-summary').hidden=true;location.hash='practice';renderQuiz(true);}
-  $('quiz-next').onclick=()=>{if(answers[current]===null)return;if(current<quiz.length-1){current++;renderQuiz(true);}else{completed=true;$('practice-score-note').hidden=false;const score=answers.reduce((sum,a,i)=>sum+Number(a===quiz[i].key),0);$('practice').hidden=true;$('quiz-summary').hidden=false;$('score').textContent=`Em đúng ${score} / ${quiz.length} tình huống.`;$('score').focus({preventScroll:true});bringIntoView($('quiz-summary'));}};
+  function restart(){current=0;completed=false;answers.fill(null);$('practice').hidden=false;$('quiz-summary').hidden=true;location.hash='practice';renderQuiz(true);}
+  $('quiz-next').onclick = () => {
+    if (answers[current] === null) return;
+    if (current < quiz.length - 1) {
+      current++;
+      renderQuiz(true);
+      return;
+    }
+
+    completed = true;
+    const score = answers.reduce((sum, answer, index) => sum + Number(answer === quiz[index].key), 0);
+    $('score').textContent = 'Em đúng ' + score + ' / ' + quiz.length + ' tình huống.';
+    route();
+    scoreContent.hidden = true;
+    videoIntro.hidden = false;
+    videoIntro.querySelector('button').focus({ preventScroll: true });
+    bringIntoView(videoIntro);
+  };
   $('quiz-reset').onclick=restart;$('quiz-again').onclick=restart;
-  function route(){const isQ1=location.hash==='#q1';$('q1').hidden=!isQ1;$('practice-heading').hidden=isQ1;$('practice').hidden=isQ1||completed;$('quiz-summary').hidden=isQ1||!completed;$('practice-score-note').hidden=isQ1||!completed;}
+  function route(){const isQ1=location.hash==='#q1';$('q1').hidden=!isQ1;$('practice-heading').hidden=isQ1||completed;$('practice').hidden=isQ1||completed;$('quiz-summary').hidden=isQ1||!completed;}
   window.addEventListener('hashchange',route);renderQuiz();route();
   $('copy').onclick=async()=>{
     $('manual-copy').hidden=true;
