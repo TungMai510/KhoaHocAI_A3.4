@@ -467,11 +467,14 @@ header {
   position: absolute;
   top: 6px;
   right: 6px;
-  background: #1e4280e6;
-  color: white;
+  background: #fff4c9;
+  border: 1px solid #e0be5a;
+  color: #5b4616;
   font-size: 11px;
-  padding: 2px 5px;
-  border-radius: 7px;
+  font-weight: 800;
+  line-height: 1.2;
+  padding: 2px 6px;
+  border-radius: 999px;
   pointer-events: none;
 }
 .test-quick-row {
@@ -802,16 +805,11 @@ header {
   font-weight: 800;
 }
 
-.teacher-eval-note {
-  margin: 12px 0 0;
-  padding: 9px 11px;
-  border-radius: 11px;
-  background: #f0f7ec;
-  border: 1.5px solid #c3d9b8;
-  font-size: 12.5px;
-  line-height: 1.45;
-  color: #264d39;
-}
+.title-row { display: flex; align-items: center; gap: 2px; min-width: 0; }
+.title-row h2, .title-row h3 { margin: 0; }
+.notebook-side .title-row { margin-bottom: 8px; }
+.q4-label-main { display: inline-flex; align-items: center; min-width: 0; }
+.q4-label-main label { margin-bottom: 0; }
 
 .q4-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 #copyStatus { font-size: 13px; font-weight: 800; color: var(--green); }
@@ -930,14 +928,15 @@ html.moodle-embed #next-lesson-link {
   font-weight: 800;
   font-size: 12.5px;
 }
-.moodle-submit-note {
-  font-size: 12.5px;
-  font-weight: 700;
-  color: #355a45;
-  text-align: center;
-  margin: 10px auto 4px;
-  max-width: 72ch;
-}
+.tool-icon svg, .speak-btn svg { display: block; }
+.tool-icon .mute-slash { display: none; }
+.tool-icon.is-muted .mute-slash { display: inline; }
+.train-cta { display: flex; align-items: center; justify-content: center; gap: 2px; }
+.train-cta .train-btn { flex: 1; width: auto; }
+.round2-banner { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+.sample-pool-head > span, .test-pool-head > span { display: inline-flex; align-items: center; min-width: 0; }
+.vote-dots .hint-btn { margin-top: 0; }
+.step3-finish-row { align-items: center; }
 html.moodle-embed body[data-lesson="2"] main { padding: 4px 12px 10px; }
 html.moodle-embed body[data-lesson="2"] .journey { display: flex !important; gap: 5px; }
 html.moodle-embed body[data-lesson="2"] .journey button { min-height: 36px; padding: 4px 9px; font-size: 12px; }

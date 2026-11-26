@@ -48,7 +48,7 @@
       <span>Vườn học của Mít</span>
     </a>
     <div class="header-actions">
-      <a class="guide-link" href="huong-dan.html" target="_blank" rel="noopener" aria-label="Thẻ 4 bước và hướng dẫn giáo viên">ⓘ Thẻ 4 bước</a>
+      <a class="guide-link" href="huong-dan.html" target="_blank" rel="noopener" aria-label="Thẻ 4 bước và hướng dẫn giáo viên">Thẻ 4 bước</a>
       <a class="course-link" href="../khoa_hoc.html">← Mục lục</a>
     </div>
   </header>
@@ -65,9 +65,9 @@
         <button type="button" data-step="3"><span>4</span>Thử tài</button>
       </nav>
       <div class="strip-tools">
-        <span id="round-pill" class="round-pill" hidden>Lượt 2 · Bộ mới</span>
-        <button type="button" id="sound-btn" class="tool-icon" aria-pressed="false" aria-label="Tắt/bật âm thanh hiệu ứng" title="Âm thanh">🔊</button>
-        <button type="button" id="open-notebook" class="notebook-link">📋 Phiếu Q4</button>
+        <span id="round-pill" class="round-pill" hidden>Lượt 2</span>
+        <button type="button" id="sound-btn" class="tool-icon" aria-pressed="false" aria-label="Tắt/bật âm thanh hiệu ứng" title="Âm thanh"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/><path class="mute-slash" d="M3 3l18 18"/></svg></button>
+        <button type="button" id="open-notebook" class="notebook-link">Phiếu Q4</button>
       </div>
     </div>
 
@@ -77,7 +77,7 @@
       <section class="center-stage" aria-label="Sân khấu Mít 3D và nhiệm vụ">
         <div class="robot-zone">
           <div class="robot-stage">
-            <div id="stage-loader" class="stage-loader" role="status">Đang gọi Mít 3D…</div>
+            <div id="stage-loader" class="stage-loader" role="status">Đang gọi Mít…</div>
             <div id="sceneFallback">
               <svg viewBox="0 0 400 240" role="img" aria-label="Robot Mít minh họa" style="width:100%;height:220px">
                 <ellipse cx="200" cy="220" rx="155" ry="18" fill="#9bd7b9"/>
@@ -107,7 +107,7 @@
           <div class="robot-speech">
             <span class="speaker">Mít</span>
             <p id="speech" aria-live="polite">Chào bạn! Chọn một kho ảnh hoặc tự đặt tên nhé!</p>
-            <button type="button" id="speak-btn" class="speak-btn" aria-pressed="false" aria-label="Nghe Mít nói tiếng Việt" title="Nghe Mít nói tiếng Việt">🗣️</button>
+            <button type="button" id="speak-btn" class="speak-btn" aria-pressed="false" aria-label="Nghe Mít nói tiếng Việt" title="Nghe Mít nói tiếng Việt"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12"/></svg></button>
           </div>
           <p id="motion-status" class="sr-only" role="status"></p>
         </div>
@@ -121,7 +121,7 @@
   </main>
 
   <footer>
-    Bài 2 · Vườn học của Mít · Mít chỉ chọn giữa 2 nhóm em dạy.
+    Bài 2 · Vườn học của Mít ·
     <a href="huong-dan.html" target="_blank" rel="noopener">Thẻ 4 bước</a> ·
     <a href="samples/credits.html" target="_blank" rel="noopener">Nguồn ảnh</a>
   </footer>
@@ -129,18 +129,18 @@
   <!-- Quiz 3 câu (Progressive 1 câu / màn hình) -->
   <dialog id="quiz-dialog" class="modal-dialog" aria-labelledby="quiz-title">
     <div class="dialog-head">
-      <h2 id="quiz-title">🎯 Thử tài cùng Mít</h2>
+      <h2 id="quiz-title">3 câu hỏi thêm</h2>
       <button type="button" id="quiz-close" class="icon-close" aria-label="Đóng">×</button>
     </div>
     <div id="quiz-body" class="quiz-body"></div>
   </dialog>
 
-  <!-- Sổ khám phá & Phiếu Q4 -->
+  <!-- Phiếu Q4 -->
   <dialog id="notebook-dialog" class="modal-dialog modal-wide" aria-labelledby="notebook-title">
     <div class="dialog-head">
-      <div>
-        <span class="dialog-eyebrow">Q4 · 4.C5.MR2</span>
-        <h2 id="notebook-title">📋 Phiếu thu hoạch 4 bước</h2>
+      <div class="title-row">
+        <h2 id="notebook-title">Phiếu Q4: Kể lại 4 bước</h2>
+        <button type="button" class="hint-btn" aria-expanded="false" aria-label="Cách nộp phiếu" data-hint="Viết ngắn 4 dòng rồi bấm Sao chép nộp Moodle. Mở bài tập Q4 trên Moodle, dán vào (Ctrl+V) và nộp.">?</button>
       </div>
       <button type="button" id="close-notebook" class="icon-close" aria-label="Đóng phiếu">×</button>
     </div>
@@ -150,70 +150,75 @@
     <div class="notebook-grid">
       <div class="q4-form">
         <div id="q4-draft-banner" class="q4-draft-banner" hidden>
-          <p id="q4-draft-msg">📌 Phiếu đang giữ nội dung từ lần làm trước.</p>
+          <p id="q4-draft-msg">Phiếu còn bài viết cũ.</p>
           <div class="q4-draft-btns">
-            <button type="button" id="keep-old-q4" class="mini-pill">✏️ Tiếp tục bài cũ</button>
-            <button type="button" id="banner-reset-q4" class="mini-pill warn-pill">🧹 Làm phiếu mới</button>
+            <button type="button" id="keep-old-q4" class="mini-pill">Tiếp tục bài cũ</button>
+            <button type="button" id="banner-reset-q4" class="mini-pill warn-pill">Làm phiếu mới</button>
           </div>
         </div>
 
         <div class="q4-field">
           <div class="q4-label-row">
-            <label for="q4-dataset">Bộ ảnh em chọn (khác lượt đầu)</label>
-            <button type="button" id="fill-current-dataset" class="mini-pill">✨ Điền tên bộ ảnh</button>
+            <span class="q4-label-main">
+              <label for="q4-dataset">Bộ ảnh em chọn (khác Lượt 1)</label>
+              <button type="button" class="hint-btn" aria-expanded="false" aria-label="Ghi bộ ảnh nào?" data-hint="Ghi 2 nhóm em dạy ở Lượt 2. Bấm Điền tên bộ ảnh để điền nhanh.">?</button>
+            </span>
+            <button type="button" id="fill-current-dataset" class="mini-pill">Điền tên bộ ảnh</button>
           </div>
           <input id="q4-dataset" type="text" maxlength="120" placeholder="Ví dụ: Bút và Thước">
         </div>
         <div class="q4-field">
-          <label for="q4-step1">1. Đặt tên 2 nhóm:</label>
-          <input id="q4-step1" type="text" maxlength="180" placeholder="Em đặt Khay A là ..., Khay B là ...">
+          <label for="q4-step1">1. Đặt tên</label>
+          <input id="q4-step1" type="text" maxlength="180" placeholder="Khay A là ..., Khay B là ...">
         </div>
         <div class="q4-field">
-          <label for="q4-step2">2. Xếp ảnh mẫu:</label>
-          <input id="q4-step2" type="text" maxlength="200" placeholder="Em chọn/chụp ... ảnh khác góc vào mỗi khay">
+          <label for="q4-step2">2. Xếp ảnh</label>
+          <input id="q4-step2" type="text" maxlength="200" placeholder="Mỗi khay em xếp ... ảnh, chụp ...">
         </div>
         <div class="q4-field">
-          <label for="q4-step3">3. Dạy Mít:</label>
-          <input id="q4-step3" type="text" maxlength="160" placeholder="Em bấm nút Dạy Mít học">
+          <label for="q4-step3">3. Dạy Mít</label>
+          <input id="q4-step3" type="text" maxlength="160" placeholder="Em bấm nút ...">
         </div>
         <div class="q4-field">
-          <label for="q4-step4">4. Thử ảnh mới &amp; kiểm tra:</label>
-          <textarea id="q4-step4" rows="2" maxlength="260" placeholder="Mít đoán là ..., em kiểm tra bằng mắt thấy ..."></textarea>
+          <label for="q4-step4">4. Thử tài</label>
+          <textarea id="q4-step4" rows="2" maxlength="260" placeholder="Em thử ảnh ..., Mít đoán ..., em thấy ..."></textarea>
         </div>
 
         <pre id="q4-preview" class="q4-preview"></pre>
 
         <div class="q4-actions">
-          <button type="button" id="copy" class="primary">📋 Sao chép nộp Moodle</button>
-          <button type="button" id="clear-q4" class="secondary-btn">🧹 Làm phiếu mới</button>
+          <button type="button" id="copy" class="primary">Sao chép nộp Moodle</button>
+          <button type="button" id="clear-q4" class="secondary-btn">Làm phiếu mới</button>
           <span id="copyStatus" role="status"></span>
         </div>
 
         <div id="q4-clear-confirm" class="q4-clear-confirm" hidden>
-          <p>Em muốn xóa nội dung cũ trong phiếu để viết bài mới từ đầu chứ?</p>
+          <p>Xóa bài cũ để làm phiếu mới?</p>
           <div class="q4-confirm-btns">
-            <button type="button" id="confirm-clear-q4" class="danger-pill">Đồng ý xóa, làm phiếu mới</button>
-            <button type="button" id="cancel-clear-q4" class="mini-pill">Giữ lại bài đang viết</button>
+            <button type="button" id="confirm-clear-q4" class="danger-pill">Xóa, làm phiếu mới</button>
+            <button type="button" id="cancel-clear-q4" class="mini-pill">Giữ bài cũ</button>
           </div>
         </div>
 
         <div id="manual-copy-wrap" hidden>
-          <label for="manual-copy">Bôi đen và sao chép thủ công:</label>
+          <label for="manual-copy">Bôi đen rồi sao chép (Ctrl+C):</label>
           <textarea id="manual-copy" rows="5" readonly></textarea>
         </div>
       </div>
 
       <div class="notebook-side">
-        <h3>Bảng tự kiểm 4 bước</h3>
-        <label class="check"><input type="checkbox">Đặt tên 2 nhóm rõ ràng.</label>
-        <label class="check"><input type="checkbox">Xếp ít nhất 3 ảnh mỗi khay.</label>
-        <label class="check"><input type="checkbox">Bấm dạy Mít và thử ảnh mới.</label>
-        <label class="check"><input type="checkbox">Chọn bộ ảnh khác ở Lượt 2 và tự làm lại đủ 4 bước.</label>
-        <p class="teacher-eval-note">👩‍🏫 <strong>Lưu ý đánh giá Q4:</strong> Thầy/cô quan sát từng em thực hành 4 bước ở Lượt 2 và xem phần mô tả trong Phiếu Q4 (hoặc nghe em trình bày miệng).</p>
+        <div class="title-row">
+          <h3>Em tự kiểm tra</h3>
+          <button type="button" class="hint-btn" aria-expanded="false" aria-label="Dành cho thầy cô" data-hint="Thầy cô xem em làm đủ 4 bước ở Lượt 2 và đọc Phiếu Q4, hoặc nghe em kể lại.">?</button>
+        </div>
+        <label class="check"><input type="checkbox">Đặt tên 2 nhóm khác nhau</label>
+        <label class="check"><input type="checkbox">Mỗi khay ít nhất 3 ảnh</label>
+        <label class="check"><input type="checkbox">Dạy Mít và thử ảnh mới</label>
+        <label class="check"><input type="checkbox">Lượt 2: bộ ảnh khác, đủ 4 bước</label>
 
         <div class="notebook-next-actions">
-          <button type="button" id="reset" class="secondary-btn">🔄 Đổi bộ ảnh mới (Lượt 2)</button>
-          <a class="next-course-btn" id="next-lesson-link" href="../bai3_y_tuong.html">Sang Bài 3: Thiết kế ý tưởng AI →</a>
+          <button type="button" id="reset" class="secondary-btn">Sang Lượt 2</button>
+          <a class="next-course-btn" id="next-lesson-link" href="../bai3_y_tuong.html">Sang Bài 3 →</a>
         </div>
       </div>
     </div>
@@ -222,7 +227,7 @@
   <!-- Camera Chụp ảnh (1 chạm + Giữ chụp liên tiếp) -->
   <dialog id="camera-dialog" class="modal-dialog" aria-labelledby="camera-title">
     <div class="dialog-head">
-      <h2 id="camera-title">📷 Chụp ảnh đồ vật</h2>
+      <h2 id="camera-title">Chụp ảnh</h2>
       <button type="button" id="camera-close" class="icon-close" aria-label="Đóng camera">×</button>
     </div>
     <div class="camera-frame">
@@ -234,13 +239,13 @@
     <p id="camera-result-note" role="status"></p>
     <div class="camera-actions">
       <button type="button" id="camera-shutter" class="primary" disabled>Chụp 1 ảnh</button>
-      <button type="button" id="camera-burst" class="burst-btn" disabled>⚡ Giữ chụp liên tiếp</button>
+      <button type="button" id="camera-burst" class="burst-btn" disabled>Giữ để chụp nhiều</button>
       <button type="button" id="camera-retry" class="secondary-btn" hidden>Mở lại camera</button>
     </div>
     <p class="camera-privacy">Chỉ chụp đồ vật, cây cối. Không chụp mặt bạn.</p>
     <div class="camera-footer-links">
-      <a class="camera-direct" href="./" target="_blank" rel="noopener">Mở tab riêng nếu bị chặn camera ↗</a>
-      <button type="button" id="camera-done" class="text-button">Xong, đóng lại</button>
+      <a class="camera-direct" href="./" target="_blank" rel="noopener">Camera bị chặn? Mở tab riêng ↗</a>
+      <button type="button" id="camera-done" class="text-button">Xong</button>
     </div>
   </dialog>
 

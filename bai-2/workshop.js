@@ -48,6 +48,153 @@ const esc = s =>
     "'": '&#39;'
   }[c]));
 
+// ? hint popover: one shared bubble, opens on hover / keyboard focus / tap, always clamped inside the viewport.
+// Markup: <button type="button" class="hint-btn" aria-expanded="false" aria-label="Gợi ý" data-hint="Nội dung">?</button>
+const hintBtn = (text, label = 'Gợi ý') =>
+  `<button type="button" class="hint-btn" aria-expanded="false" aria-label="${esc(label)}" data-hint="${esc(text)}">?</button>`;
+
+const Bai2Hint = (() => {
+  let bubble = null;
+  let current = null;
+  let pinned = false;
+  let suppressFocusOpen = false;
+  let timer = 0;
+  const M = 8;
+
+  function getBubble() {
+    if (!bubble) {
+      bubble = document.createElement('div');
+      bubble.id = 'hint-bubble';
+      bubble.className = 'hint-bubble';
+      bubble.setAttribute('role', 'tooltip');
+      bubble.hidden = true;
+      bubble.addEventListener('pointerenter', () => clearTimeout(timer));
+      bubble.addEventListener('pointerleave', e => {
+        if (!pinned && e.pointerType === 'mouse') later();
+      });
+    }
+    return bubble;
+  }
+
+  function place() {
+    if (!current || !bubble) return;
+    const r = current.getBoundingClientRect();
+    const vw = document.documentElement.clientWidth;
+    const vh = window.innerHeight;
+    if (r.bottom < 0 || r.top > vh || !r.width) {
+      close();
+      return;
+    }
+    bubble.style.left = '0px';
+    bubble.style.top = '0px';
+    const w = bubble.offsetWidth;
+    const h = bubble.offsetHeight;
+    const cx = r.left + r.width / 2;
+    const left = Math.min(Math.max(M, cx - w / 2), Math.max(M, vw - w - M));
+    const below = r.bottom + 10 + h <= vh - M || r.top - 10 - h < M;
+    const top = Math.max(M, Math.min(below ? r.bottom + 10 : r.top - 10 - h, vh - h - M));
+    bubble.dataset.side = below ? 'below' : 'above';
+    bubble.style.setProperty('--arrow-x', Math.min(Math.max(14, cx - left), Math.max(14, w - 14)) + 'px');
+    bubble.style.left = left + 'px';
+    bubble.style.top = top + 'px';
+  }
+
+  function open(btn, pin) {
+    clearTimeout(timer);
+    if (current && current !== btn) {
+      current.setAttribute('aria-expanded', 'false');
+      current.removeAttribute('aria-describedby');
+    }
+    const br = btn.getBoundingClientRect();
+    if (br.width && (br.top < 0 || br.bottom > window.innerHeight)) {
+      btn.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+    }
+    const b = getBubble();
+    const host = btn.closest('dialog[open]') || document.body;
+    if (b.parentNode !== host) host.appendChild(b);
+    current = btn;
+    pinned = pin;
+    b.textContent = btn.dataset.hint || '';
+    b.hidden = false;
+    btn.setAttribute('aria-expanded', 'true');
+    btn.setAttribute('aria-describedby', 'hint-bubble');
+    place();
+  }
+
+  function close() {
+    clearTimeout(timer);
+    if (current) {
+      current.setAttribute('aria-expanded', 'false');
+      current.removeAttribute('aria-describedby');
+    }
+    current = null;
+    pinned = false;
+    if (bubble) bubble.hidden = true;
+  }
+
+  function later() {
+    clearTimeout(timer);
+    timer = setTimeout(close, 160);
+  }
+
+  const btnOf = e => (e.target instanceof Element ? e.target.closest('.hint-btn') : null);
+
+  document.addEventListener('pointerover', e => {
+    const b = btnOf(e);
+    if (b && e.pointerType === 'mouse') open(b, false);
+  });
+  document.addEventListener('pointerout', e => {
+    const b = btnOf(e);
+    if (!b || e.pointerType !== 'mouse' || pinned) return;
+    if (e.relatedTarget instanceof Element && e.relatedTarget.closest('.hint-bubble')) return;
+    later();
+  });
+  document.addEventListener('focusin', e => {
+    const b = btnOf(e);
+    if (b && !suppressFocusOpen && !(current === b && pinned)) open(b, false);
+  });
+  document.addEventListener('focusout', e => {
+    const b = btnOf(e);
+    if (b && b === current && !pinned) close();
+  });
+  document.addEventListener('click', e => {
+    const b = btnOf(e);
+    if (!b) return;
+    e.preventDefault();
+    if (current === b && pinned) close();
+    else open(b, true);
+  });
+  document.addEventListener(
+    'pointerdown',
+    e => {
+      if (!current || !(e.target instanceof Element)) return;
+      if (!e.target.closest('.hint-btn, .hint-bubble')) close();
+    },
+    true
+  );
+  document.addEventListener(
+    'keydown',
+    e => {
+      if (e.key !== 'Escape' || !current) return;
+      const btn = current;
+      close();
+      e.preventDefault();
+      e.stopPropagation();
+      if (btn.isConnected) {
+        suppressFocusOpen = true;
+        btn.focus({ preventScroll: true });
+        suppressFocusOpen = false;
+      }
+    },
+    true
+  );
+  document.addEventListener('close', close, true);
+  window.addEventListener('resize', place);
+  window.addEventListener('scroll', () => requestAnimationFrame(place), true);
+
+  return { close, place, sync: () => { if (current && !current.isConnected) close(); } };
+})();
+
 // Genuine Vietnamese Voice Engine (offline MP3 clips + strict vi-VN speechSynthesis fallback)
 let voiceAudio = null;
 let viSpeechVoice = null;
@@ -141,7 +288,7 @@ function emitTraining(active, progress = 0) {
   const label = $('#train-label');
   if (box) box.hidden = !active;
   if (fill) fill.style.width = Math.round(progress * 100) + '%';
-  if (label) label.textContent = active ? `Mít đang học (${Math.round(progress * 100)}%)…` : '';
+  if (label) label.textContent = active ? 'Mít đang học…' : '';
   window.dispatchEvent(new CustomEvent('mitTraining', { detail: { active, progress } }));
 }
 
@@ -354,7 +501,7 @@ async function addPoolPhoto(entry, chosenTray) {
     window.dispatchEvent(new CustomEvent('mitPhotoFly', { detail: { cls: chosenTray, url: item.url } }));
 
     if (typeof entry.cls === 'number' && entry.cls !== chosenTray) {
-      setStatus('Mẹo: Bấm dấu × trên ảnh trong khay nếu em kéo nhầm.');
+      setStatus('Kéo nhầm? Bấm × trên ảnh để bỏ ra.');
       say(
         `Ơ, ảnh này giống ${state.names[entry.cls]} hơn! Em bấm × trên ảnh để bỏ ra xếp lại, hoặc giữ nguyên xem Mít học nhầm ra sao nhé.`,
         'wrong_tray'
@@ -509,7 +656,7 @@ function selectDataset(id) {
   const ds = state.datasets.find(d => d.id === id);
   if (!ds) return;
   if (state.round === 'q4' && matchesRound1Pair(ds.names[0], ds.names[1])) {
-    setStatus(`Lượt 2 (Q4) chọn cặp khác ${round1Label()} nhé!`);
+    setStatus(`Lượt 2 cần cặp khác ${round1Label()}.`);
     say('Lượt 2 bạn hãy chọn bộ ảnh khác với lượt đầu nhé!', 'need_diff');
     return;
   }
@@ -557,7 +704,7 @@ function renderTrays() {
           .join('')}</div>`
         : `<div class="empty-photos" aria-hidden="true"><div class="paper-photo"></div><div class="paper-photo second"></div></div>`) +
       (state.step === 1
-        ? `<div class="tray-mini-actions"><button type="button" class="mini-btn cam" data-camera="${i}">📷 Chụp</button><label class="mini-btn">📁 Chọn ảnh<input type="file" accept="image/*" multiple data-upload="${i}" aria-label="Chọn ảnh vào khay ${i === 0 ? 'A' : 'B'}"></label></div>`
+        ? `<div class="tray-mini-actions"><button type="button" class="mini-btn cam" data-camera="${i}">Chụp</button><label class="mini-btn">Chọn ảnh<input type="file" accept="image/*" multiple data-upload="${i}" aria-label="Chọn ảnh vào khay ${i === 0 ? 'A' : 'B'}"></label></div>`
         : '');
   }
 
@@ -568,7 +715,7 @@ function renderTrays() {
       state.datasetId = match ? match.id : 'custom';
       invalidate();
       if (state.round === 'q4' && matchesRound1Pair(state.names[0], state.names[1])) {
-        setStatus(`Lượt 2 (Q4) chọn cặp khác ${round1Label()} nhé!`);
+        setStatus(`Lượt 2 cần cặp khác ${round1Label()}.`);
       } else {
         setStatus('');
       }
@@ -611,22 +758,20 @@ function renderVoteSummary(r) {
     .map(n => `<span class="vote-dot ${n.cls === 0 ? 'tray-a-dot' : 'tray-b-dot'}" title="${esc(state.names[n.cls])}"></span>`)
     .join('');
 
-  const splitNote =
-    r.agreement < r.neighbours
-      ? ' (ý kiến còn chia 2 nhóm, em nhớ kiểm tra kỹ nhé).'
-      : '.';
-  const voteText = `Trong ${r.neighbours} ảnh mẫu Mít thấy giống nhất, có ${r.agreement} ảnh thuộc nhóm ${esc(state.names[r.cls])}${splitNote}`;
+  const splitNote = r.agreement < r.neighbours ? ' Em kiểm tra kỹ nhé.' : '';
+  const voteText = `${r.agreement} trong ${r.neighbours} ảnh giống nhất là ${esc(state.names[r.cls])}.${splitNote}`;
+  const tip = hintBtn('Mít tìm 3 ảnh trong khay giống ảnh thử nhất. Nhóm nào có nhiều ảnh hơn, Mít đoán nhóm đó.', 'Mít đoán thế nào?');
 
-  return `<div class="vote-dots">${dots}<span class="vote-caption">${voteText}</span></div>`;
+  return `<div class="vote-dots">${dots}<span class="vote-caption">${voteText}</span>${tip}</div>`;
 }
 
 function renderNeighborsMore(r) {
   if (!r?.nearest?.length || !state.trained.length) {
     return (
       `<details id="xray-more" class="more-panel"${state.xrayOpen ? ' open' : ''}>` +
-      `<summary>🎯 Xem thêm: Câu hỏi mở rộng (3 câu tự kiểm tra)</summary>` +
+      `<summary>Câu hỏi thêm</summary>` +
       `<div class="more-panel-body">` +
-      `<button type="button" id="open-quiz" class="finish-pill warn">🎯 Thử tài 3 câu hỏi mở rộng</button>` +
+      `<button type="button" id="open-quiz" class="finish-pill warn">Làm 3 câu hỏi</button>` +
       `</div>` +
       `</details>`
     );
@@ -642,10 +787,10 @@ function renderNeighborsMore(r) {
 
   return (
     `<details id="xray-more" class="more-panel"${state.xrayOpen ? ' open' : ''}>` +
-    `<summary>🔎 Xem thêm: 3 ảnh mẫu giống nhất &amp; câu hỏi mở rộng</summary>` +
+    `<summary>Xem 3 ảnh giống nhất</summary>` +
     `<div class="more-panel-body">` +
-    `<div class="neighbors-box"><p class="neighbors-title">3 ảnh mẫu trong khay học mà Mít thấy giống ảnh thử nhất:</p><div class="neighbors-grid">${thumbs}</div></div>` +
-    `<div class="more-quiz-row"><button type="button" id="open-quiz" class="finish-pill warn">🎯 Câu hỏi mở rộng: Thử tài 3 câu</button></div>` +
+    `<div class="neighbors-box"><p class="neighbors-title">Ảnh trong khay giống ảnh thử nhất:</p><div class="neighbors-grid">${thumbs}</div></div>` +
+    `<div class="more-quiz-row"><button type="button" id="open-quiz" class="finish-pill warn">Làm 3 câu hỏi thêm</button></div>` +
     `</div>` +
     `</details>`
   );
@@ -680,11 +825,11 @@ function renderArena() {
           return `<button type="button" class="dataset-chip" data-dataset="${d.id}" title="${esc(d.hint)}" aria-label="${esc(d.label + ': ' + d.hint)}" aria-pressed="${pressed}">${d.thumb ? `<img src="${d.thumb}" width="26" height="26" alt="">` : ''}<span>${esc(d.label)}</span></button>`;
         })
         .join('') +
-      `<button type="button" class="dataset-chip" data-dataset="custom" aria-pressed="${state.datasetId === 'custom'}">✏️ Tự tạo</button>`;
+      `<button type="button" class="dataset-chip" data-dataset="custom" aria-pressed="${state.datasetId === 'custom'}">Tự tạo</button>`;
 
     const round2BannerHtml =
       state.round === 'q4'
-        ? `<div id="round2-banner" class="round2-banner"><strong>🔄 Lượt 2 (Câu 4):</strong> Em phải chọn <b>một bộ ảnh khác</b> với lượt đầu (${esc(round1Label())}), tự làm lại đủ <b>4 bước</b> rồi mở <b>Phiếu Q4</b> ghi lại quá trình nhé!</div>`
+        ? `<div id="round2-banner" class="round2-banner"><span><strong>Lượt 2:</strong> chọn bộ ảnh khác ${esc(round1Label())}.</span>${hintBtn('Làm lại đủ 4 bước với bộ ảnh mới. Xong, mở Phiếu Q4 để kể lại.', 'Lượt 2 làm gì?')}</div>`
         : '';
 
     arena.innerHTML =
@@ -720,11 +865,11 @@ function renderArena() {
             );
           })
           .join('')}</div>`
-        : `<p class="pool-empty">Đã chọn hết ảnh trong kho mẫu! Bạn có thể bấm Dạy Mít hoặc chụp thêm ảnh.</p>`;
+        : `<p class="pool-empty">Hết ảnh mẫu rồi. Em bấm Dạy Mít hoặc chụp thêm.</p>`;
 
       arena.innerHTML =
         `<div id="sample-pool">` +
-        `<div class="sample-pool-head"><span>🧺 Kéo ảnh bạn chọn vào Khay A hoặc B</span><button type="button" id="pool-shuffle" class="mini-pill" ${state.busy ? 'disabled' : ''}>🔄 Ảnh khác</button></div>` +
+        `<div class="sample-pool-head"><span>Kéo ảnh vào Khay A hoặc B${hintBtn('Chạm ảnh rồi bấm ← A hoặc B →. 5–8 ảnh rõ, khác góc, khác nền có thể giúp Mít học tốt hơn.', 'Gợi ý xếp ảnh')}</span><button type="button" id="pool-shuffle" class="mini-pill" ${state.busy ? 'disabled' : ''}>Ảnh khác</button></div>` +
         tilesHtml +
         `</div>` +
         `<div class="deck-footer"><button type="button" id="go-train" class="primary" ${canTrain && !state.busy ? '' : 'disabled'}>Dạy Mít nào →</button></div>`;
@@ -774,10 +919,10 @@ function renderArena() {
       $('#go-train').onclick = () => go(2);
     } else {
       arena.innerHTML =
-        `<div class="sample-pool-head"><span>📷 Tự chụp hoặc chọn ít nhất 3 ảnh vào mỗi khay</span></div>` +
+        `<div class="sample-pool-head"><span>Chụp hoặc chọn ảnh cho mỗi khay${hintBtn('Mỗi khay ít nhất 3 ảnh. 5–8 ảnh rõ, khác góc, khác nền có thể giúp Mít học tốt hơn.', 'Gợi ý xếp ảnh')}</span></div>` +
         `<div class="test-quick-row">` +
-        `<button type="button" class="test-action-btn" id="center-cam-a">📷 Chụp ${esc(state.names[0])}</button>` +
-        `<button type="button" class="test-action-btn" id="center-cam-b">📷 Chụp ${esc(state.names[1])}</button>` +
+        `<button type="button" class="test-action-btn" id="center-cam-a">Chụp ${esc(state.names[0])}</button>` +
+        `<button type="button" class="test-action-btn" id="center-cam-b">Chụp ${esc(state.names[1])}</button>` +
         `</div>` +
         `<div class="deck-footer"><button type="button" id="go-train" class="primary" ${canTrain && !state.busy ? '' : 'disabled'}>Dạy Mít nào →</button></div>`;
       $('#center-cam-a').onclick = () => openCamera(0);
@@ -790,8 +935,8 @@ function renderArena() {
   if (state.step === 2) {
     arena.innerHTML =
       `<div class="train-arena">` +
-      `<div class="train-pills"><span class="train-pill">${esc(state.names[0])}: ${state.sets[0].length}</span><span>+</span><span class="train-pill b">${esc(state.names[1])}: ${state.sets[1].length}</span><span>→ 🤖</span></div>` +
-      `<button type="button" id="train-btn" class="primary train-btn" ${state.busy ? 'disabled' : ''}>${state.trained.length ? 'Thử ảnh mới →' : '⚡ Dạy Mít học!'}</button>` +
+      `<div class="train-pills"><span class="train-pill">${esc(state.names[0])}: ${state.sets[0].length}</span><span>+</span><span class="train-pill b">${esc(state.names[1])}: ${state.sets[1].length}</span><span>→ Mít</span></div>` +
+      `<div class="train-cta"><button type="button" id="train-btn" class="primary train-btn" ${state.busy ? 'disabled' : ''}>${state.trained.length ? 'Thử ảnh mới →' : 'Dạy Mít học'}</button>${state.trained.length ? '' : hintBtn('Mít xem từng ảnh trong 2 khay và ghi nhớ đặc điểm của mỗi nhóm.', 'Mít học thế nào?')}</div>` +
       `<div id="train-progress" class="train-progress" hidden><div class="train-bar"><div id="train-fill" class="train-fill"></div></div><span id="train-label" class="train-label"></span></div>` +
       `</div>`;
     $('#train-btn').onclick = () => {
@@ -808,13 +953,13 @@ function renderArena() {
 
   const testPoolHtml = activeDs
     ? `<div id="test-pool" class="test-pool">` +
-      `<div class="test-pool-head"><span>🃏 Kho ảnh mới (kéo lên ô trên hoặc chạm để thử)</span><button type="button" id="test-pool-more" class="mini-pill" ${state.busy ? 'disabled' : ''}>🔄 Ảnh khác</button></div>` +
+      `<div class="test-pool-head"><span>Ảnh mới để thử${hintBtn('Kéo ảnh lên ô thử hoặc chạm vào ảnh. Ảnh có nhãn “Ảnh lạ” là vật Mít chưa được học.', 'Gợi ý thử ảnh')}</span><button type="button" id="test-pool-more" class="mini-pill" ${state.busy ? 'disabled' : ''}>Ảnh khác</button></div>` +
       `<div class="test-pool-grid">${testEntries
         .map(
           entry =>
-            `<div class="test-tile ${entry.isOutside ? 'is-outside' : ''}" data-src="${esc(entry.src)}" data-outside="${entry.isOutside ? 'true' : 'false'}" tabindex="0" role="button" aria-label="${entry.isOutside ? 'Ảnh bí mật ngoài 2 nhóm' : 'Ảnh mới kiểm tra Mít'}">` +
+            `<div class="test-tile ${entry.isOutside ? 'is-outside' : ''}" data-src="${esc(entry.src)}" data-outside="${entry.isOutside ? 'true' : 'false'}" tabindex="0" role="button" aria-label="${entry.isOutside ? 'Ảnh lạ, ngoài 2 nhóm đã học' : 'Ảnh mới kiểm tra Mít'}">` +
             `<img src="${entry.src}" width="92" height="92" alt="" draggable="false">` +
-            (entry.isOutside ? `<span class="outside-badge" aria-hidden="true">🎁</span>` : '') +
+            (entry.isOutside ? `<span class="outside-badge" aria-hidden="true">Ảnh lạ</span>` : '') +
             `</div>`
         )
         .join('')}</div></div>`
@@ -824,7 +969,7 @@ function renderArena() {
     ? `<div class="test-history">${state.history
         .map(
           h =>
-            `<div class="history-chip ${h.isOutside ? 'outside' : h.feedback || ''}"><img src="${h.url}" width="24" height="24" alt=""><span>${esc(h.predName)} ${h.isOutside ? '· Ngoài 2 nhóm' : h.feedback === 'yes' ? '✓' : h.feedback === 'no' ? '✗' : ''}</span></div>`
+            `<div class="history-chip ${h.isOutside ? 'outside' : h.feedback || ''}"><img src="${h.url}" width="24" height="24" alt=""><span>${esc(h.predName)} ${h.isOutside ? '· Ảnh lạ' : h.feedback === 'yes' ? '✓' : h.feedback === 'no' ? '✗' : ''}</span></div>`
         )
         .join('')}</div>`
     : '';
@@ -834,46 +979,47 @@ function renderArena() {
   const checkBlockHtml = r
     ? r.isOutside
       ? `<div class="outside-check-card">` +
-        `<div class="outside-note"><strong>🎁 Bất ngờ chưa!</strong> Ảnh thử thật ra là <b>${esc(outsideLabel)}</b>, không phải <b>${esc(state.names[r.cls])}</b>! Mít vẫn chọn <i>${esc(state.names[r.cls])}</i> vì Mít chỉ biết chọn giữa <i>${esc(state.names[0])}</i> và <i>${esc(state.names[1])}</i>.</div>` +
-        `<p class="outside-q">💡 <strong>Em kiểm tra &amp; giải thích:</strong> Vì sao Mít không gọi đúng tên <b>${esc(outsideLabel)}</b>?</p>` +
+        `<div class="outside-note">Ảnh này là <b>${esc(outsideLabel)}</b>, không phải <b>${esc(state.names[r.cls])}</b>.</div>` +
+        `<p class="outside-q"><strong>Vì sao Mít không gọi đúng tên <b>${esc(outsideLabel)}</b>?</strong></p>` +
         `<div class="outside-choices">` +
-        `<button type="button" data-outside-ans="two-only" aria-pressed="${state.outsideQuizChoice === 'two-only'}">Vì Mít mới chỉ học 2 nhóm em dạy, chưa được dạy nhóm ${esc(outsideLabel)}</button>` +
-        `<button type="button" data-outside-ans="all-know" aria-pressed="${state.outsideQuizChoice === 'all-know'}">Vì Mít tự biết tên mọi vật nhưng hôm nay nhìn nhầm</button>` +
+        `<button type="button" data-outside-ans="two-only" aria-pressed="${state.outsideQuizChoice === 'two-only'}">Vì Mít chỉ học 2 nhóm em dạy, chưa học ${esc(outsideLabel)}</button>` +
+        `<button type="button" data-outside-ans="all-know" aria-pressed="${state.outsideQuizChoice === 'all-know'}">Vì Mít biết mọi vật nhưng nhìn nhầm</button>` +
         `</div>` +
         (state.outsideQuizChoice === 'two-only'
-          ? `<p id="outside-quiz-fb" class="outside-fb ok" role="status">✓ Chính xác! AI chỉ chọn trong những nhóm đã được dạy, nên con người luôn cần tự kiểm tra kết quả.</p>`
+          ? `<p id="outside-quiz-fb" class="outside-fb ok" role="status">✓ Chính xác! Mít chỉ chọn trong các nhóm đã học. Vì vậy em luôn cần kiểm tra lại.</p>`
           : state.outsideQuizChoice === 'all-know'
-            ? `<p id="outside-quiz-fb" class="outside-fb warn" role="status">Chưa đúng đâu! Mít chưa được dạy nhóm ${esc(outsideLabel)}, nên gặp vật lạ vẫn chọn 1 trong 2 nhóm đã học. Em chọn lại nhé!</p>`
+            ? `<p id="outside-quiz-fb" class="outside-fb warn" role="status">Chưa phải. Mít chưa học nhóm ${esc(outsideLabel)}, nên vẫn chọn 1 trong 2 nhóm đã học. Em chọn lại nhé.</p>`
             : '') +
         `</div>`
-      : `<div class="feedback-buttons"><button type="button" data-feedback="yes" aria-pressed="${state.feedback === 'yes'}">👍 Đúng rồi!</button><button type="button" data-feedback="no" aria-pressed="${state.feedback === 'no'}">🤔 Chưa đúng</button></div>` +
-        (state.feedback === 'no' ? '<button type="button" id="improve" class="text-button">+ Thêm ảnh dạy lại →</button>' : '')
+      : `<div class="feedback-buttons"><button type="button" data-feedback="yes" aria-pressed="${state.feedback === 'yes'}">Đúng rồi</button><button type="button" data-feedback="no" aria-pressed="${state.feedback === 'no'}">Chưa đúng</button></div>` +
+        (state.feedback === 'no' ? '<button type="button" id="improve" class="text-button">Thêm ảnh, dạy lại →</button>' : '')
     : '';
 
   const extraCameraOpen = !activeDs || state.extraToolsOpen;
 
   arena.innerHTML =
     `<div id="test-station">` +
-    `<div id="test-dropzone" class="test-dropzone" role="region" aria-label="Ô thả ảnh mới cho Mít đoán">🎯 Kéo ảnh mới thả vào đây cho Mít đoán</div>` +
+    `<div id="test-dropzone" class="test-dropzone" role="region" aria-label="Ô thả ảnh mới cho Mít đoán">Thả ảnh mới vào đây</div>` +
     (r
-      ? `<div class="prediction-card"><img class="test-image" src="${r.url}" width="78" height="78" alt="Ảnh đang thử"><div class="prediction-info"><span class="pred-eyebrow">${r.isOutside ? 'Ảnh ngoài 2 nhóm đã học' : 'Mít đoán'}</span><p class="prediction">${esc(state.names[r.cls])}</p>${renderVoteSummary(r)}</div></div>` +
+      ? `<div class="prediction-card"><img class="test-image" src="${r.url}" width="78" height="78" alt="Ảnh đang thử"><div class="prediction-info"><span class="pred-eyebrow">${r.isOutside ? 'Ảnh lạ · Mít đoán' : 'Mít đoán'}</span><p class="prediction">${esc(state.names[r.cls])}</p>${renderVoteSummary(r)}</div></div>` +
         checkBlockHtml
       : '') +
     renderNeighborsMore(r) +
     testPoolHtml +
     `<details id="extra-test-tools" class="more-panel compact-more"${extraCameraOpen ? ' open' : ''}>` +
-    `<summary>📷 Tự chụp hoặc chọn ảnh khác từ máy${state.history.length ? ` · Đã thử ${state.history.length} ảnh` : ''}</summary>` +
+    `<summary>Chụp hoặc chọn ảnh khác${state.history.length ? ` · Đã thử ${state.history.length} ảnh` : ''}</summary>` +
     `<div class="more-panel-body">` +
     `<div class="test-quick-row">` +
-    `<button type="button" id="test-camera" class="test-action-btn" ${state.busy ? 'disabled' : ''}>📷 Chụp thử</button>` +
-    `<label class="test-action-btn">📁 Ảnh từ máy<input type="file" accept="image/*" id="test-file" aria-label="Chọn ảnh mới thử Mít" ${state.busy ? 'disabled' : ''}></label>` +
+    `<button type="button" id="test-camera" class="test-action-btn" ${state.busy ? 'disabled' : ''}>Chụp thử</button>` +
+    `<label class="test-action-btn">Chọn ảnh<input type="file" accept="image/*" id="test-file" aria-label="Chọn ảnh mới thử Mít" ${state.busy ? 'disabled' : ''}></label>` +
     `</div>` +
     historyHtml +
     `</div>` +
     `</details>` +
     `<div class="step3-finish-row">` +
-    `<button type="button" id="start-round2" class="finish-pill">🔄 Đổi bộ mới (Lượt 2)</button>` +
-    `<button type="button" id="open-notebook-step3" class="finish-pill primary-pill">📋 Viết Phiếu Q4</button>` +
+    `<button type="button" id="start-round2" class="finish-pill">${state.round === 'q3' ? 'Sang Lượt 2' : 'Đổi bộ ảnh khác'}</button>` +
+    `<button type="button" id="open-notebook-step3" class="finish-pill primary-pill">Viết Phiếu Q4</button>` +
+    hintBtn('Lượt 2: chọn bộ ảnh khác Lượt 1 và tự làm lại đủ 4 bước. Xong, mở Phiếu Q4 để kể lại.', 'Lượt 2 là gì?') +
     `</div>` +
     `</div>`;
 
@@ -970,10 +1116,10 @@ function renderArena() {
         window.MitSound?.play(isCorrect ? 'happy' : 'oops');
         render();
         if (isCorrect) {
-          say('Bạn giải thích đúng rồi! Mình chỉ biết chọn trong 2 nhóm bạn dạy, nên con người luôn cần kiểm tra nhé!', null);
+          say('Đúng rồi! Mình chỉ chọn trong 2 nhóm bạn dạy, nên bạn luôn cần kiểm tra lại.', null);
           pose('happy');
         } else {
-          say(`Mình chưa được dạy nhóm ${outsideLabel} đâu, nên gặp ảnh lạ mình vẫn đoán giữa 2 nhóm đã học thôi!`, null);
+          say(`Mình chưa học nhóm ${outsideLabel}, nên vẫn đoán 1 trong 2 nhóm đã học.`, null);
           pose('think');
         }
       })
@@ -986,6 +1132,7 @@ function renderArena() {
 
 function render() {
   document.body.dataset.step = state.step;
+  Bai2Hint.sync();
 
   const pill = $('#round-pill');
   if (pill) pill.hidden = state.round !== 'q4';
@@ -1012,7 +1159,7 @@ function go(step) {
   if (step === state.step) return;
   if (step > 0 && !validNames()) {
     if (state.round === 'q4' && matchesRound1Pair(state.names[0], state.names[1])) {
-      setStatus(`Lượt 2 (Q4) chọn cặp khác ${round1Label()} nhé!`);
+      setStatus(`Lượt 2 cần cặp khác ${round1Label()}.`);
       say('Lượt 2 bạn hãy chọn bộ ảnh khác với lượt đầu nhé!', 'need_diff');
     } else {
       setStatus('Đặt 2 tên khác nhau cho Khay A và Khay B nhé.');
@@ -1184,7 +1331,7 @@ async function train() {
   } catch (e) {
     state.trained = [];
     state.error = e.message;
-    say('Chưa học được. Kiểm tra thông báo bên dưới nhé.', null);
+    say('Chưa học được. Bạn xem dòng báo bên dưới nhé.', null);
   } finally {
     emitTraining(false, 0);
     state.busy = false;
@@ -1202,7 +1349,7 @@ async function testFile(file) {
     const item = await imageFile(file);
     if (state.sets.flat().some(x => x.hash && x.hash === item.hash)) {
       URL.revokeObjectURL(item.url);
-      setStatus('Ảnh này đã dùng khi học (kể cả khi đổi tên). Chọn ảnh mới nhé!');
+      setStatus('Mít đã học ảnh này rồi (đổi tên vẫn là ảnh cũ). Chọn ảnh mới nhé!');
       return;
     }
     await predict(item, false);
@@ -1300,6 +1447,10 @@ function startRound2() {
   $('#notebook-dialog')?.close();
   $('#quiz-dialog')?.close();
   document.querySelectorAll('.check input').forEach(x => (x.checked = false));
+  setStatus('');
+  pose('idle');
+  const ms = $('#motion-status');
+  if (ms) ms.textContent = '';
   window.MitSound?.play('step');
   render();
   emitTrays();
@@ -1316,7 +1467,7 @@ const QUIZ_ITEMS = [
     ],
     right: 'new',
     ok: 'Chính xác! Phải dùng ảnh mới chưa học để kiểm tra.',
-    no: 'Chưa đúng: dùng lại ảnh đã học giống như xem lại đáp án cũ vậy!'
+    no: 'Chưa đúng. Dùng ảnh đã học giống như xem trước đáp án.'
   },
   {
     q: 'Cách nào có thể giúp Mít phân biệt ảnh tốt hơn?',
@@ -1325,18 +1476,18 @@ const QUIZ_ITEMS = [
       { id: 'diverse', text: 'Thêm ảnh rõ, nhiều góc chụp và nền khác nhau' }
     ],
     right: 'diverse',
-    ok: 'Đúng rồi! Ảnh rõ, đúng nhóm và đa dạng góc, nền có thể giúp Mít phân biệt tốt hơn — em hãy thử lại để kiểm tra nhé.',
+    ok: 'Đúng rồi! Ảnh rõ, khác góc, khác nền có thể giúp Mít phân biệt tốt hơn. Em thử lại để kiểm tra nhé.',
     no: '10 bản giống hệt không giúp Mít nhận ra vật ở góc chụp khác đâu.'
   },
   {
-    q: 'Mít chỉ học 2 nhóm em dạy. Đưa ảnh một vật ngoài 2 nhóm (ảnh 🎁) vào, Mít có tự biết tên vật đó không?',
+    q: 'Đưa ảnh một vật ngoài 2 nhóm (ảnh có nhãn “Ảnh lạ”) vào. Mít có tự biết tên vật đó không?',
     choices: [
       { id: 'yes', text: 'Có, Mít tự biết mọi vật khác' },
       { id: 'no', text: 'Không, Mít chỉ chọn giữa 2 nhóm đã học' }
     ],
     right: 'no',
-    ok: 'Chuẩn luôn! Mít chỉ chọn trong 2 nhóm em dạy, nên người dùng phải tự kiểm tra.',
-    no: 'Chú ý nhé: Mít không tự biết thêm nhóm thứ 3 đâu!'
+    ok: 'Chính xác! Mít chỉ chọn trong 2 nhóm em dạy, nên em phải tự kiểm tra.',
+    no: 'Chưa đúng. Mít không tự biết thêm nhóm thứ 3.'
   }
 ];
 
@@ -1360,7 +1511,7 @@ function renderQuizModal() {
     (i > 0 ? `<button type="button" class="text-button" id="quiz-prev">← Câu trước</button>` : '') +
     (i < 2
       ? `<button type="button" class="primary" id="quiz-next" ${chosen ? '' : 'disabled'}>Câu tiếp →</button>`
-      : `<button type="button" class="primary" id="quiz-done" ${chosen ? '' : 'disabled'}>Xong! Mở Phiếu Q4 →</button>`) +
+      : `<button type="button" class="primary" id="quiz-done" ${chosen ? '' : 'disabled'}>Mở Phiếu Q4 →</button>`) +
     `</div>`;
 
   body.querySelectorAll('[data-qans]').forEach(btn => {
@@ -1398,7 +1549,7 @@ function renderSessionSummary() {
   const n0 = state.names[0].trim() || '(chưa đặt)';
   const n1 = state.names[1].trim() || '(chưa đặt)';
   el.innerHTML =
-    `<span><strong>Chế độ:</strong> ${state.round === 'q3' ? 'Lượt 1 · Q3' : 'Lượt 2 · Q4'}</span>` +
+    `<span><strong>Lượt:</strong> ${state.round === 'q3' ? 'Lượt 1' : 'Lượt 2'}</span>` +
     `<span><strong>Hai nhóm:</strong> ${esc(n0)} &amp; ${esc(n1)}</span>` +
     `<span><strong>Ảnh học:</strong> ${state.sets[0].length} + ${state.sets[1].length}</span>`;
 }
@@ -1461,13 +1612,11 @@ function renderQ4DraftBanner() {
 
   const cur = currentPairLabel();
   if (mismatch) {
-    const savedNote = state.q4SavedPairLabel ? ` (${esc(state.q4SavedPairLabel)})` : '';
-    msgEl.innerHTML =
-      `📌 <strong>Phiếu đang giữ bài viết từ lượt trước${savedNote}</strong>, khác với hai nhóm em đang mở (<b>${esc(cur)}</b>). ` +
-      `Em chọn <b>Làm phiếu mới</b> để viết lại cho đúng bộ ảnh hiện tại, hoặc <b>Tiếp tục bài cũ</b> nếu chưa nộp xong nhé!`;
+    const savedNote = state.q4SavedPairLabel ? ` của bộ ${esc(state.q4SavedPairLabel)}` : '';
+    msgEl.innerHTML = `<strong>Phiếu còn bài${savedNote}.</strong> Em đang làm bộ <b>${esc(cur)}</b>.`;
   } else {
     msgEl.innerHTML =
-      `📌 <strong>Phiếu đang giữ nội dung từ lần mở trước.</strong> Em muốn tiếp tục viết bài cũ hay xóa để làm phiếu mới?`;
+      `<strong>Phiếu còn bài viết cũ.</strong> Em viết tiếp hay làm phiếu mới?`;
   }
 }
 
@@ -1508,7 +1657,7 @@ function resetQ4Fields() {
   if (manualWrap) manualWrap.hidden = true;
   renderQ4DraftBanner();
   syncQ4Preview();
-  $('#copyStatus').textContent = '✓ Đã tạo phiếu mới! Em chọn bộ ảnh Lượt 2 rồi điền nhé.';
+  $('#copyStatus').textContent = '✓ Phiếu mới đã sẵn sàng.';
   $('#q4-dataset')?.focus();
 }
 
@@ -1559,7 +1708,7 @@ function bindQ4Fields() {
     state.q4SavedPairLabel = currentPairLabel();
     state.q4FromPreviousSession = false;
     $('#q4-dataset').value = state.q4.dataset;
-    $('#copyStatus').textContent = 'Đã điền tên bộ ảnh! Em tự viết ngắn gọn 4 bước bên dưới nhé.';
+    $('#copyStatus').textContent = '✓ Đã điền. Em viết tiếp 4 bước nhé.';
     if (!state.q4.step1.trim()) $('#q4-step1')?.focus();
     renderQ4DraftBanner();
     syncQ4Preview();
@@ -1568,7 +1717,7 @@ function bindQ4Fields() {
 
   const askClear = () => {
     if (!hasQ4Content()) {
-      $('#copyStatus').textContent = 'Phiếu đang trống sẵn, em bắt đầu điền nhé!';
+      $('#copyStatus').textContent = 'Phiếu đang trống, em điền luôn nhé.';
       $('#q4-dataset')?.focus();
       return;
     }
@@ -1591,7 +1740,7 @@ function bindQ4Fields() {
     const confirmBox = $('#q4-clear-confirm');
     if (confirmBox) confirmBox.hidden = true;
     renderQ4DraftBanner();
-    $('#copyStatus').textContent = 'Đã giữ lại bài viết cũ để em hoàn thiện tiếp.';
+    $('#copyStatus').textContent = 'Đã giữ bài cũ.';
   });
 
   syncQ4Preview();
@@ -1599,6 +1748,8 @@ function bindQ4Fields() {
 
 function openNotebook() {
   renderSessionSummary();
+  const resetBtn = $('#reset');
+  if (resetBtn) resetBtn.textContent = state.round === 'q3' ? 'Sang Lượt 2' : 'Đổi bộ ảnh khác';
   const confirmBox = $('#q4-clear-confirm');
   if (confirmBox) confirmBox.hidden = true;
   renderQ4DraftBanner();
@@ -1635,7 +1786,7 @@ const soundBtn = $('#sound-btn');
 if (soundBtn) {
   soundBtn.onclick = () => {
     const muted = window.MitSound?.setMuted(!window.MitSound.isMuted());
-    soundBtn.textContent = muted ? '🔇' : '🔊';
+    soundBtn.classList.toggle('is-muted', !!muted);
     soundBtn.setAttribute('aria-pressed', muted ? 'true' : 'false');
   };
 }
@@ -1659,7 +1810,7 @@ function initMoodleEmbedChrome() {
   const bar = document.createElement('div');
   bar.className = 'moodle-embed-bar';
   const label = document.createElement('span');
-  label.textContent = '🤖 Vườn học của Mít · Dạy máy nhận biết ảnh';
+  label.textContent = 'Vườn học của Mít';
   const expand = document.createElement('a');
   expand.className = 'moodle-expand';
   expand.href = './';
@@ -1669,10 +1820,7 @@ function initMoodleEmbedChrome() {
   bar.append(label, expand);
   document.body.prepend(bar);
 
-  const note = document.createElement('p');
-  note.className = 'moodle-submit-note';
-  note.textContent = 'Khi xong Lượt 2, bấm "📋 Sao chép nộp Moodle" trong Phiếu Q4 và dán nộp vào mục Bài tập Q4 trên Moodle.';
-  document.querySelector('main')?.append(note);
+
 }
 
 initMoodleEmbedChrome();

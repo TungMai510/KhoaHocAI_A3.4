@@ -1,9 +1,11 @@
 import fs from 'node:fs/promises';
 
-// Run with HTTP 8340 and a separate Chrome CDP session on 9340.
+// Run with HTTP 8340 and a separate Chrome CDP session on 9340 (or override via QA_HTTP_PORT / QA_CDP_PORT).
 await fs.mkdir('.preview', { recursive: true });
-const base = 'http://127.0.0.1:8340/';
-const tabs = await (await fetch('http://127.0.0.1:9340/json')).json();
+const httpPort = process.env.QA_HTTP_PORT || '8340';
+const cdpPort = process.env.QA_CDP_PORT || '9340';
+const base = `http://127.0.0.1:${httpPort}/`;
+const tabs = await (await fetch(`http://127.0.0.1:${cdpPort}/json`)).json();
 const target = tabs.find(t => t.type === 'page' && t.url.startsWith(base)) || tabs.find(t => t.type === 'page');
 const socket = new WebSocket(target.webSocketDebuggerUrl);
 await new Promise((resolve, reject) => {
@@ -122,6 +124,30 @@ async function dragElementTo(fromSel, toSel) {
   await pause(120);
 }
 
+async function pressEscape() {
+  await c('Input.dispatchKeyEvent', { type: 'rawKeyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27, nativeVirtualKeyCode: 27 });
+  await c('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27, nativeVirtualKeyCode: 27 });
+  await pause(60);
+}
+
+async function tapOutside(x = 6, y = 6) {
+  await c('Input.dispatchMouseEvent', { type: 'mousePressed', x, y, button: 'left', clickCount: 1 });
+  await c('Input.dispatchMouseEvent', { type: 'mouseReleased', x, y, button: 'left', clickCount: 1 });
+  await pause(60);
+}
+
+async function checkHintBubbleFits(contextLabel) {
+  await check(
+    `(() => {
+      const b = document.querySelector('#hint-bubble');
+      if (!b || b.hidden) return false;
+      const r = b.getBoundingClientRect();
+      return r.width > 40 && r.left >= 0 && r.right <= window.innerWidth && r.top >= 0 && r.bottom <= window.innerHeight && document.documentElement.scrollWidth <= window.innerWidth;
+    })()`,
+    `${contextLabel}: Hint bubble fits cleanly inside viewport without horizontal overflow`
+  );
+}
+
 async function screenshot(name) {
   const r = await c('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false });
   await fs.writeFile('.preview/' + name + '.png', Buffer.from(r.data, 'base64'));
@@ -177,7 +203,11 @@ try {
 
     const step0Words = await e("document.querySelector('main').innerText.trim().split(/\\s+/).filter(Boolean).length");
     metrics[`${label}Step0MainWords`] = step0Words;
-    await check(`${step0Words} < 70`, `${label}: Step 0 main visible text is ultra-concise (${step0Words} words < 70)`);
+    await check(`${step0Words} < 55`, `${label}: Step 0 main visible text is ultra-concise (${step0Words} words < 55)`);
+    await check(
+      "!/[🌱🧺🃏🎯🎁🔄📋✨🧹📌👩‍🏫🔎💡📷📁⚡🤖🔊🔇🗣️👍🤔✏️ⓘ⬇]/u.test(document.body.innerText)",
+      `${label}: Bai 2 UI stripped decorative emoji spam`
+    );
 
     await click('#view-left');
     await click('#view-reset');
@@ -202,6 +232,24 @@ try {
     await until("document.body.dataset.step === '1' && document.querySelectorAll('#sample-pool .pool-tile').length === 8", 250);
     await check("!document.querySelector('#quick-fill-rest')", `${label}: Dump-all button removed from Step 1`);
     await check('document.documentElement.scrollWidth <= innerWidth', `${label}: Step 1 has no horizontal overflow`);
+    // Verify ? hint popover on Step 1 (click open, viewport fit, Escape close, outside-pointerdown close)
+    await click('#sample-pool .hint-btn');
+    await check(
+      "document.querySelector('#sample-pool .hint-btn').getAttribute('aria-expanded') === 'true' && document.querySelector('#hint-bubble')?.textContent.includes('5–8 ảnh')",
+      `${label}: Step 1 ? hint button opens diversity popover`
+    );
+    await checkHintBubbleFits(`${label} Step 1`);
+    await pressEscape();
+    await check(
+      "document.querySelector('#hint-bubble').hidden && document.querySelector('#sample-pool .hint-btn').getAttribute('aria-expanded') === 'false'",
+      `${label}: Escape closes Step 1 ? hint popover`
+    );
+    await click('#sample-pool .hint-btn');
+    await tapOutside(4, 4);
+    await check(
+      "document.querySelector('#hint-bubble').hidden && document.querySelector('#sample-pool .hint-btn').getAttribute('aria-expanded') === 'false'",
+      `${label}: Outside pointerdown closes Step 1 ? hint popover`
+    );
     await pause(250);
     if (label === 'desktop') await screenshot('bai2-v3-step1-pool');
 
@@ -259,7 +307,10 @@ try {
       await until("document.body.dataset.step === '3'", 550);
       await check("document.querySelector('.journey [data-step=\"2\"]').dataset.done === 'true'", `${label}: Step 2 marked done after training`);
       await check("!!document.querySelector('#test-dropzone') && document.querySelectorAll('#test-pool .test-tile').length === 6", `${label}: Step 3 shows dropzone and 6 test cards`);
-      await check("!!document.querySelector('#test-pool .test-tile.is-outside[data-outside=\"true\"]')", `${label}: Test pool includes surprise outside card`);
+      await check(
+        "!!document.querySelector('#test-pool .test-tile.is-outside[data-outside=\"true\"]') && document.querySelector('#test-pool .test-tile.is-outside .outside-badge')?.textContent.trim() === 'Ảnh lạ'",
+        `${label}: Test pool includes clean Ảnh lạ outside card`
+      );
 
       const testFirstBefore = await e("document.querySelector('#test-pool .test-tile')?.dataset.src");
       await click('#test-pool-more');
@@ -272,8 +323,12 @@ try {
       await until("!!document.querySelector('#test-station .prediction')", 200);
       await check("document.querySelectorAll('.neighbor-card').length === 3", `${label}: X-Ray renders 3 nearest neighbors in DOM`);
       await check("document.querySelectorAll('.vote-dot').length === 3", `${label}: Renders 3 vote dots without fake percentages`);
-      await check("document.querySelector('.vote-caption').textContent.includes('Trong 3 ảnh mẫu Mít thấy giống nhất')", `${label}: Clear Grade-4 explanation of k=3 neighbor votes`);
+      await check("document.querySelector('.vote-caption').textContent.includes('trong 3 ảnh giống nhất là')", `${label}: Clear Grade-4 explanation of k=3 neighbor votes`);
       await check("!document.querySelector('.prediction-card').textContent.includes('%')", `${label}: No synthetic percentage displayed`);
+      await click('.vote-dots .hint-btn');
+      await check("document.querySelector('#hint-bubble')?.textContent.includes('3 ảnh trong khay')", `${label}: Vote ? hint explains how Mít compares 3 nearest photos`);
+      await checkHintBubbleFits(`${label} Step 3 vote`);
+      await pressEscape();
       await check("!!document.querySelector('#xray-more') && !document.querySelector('#xray-more').open", `${label}: 3 similar images & quiz collapsed under Xem thêm by default`);
       await click('[data-feedback="yes"]');
       await check("document.querySelector('[data-feedback=\"yes\"]').getAttribute('aria-pressed') === 'true'", `${label}: Learner verification works on in-group test image`);
@@ -282,11 +337,14 @@ try {
         await screenshot('bai2-v3-step3-drop');
       }
 
-      // Drag outside surprise card onto #test-dropzone -> MUST NOT show 👍 Đúng rồi! button, MUST show reflection question
+      // Drag outside surprise card onto #test-dropzone -> MUST NOT show Đúng rồi / Chưa đúng, MUST show reflection question
       await dragElementTo('#test-pool .test-tile.is-outside', '#test-dropzone');
       await until("!!document.querySelector('.outside-check-card')", 200);
-      await check("document.querySelector('.outside-note').textContent.includes('Hoa hồng')", `${label}: Outside rose challenge explains 2-class limit`);
-      await check("!document.querySelector('[data-feedback=\"yes\"]')", `${label}: Outside image hides Đúng rồi button so students cannot falsely praise wrong prediction`);
+      await check("document.querySelector('.outside-note').textContent.includes('Hoa hồng')", `${label}: Outside rose challenge names actual object`);
+      await check(
+        "!document.querySelector('[data-feedback=\"yes\"]') && !document.querySelector('.outside-check-card').textContent.includes('Đúng rồi') && !document.querySelector('.outside-check-card').textContent.includes('Chưa đúng')",
+        `${label}: Outside image hides Đúng rồi/Chưa đúng so students cannot falsely praise wrong prediction`
+      );
       await check("document.querySelector('.outside-q').textContent.includes('Vì sao Mít không gọi đúng tên')", `${label}: Outside image prompts pedagogical reflection question`);
       await click('[data-outside-ans="two-only"]');
       await check("document.querySelector('#outside-quiz-fb')?.classList.contains('ok')", `${label}: Outside reflection question validates 2-class explanation`);
@@ -318,6 +376,19 @@ try {
 
     // 4. Phiếu Q4 Notebook Dialog (fills dataset+counts only, does not pre-write step explanations)
     await check('document.documentElement.scrollWidth <= innerWidth', `${label}: Notebook dialog has no horizontal overflow`);
+    await click('#notebook-dialog .dialog-head .hint-btn');
+    await checkHintBubbleFits(`${label} Notebook H8`);
+    await click('#notebook-dialog .q4-label-main .hint-btn');
+    await check(
+      "document.querySelectorAll('.hint-btn[aria-expanded=\"true\"]').length === 1",
+      `${label}: Opening second ? hint closes first (single popover invariant)`
+    );
+    await checkHintBubbleFits(`${label} Notebook H10`);
+    await pressEscape();
+    await check(
+      "document.querySelector('#hint-bubble').hidden && document.querySelector('#notebook-dialog').open",
+      `${label}: Escape inside Notebook closes ? hint without closing dialog`
+    );
     await click('#fill-current-dataset');
     await check(
       "document.querySelector('#q4-dataset').value.includes('Hoa cúc') && document.querySelector('#q4-dataset').value.includes('ảnh') && document.querySelector('#q4-step1').value === ''",
@@ -355,7 +426,13 @@ try {
     await click('#reset');
     await until("!document.querySelector('#notebook-dialog').open && document.body.dataset.step === '0'", 100);
     await check("!document.querySelector('#round-pill').hidden", `${label}: Lượt 2 round pill visible`);
-    await check("!!document.querySelector('#round2-banner') && document.querySelector('#round2-banner').textContent.includes('4 bước')", `${label}: Lượt 2 shows explicit instruction to choose different dataset and repeat 4 steps`);
+    await check(
+      "!!document.querySelector('#round2-banner') && document.querySelector('#round2-banner').textContent.includes('chọn bộ ảnh khác') && document.querySelector('#round2-banner .hint-btn')?.dataset.hint.includes('4 bước')",
+      `${label}: Lượt 2 shows concise banner + ? hint to repeat 4 steps`
+    );
+    const round2Step0Words = await e("document.querySelector('main').innerText.trim().split(/\\s+/).filter(Boolean).length");
+    metrics[`${label}Round2Step0Words`] = round2Step0Words;
+    await check(`${round2Step0Words} < 70`, `${label}: Lượt 2 Step 0 main text stays < 70 words (${round2Step0Words})`);
     await check("!document.querySelector('[data-dataset=\"flowers\"]')", `${label}: Lượt 2 hides flowers preset chip`);
 
     await fill('#name-0', 'Hoa cúc');
@@ -384,7 +461,7 @@ try {
       await click('#open-notebook');
       // Verify stale Q4 draft banner appears on reload when previous session saved mismatched pair
       await until("!!document.querySelector('#notebook-dialog').open", 100);
-      await check("!document.querySelector('#q4-draft-banner').hidden && document.querySelector('#q4-draft-msg').textContent.includes('lượt trước')", `${label}: Stale previous-session Q4 draft shows clear mismatch banner`);
+      await check("!document.querySelector('#q4-draft-banner').hidden && document.querySelector('#q4-draft-msg').textContent.includes('Quả táo')", `${label}: Stale previous-session Q4 draft shows clear mismatch banner`);
       await click('#keep-old-q4');
       await check("document.querySelector('#q4-draft-banner').hidden && document.querySelector('#q4-dataset').value.includes('Quả táo')", `${label}: Tiếp tục bài cũ keeps previous draft safely`);
       await click('#clear-q4');
@@ -403,19 +480,38 @@ try {
     await nav('bai-2/huong-dan.html');
     await check("document.querySelectorAll('.step-card').length === 4", `${label}: Huong dan shows 4 step cards`);
     await check("!document.body.textContent.includes('Ảnh càng đa dạng, Mít học càng tốt')", `${label}: Huong dan avoids overclaiming diversity guarantees`);
+    await check("!/[🌱🧺🃏🎯🎁🔄📋✨🧹📌👩‍🏫🔎💡📷📁⚡🤖🔊🔇🗣️👍🤔✏️ⓘ⬇]/u.test(document.body.innerText)", `${label}: Huong dan stripped decorative emoji spam`);
+    await check("document.querySelectorAll('.hint-btn').length >= 8", `${label}: Huong dan renders ? hint buttons`);
+    await click('.step-card:nth-child(2) .hint-btn');
+    await checkHintBubbleFits(`${label} Huong dan G1`);
+    await click('.remember li:last-child .hint-btn');
+    await check("document.querySelectorAll('.hint-btn[aria-expanded=\"true\"]').length === 1", `${label}: Huong dan keeps only 1 ? hint open at a time`);
+    await checkHintBubbleFits(`${label} Huong dan G9`);
+    await pressEscape();
+    await check("document.querySelector('#hint-bubble').hidden", `${label}: Escape closes ? hint on Huong dan`);
     await check('document.documentElement.scrollWidth <= innerWidth', `${label}: Huong dan has no horizontal overflow`);
 
     // 7. Moodle embed mode for Bai 2 (self-contained without azota-embed.js)
     await nav('bai-2/index.html?embed=moodle');
     await until('!!window.Bai2Embed?.active');
+    await until("document.querySelector('#stage-loader').hidden", 250);
     await pause(150);
     await check("getComputedStyle(document.querySelector('header')).display === 'none'", `${label}: Moodle embed hides standalone header in Bai 2`);
     await check("getComputedStyle(document.querySelector('nav.journey')).display === 'flex'", `${label}: Moodle embed keeps 4-step journey visible in Bai 2`);
+    const embedWords = await e("document.querySelector('main').innerText.trim().split(/\\s+/).filter(Boolean).length");
+    metrics[`${label}EmbedStep0Words`] = embedWords;
+    await check(`${embedWords} < 55`, `${label}: Moodle embed Step 0 main text stays < 55 words (${embedWords})`);
     await check('document.documentElement.scrollWidth <= innerWidth', `${label}: Moodle embed Bai 2 fits frame width`);
+    await click('#open-notebook');
+    await until("!!document.querySelector('#notebook-dialog').open", 100);
+    await click('#notebook-dialog .dialog-head .hint-btn');
     await check(
-      "document.querySelector('.moodle-submit-note').textContent.includes('Moodle')",
-      `${label}: Moodle embed shows Q4 Moodle submission note`
+      "document.querySelector('#copy')?.textContent.trim() === 'Sao chép nộp Moodle' && document.querySelector('#hint-bubble')?.textContent.includes('Moodle')",
+      `${label}: Moodle embed provides Sao chép nộp Moodle button and ? hint`
     );
+    await checkHintBubbleFits(`${label} Moodle embed Q4 hint`);
+    await pressEscape();
+    await click('#close-notebook');
   }
 
   if (runtimeErrors.length || consoleErrors.length) {
