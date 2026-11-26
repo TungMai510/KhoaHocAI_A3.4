@@ -21,16 +21,23 @@ const state = {
   outsideIndex: 0,
   selectedSrc: null,
   feedback: null,
+  outsideQuizChoice: null,
+  xrayOpen: false,
+  extraToolsOpen: false,
   history: [],
   quizIndex: 0,
   quizAnswers: [null, null, null],
   q4: { dataset: '', step1: '', step2: '', step3: '', step4: '' },
+  q4FromPreviousSession: false,
+  q4SavedPairKey: '',
+  q4SavedPairLabel: '',
+  q4BannerDismissed: false,
   speechEnabled: false,
   lastVoiceKey: 'welcome'
 };
 
 const Q4_STORAGE_KEY = 'ai4.bai2.q4.v1';
-const isEmbed = () => !!window.AzotaEmbed?.active;
+const isEmbed = () => !!window.Bai2Embed?.active;
 
 const esc = s =>
   String(s).replace(/[&<>"']/g, c => ({
@@ -53,7 +60,7 @@ function refreshViVoice() {
       voices.find(
         v => /^vi\b/i.test(v.lang) || /vietnamese|tiếng việt|hoaimy|namminh/i.test(v.name)
       ) || null;
-  } catch {}
+  } catch { }
 }
 
 if ('speechSynthesis' in window) {
@@ -66,12 +73,12 @@ function stopVoice() {
     try {
       voiceAudio.pause();
       voiceAudio.currentTime = 0;
-    } catch {}
+    } catch { }
   }
   if ('speechSynthesis' in window) {
     try {
       window.speechSynthesis.cancel();
-    } catch {}
+    } catch { }
   }
 }
 
@@ -195,6 +202,8 @@ function getActiveDataset() {
 function invalidate() {
   state.trained = [];
   state.feedback = null;
+  state.outsideQuizChoice = null;
+  state.xrayOpen = false;
   state.history = [];
   if (state.result?.url?.startsWith('blob:') && !state.sampleCache.has(state.result.src)) {
     URL.revokeObjectURL(state.result.url);
@@ -541,11 +550,11 @@ function renderTrays() {
       (state.step === 1 ? dotsHtml : '') +
       (items.length
         ? `<div class="photos">${items
-            .map(
-              (x, k) =>
-                `<div class="photo"><img src="${x.url}" width="72" height="72" alt="Ảnh ${k + 1} của ${esc(state.names[i])}">${state.step === 1 ? `<button type="button" data-remove="${i},${k}" aria-label="Bỏ ảnh ${k + 1}">×</button>` : ''}</div>`
-            )
-            .join('')}</div>`
+          .map(
+            (x, k) =>
+              `<div class="photo"><img src="${x.url}" width="72" height="72" alt="Ảnh ${k + 1} của ${esc(state.names[i])}">${state.step === 1 ? `<button type="button" data-remove="${i},${k}" aria-label="Bỏ ảnh ${k + 1}">×</button>` : ''}</div>`
+          )
+          .join('')}</div>`
         : `<div class="empty-photos" aria-hidden="true"><div class="paper-photo"></div><div class="paper-photo second"></div></div>`) +
       (state.step === 1
         ? `<div class="tray-mini-actions"><button type="button" class="mini-btn cam" data-camera="${i}">📷 Chụp</button><label class="mini-btn">📁 Chọn ảnh<input type="file" accept="image/*" multiple data-upload="${i}" aria-label="Chọn ảnh vào khay ${i === 0 ? 'A' : 'B'}"></label></div>`
@@ -573,17 +582,17 @@ function renderTrays() {
   document.querySelectorAll('[data-upload]').forEach(e => (e.onchange = () => addFiles(+e.dataset.upload, [...e.files])));
   document.querySelectorAll('[data-remove]').forEach(
     b =>
-      (b.onclick = () => {
-        if (state.busy) return;
-        const [i, k] = b.dataset.remove.split(',').map(Number);
-        const [x] = state.sets[i].splice(k, 1);
-        if (x?.url?.startsWith('blob:') && !state.sampleCache.has(x.src)) {
-          URL.revokeObjectURL(x.url);
-        }
-        invalidate();
-        render();
-        emitTrays();
-      })
+    (b.onclick = () => {
+      if (state.busy) return;
+      const [i, k] = b.dataset.remove.split(',').map(Number);
+      const [x] = state.sets[i].splice(k, 1);
+      if (x?.url?.startsWith('blob:') && !state.sampleCache.has(x.src)) {
+        URL.revokeObjectURL(x.url);
+      }
+      invalidate();
+      render();
+      emitTrays();
+    })
   );
 }
 
@@ -596,16 +605,32 @@ function renderArenaChipsPressed() {
   });
 }
 
-function renderNeighbors(r) {
+function renderVoteSummary(r) {
   if (!r?.nearest?.length || !state.trained.length) return '';
   const dots = r.nearest
     .map(n => `<span class="vote-dot ${n.cls === 0 ? 'tray-a-dot' : 'tray-b-dot'}" title="${esc(state.names[n.cls])}"></span>`)
     .join('');
 
-  const voteText =
+  const splitNote =
     r.agreement < r.neighbours
-      ? `${r.agreement}/${r.neighbours} giống nhất · Mít chưa chắc!`
-      : `${r.agreement}/${r.neighbours} giống nhất`;
+      ? ' (ý kiến còn chia 2 nhóm, em nhớ kiểm tra kỹ nhé).'
+      : '.';
+  const voteText = `Trong ${r.neighbours} ảnh mẫu Mít thấy giống nhất, có ${r.agreement} ảnh thuộc nhóm ${esc(state.names[r.cls])}${splitNote}`;
+
+  return `<div class="vote-dots">${dots}<span class="vote-caption">${voteText}</span></div>`;
+}
+
+function renderNeighborsMore(r) {
+  if (!r?.nearest?.length || !state.trained.length) {
+    return (
+      `<details id="xray-more" class="more-panel"${state.xrayOpen ? ' open' : ''}>` +
+      `<summary>🎯 Xem thêm: Câu hỏi mở rộng (3 câu tự kiểm tra)</summary>` +
+      `<div class="more-panel-body">` +
+      `<button type="button" id="open-quiz" class="finish-pill warn">🎯 Thử tài 3 câu hỏi mở rộng</button>` +
+      `</div>` +
+      `</details>`
+    );
+  }
 
   const thumbs = r.nearest
     .map(n => {
@@ -615,7 +640,15 @@ function renderNeighbors(r) {
     })
     .join('');
 
-  return `<div class="vote-dots">${dots}<span class="vote-caption">${voteText}</span></div><div class="neighbors-box"><p class="neighbors-title">Mít thấy giống 3 ảnh này nhất:</p><div class="neighbors-grid">${thumbs}</div></div>`;
+  return (
+    `<details id="xray-more" class="more-panel"${state.xrayOpen ? ' open' : ''}>` +
+    `<summary>🔎 Xem thêm: 3 ảnh mẫu giống nhất &amp; câu hỏi mở rộng</summary>` +
+    `<div class="more-panel-body">` +
+    `<div class="neighbors-box"><p class="neighbors-title">3 ảnh mẫu trong khay học mà Mít thấy giống ảnh thử nhất:</p><div class="neighbors-grid">${thumbs}</div></div>` +
+    `<div class="more-quiz-row"><button type="button" id="open-quiz" class="finish-pill warn">🎯 Câu hỏi mở rộng: Thử tài 3 câu</button></div>` +
+    `</div>` +
+    `</details>`
+  );
 }
 
 function renderArena() {
@@ -631,11 +664,11 @@ function renderArena() {
     ];
     const sourceList = state.datasets.length
       ? state.datasets.map(d => ({
-          id: d.id,
-          label: d.title,
-          hint: `${d.names[0]} · ${d.names[1]}`,
-          thumb: d.thumb
-        }))
+        id: d.id,
+        label: d.title,
+        hint: `${d.names[0]} · ${d.names[1]}`,
+        thumb: d.thumb
+      }))
       : fallbackChips;
 
     const blockedId = state.round1?.datasetId || 'flowers';
@@ -649,7 +682,13 @@ function renderArena() {
         .join('') +
       `<button type="button" class="dataset-chip" data-dataset="custom" aria-pressed="${state.datasetId === 'custom'}">✏️ Tự tạo</button>`;
 
+    const round2BannerHtml =
+      state.round === 'q4'
+        ? `<div id="round2-banner" class="round2-banner"><strong>🔄 Lượt 2 (Câu 4):</strong> Em phải chọn <b>một bộ ảnh khác</b> với lượt đầu (${esc(round1Label())}), tự làm lại đủ <b>4 bước</b> rồi mở <b>Phiếu Q4</b> ghi lại quá trình nhé!</div>`
+        : '';
+
     arena.innerHTML =
+      round2BannerHtml +
       `<div class="dataset-chips">${chipsHtml}</div>` +
       `<div class="arena-cta"><button type="button" id="step0-next" class="primary">Xếp ảnh nào →</button></div>`;
 
@@ -668,19 +707,19 @@ function renderArena() {
       const visibleEntries = getVisiblePoolEntries();
       const tilesHtml = visibleEntries.length
         ? `<div class="pool-grid">${visibleEntries
-            .map(entry => {
-              const sel = state.selectedSrc === entry.src;
-              const groupLabel = activeDs.names[entry.cls] || 'ảnh mẫu';
-              return (
-                `<div class="pool-tile ${sel ? 'is-selected' : ''}" data-src="${esc(entry.src)}" data-cls="${entry.cls}" tabindex="0" role="button" aria-label="Ảnh ${esc(groupLabel)}. Kéo vào Khay A hoặc B">` +
-                `<img src="${entry.src}" width="96" height="96" alt="${esc(groupLabel)}" draggable="false">` +
-                (sel
-                  ? `<div class="tile-quick-actions"><button type="button" class="tile-btn tile-to-a" data-assign="0">← A</button><button type="button" class="tile-btn tile-to-b" data-assign="1">B →</button></div>`
-                  : '') +
-                `</div>`
-              );
-            })
-            .join('')}</div>`
+          .map(entry => {
+            const sel = state.selectedSrc === entry.src;
+            const groupLabel = activeDs.names[entry.cls] || 'ảnh mẫu';
+            return (
+              `<div class="pool-tile ${sel ? 'is-selected' : ''}" data-src="${esc(entry.src)}" data-cls="${entry.cls}" tabindex="0" role="button" aria-label="Ảnh ${esc(groupLabel)}. Kéo vào Khay A hoặc B">` +
+              `<img src="${entry.src}" width="96" height="96" alt="${esc(groupLabel)}" draggable="false">` +
+              (sel
+                ? `<div class="tile-quick-actions"><button type="button" class="tile-btn tile-to-a" data-assign="0">← A</button><button type="button" class="tile-btn tile-to-b" data-assign="1">B →</button></div>`
+                : '') +
+              `</div>`
+            );
+          })
+          .join('')}</div>`
         : `<p class="pool-empty">Đã chọn hết ảnh trong kho mẫu! Bạn có thể bấm Dạy Mít hoặc chụp thêm ảnh.</p>`;
 
       arena.innerHTML =
@@ -762,14 +801,14 @@ function renderArena() {
     return;
   }
 
-  // Step 3: X-Ray Drag-and-Drop Test Station
+  // Step 3: Streamlined Test Station (Priority: Ảnh thử -> Mít đoán -> Em kiểm tra, Xem thêm: 3 ảnh giống nhất & câu hỏi mở rộng)
   const r = state.result;
   const activeDs = getActiveDataset();
   const testEntries = activeDs ? getVisibleTestEntries() : [];
 
   const testPoolHtml = activeDs
     ? `<div id="test-pool" class="test-pool">` +
-      `<div class="test-pool-head"><span>🃏 Kho ảnh mới (kéo lên ô trên hoặc chạm)</span><button type="button" id="test-pool-more" class="mini-pill" ${state.busy ? 'disabled' : ''}>🔄 Ảnh khác</button></div>` +
+      `<div class="test-pool-head"><span>🃏 Kho ảnh mới (kéo lên ô trên hoặc chạm để thử)</span><button type="button" id="test-pool-more" class="mini-pill" ${state.busy ? 'disabled' : ''}>🔄 Ảnh khác</button></div>` +
       `<div class="test-pool-grid">${testEntries
         .map(
           entry =>
@@ -785,35 +824,65 @@ function renderArena() {
     ? `<div class="test-history">${state.history
         .map(
           h =>
-            `<div class="history-chip ${h.feedback || ''}"><img src="${h.url}" width="24" height="24" alt=""><span>${esc(h.predName)} ${h.feedback === 'yes' ? '✓' : h.feedback === 'no' ? '✗' : ''}</span></div>`
+            `<div class="history-chip ${h.isOutside ? 'outside' : h.feedback || ''}"><img src="${h.url}" width="24" height="24" alt=""><span>${esc(h.predName)} ${h.isOutside ? '· Ngoài 2 nhóm' : h.feedback === 'yes' ? '✓' : h.feedback === 'no' ? '✗' : ''}</span></div>`
         )
         .join('')}</div>`
     : '';
+
+  const outsideLabel = r ? r.outsideName || activeDs?.outsideName || 'vật ngoài 2 nhóm' : '';
+
+  const checkBlockHtml = r
+    ? r.isOutside
+      ? `<div class="outside-check-card">` +
+        `<div class="outside-note"><strong>🎁 Bất ngờ chưa!</strong> Ảnh thử thật ra là <b>${esc(outsideLabel)}</b>, không phải <b>${esc(state.names[r.cls])}</b>! Mít vẫn chọn <i>${esc(state.names[r.cls])}</i> vì Mít chỉ biết chọn giữa <i>${esc(state.names[0])}</i> và <i>${esc(state.names[1])}</i>.</div>` +
+        `<p class="outside-q">💡 <strong>Em kiểm tra &amp; giải thích:</strong> Vì sao Mít không gọi đúng tên <b>${esc(outsideLabel)}</b>?</p>` +
+        `<div class="outside-choices">` +
+        `<button type="button" data-outside-ans="two-only" aria-pressed="${state.outsideQuizChoice === 'two-only'}">Vì Mít mới chỉ học 2 nhóm em dạy, chưa được dạy nhóm ${esc(outsideLabel)}</button>` +
+        `<button type="button" data-outside-ans="all-know" aria-pressed="${state.outsideQuizChoice === 'all-know'}">Vì Mít tự biết tên mọi vật nhưng hôm nay nhìn nhầm</button>` +
+        `</div>` +
+        (state.outsideQuizChoice === 'two-only'
+          ? `<p id="outside-quiz-fb" class="outside-fb ok" role="status">✓ Chính xác! AI chỉ chọn trong những nhóm đã được dạy, nên con người luôn cần tự kiểm tra kết quả.</p>`
+          : state.outsideQuizChoice === 'all-know'
+            ? `<p id="outside-quiz-fb" class="outside-fb warn" role="status">Chưa đúng đâu! Mít chưa được dạy nhóm ${esc(outsideLabel)}, nên gặp vật lạ vẫn chọn 1 trong 2 nhóm đã học. Em chọn lại nhé!</p>`
+            : '') +
+        `</div>`
+      : `<div class="feedback-buttons"><button type="button" data-feedback="yes" aria-pressed="${state.feedback === 'yes'}">👍 Đúng rồi!</button><button type="button" data-feedback="no" aria-pressed="${state.feedback === 'no'}">🤔 Chưa đúng</button></div>` +
+        (state.feedback === 'no' ? '<button type="button" id="improve" class="text-button">+ Thêm ảnh dạy lại →</button>' : '')
+    : '';
+
+  const extraCameraOpen = !activeDs || state.extraToolsOpen;
 
   arena.innerHTML =
     `<div id="test-station">` +
     `<div id="test-dropzone" class="test-dropzone" role="region" aria-label="Ô thả ảnh mới cho Mít đoán">🎯 Kéo ảnh mới thả vào đây cho Mít đoán</div>` +
     (r
-      ? `<div class="prediction-card"><img class="test-image" src="${r.url}" width="78" height="78" alt="Ảnh đang thử"><div><span class="pred-eyebrow">${r.isOutside ? 'Ảnh ngoài 2 nhóm' : 'Mít đoán'}</span><p class="prediction">${esc(state.names[r.cls])}</p></div></div>` +
-        renderNeighbors(r) +
-        (r.isOutside
-          ? `<div class="outside-note"><strong>🎁 Bất ngờ chưa!</strong> Đây là <b>${esc(r.outsideName || activeDs?.outsideName || 'vật ngoài 2 nhóm')}</b>. Mít chỉ biết chọn giữa <i>${esc(state.names[0])}</i> và <i>${esc(state.names[1])}</i>!</div>`
-          : '') +
-        `<div class="feedback-buttons"><button type="button" data-feedback="yes" aria-pressed="${state.feedback === 'yes'}">👍 Đúng rồi!</button><button type="button" data-feedback="no" aria-pressed="${state.feedback === 'no'}">🤔 Chưa đúng</button></div>` +
-        (state.feedback === 'no' ? '<button type="button" id="improve" class="text-button">+ Thêm ảnh dạy lại →</button>' : '')
+      ? `<div class="prediction-card"><img class="test-image" src="${r.url}" width="78" height="78" alt="Ảnh đang thử"><div class="prediction-info"><span class="pred-eyebrow">${r.isOutside ? 'Ảnh ngoài 2 nhóm đã học' : 'Mít đoán'}</span><p class="prediction">${esc(state.names[r.cls])}</p>${renderVoteSummary(r)}</div></div>` +
+        checkBlockHtml
       : '') +
+    renderNeighborsMore(r) +
     testPoolHtml +
+    `<details id="extra-test-tools" class="more-panel compact-more"${extraCameraOpen ? ' open' : ''}>` +
+    `<summary>📷 Tự chụp hoặc chọn ảnh khác từ máy${state.history.length ? ` · Đã thử ${state.history.length} ảnh` : ''}</summary>` +
+    `<div class="more-panel-body">` +
     `<div class="test-quick-row">` +
     `<button type="button" id="test-camera" class="test-action-btn" ${state.busy ? 'disabled' : ''}>📷 Chụp thử</button>` +
     `<label class="test-action-btn">📁 Ảnh từ máy<input type="file" accept="image/*" id="test-file" aria-label="Chọn ảnh mới thử Mít" ${state.busy ? 'disabled' : ''}></label>` +
     `</div>` +
     historyHtml +
+    `</div>` +
+    `</details>` +
     `<div class="step3-finish-row">` +
-    `<button type="button" id="open-quiz" class="finish-pill warn">🎯 Thử tài 3 câu</button>` +
     `<button type="button" id="start-round2" class="finish-pill">🔄 Đổi bộ mới (Lượt 2)</button>` +
-    `<button type="button" id="open-notebook-step3" class="finish-pill">📋 Viết Phiếu Q4</button>` +
+    `<button type="button" id="open-notebook-step3" class="finish-pill primary-pill">📋 Viết Phiếu Q4</button>` +
     `</div>` +
     `</div>`;
+
+  $('#xray-more')?.addEventListener('toggle', ev => {
+    state.xrayOpen = ev.currentTarget.open;
+  });
+  $('#extra-test-tools')?.addEventListener('toggle', ev => {
+    state.extraToolsOpen = ev.currentTarget.open;
+  });
 
   const entryMap = new Map(testEntries.map(x => [x.src, x]));
   $('#test-pool-more')?.addEventListener('click', () => {
@@ -881,7 +950,7 @@ function renderArena() {
     b =>
       (b.onclick = () => {
         state.feedback = b.dataset.feedback;
-        if (state.history.length) state.history[0].feedback = state.feedback;
+        if (state.history.length && !state.history[0].isOutside) state.history[0].feedback = state.feedback;
         render();
         say(
           state.feedback === 'yes'
@@ -891,6 +960,22 @@ function renderArena() {
         );
         pose(state.feedback === 'yes' ? 'happy' : 'sad');
         window.dispatchEvent(new CustomEvent('mitFeedback', { detail: state.feedback }));
+      })
+  );
+  arena.querySelectorAll('[data-outside-ans]').forEach(
+    b =>
+      (b.onclick = () => {
+        state.outsideQuizChoice = b.dataset.outsideAns;
+        const isCorrect = state.outsideQuizChoice === 'two-only';
+        window.MitSound?.play(isCorrect ? 'happy' : 'oops');
+        render();
+        if (isCorrect) {
+          say('Bạn giải thích đúng rồi! Mình chỉ biết chọn trong 2 nhóm bạn dạy, nên con người luôn cần kiểm tra nhé!', null);
+          pose('happy');
+        } else {
+          say(`Mình chưa được dạy nhóm ${outsideLabel} đâu, nên gặp ảnh lạ mình vẫn đoán giữa 2 nhóm đã học thôi!`, null);
+          pose('think');
+        }
       })
   );
   $('#improve')?.addEventListener('click', () => go(1));
@@ -1134,6 +1219,8 @@ async function predict(item, isOutside = false) {
   }
   state.busy = true;
   state.feedback = null;
+  state.outsideQuizChoice = null;
+  state.xrayOpen = false;
   render();
   setStatus('Mít đang quan sát ảnh…');
   pose('think');
@@ -1336,11 +1423,93 @@ function syncQ4Preview() {
   if (preview) preview.textContent = buildQ4Report();
 }
 
+function currentPairKey() {
+  const a = state.names[0].trim();
+  const b = state.names[1].trim();
+  if (!a && !b) return '';
+  return normalizePair(a, b).join('||');
+}
+
+function currentPairLabel() {
+  const a = state.names[0].trim() || '(chưa đặt)';
+  const b = state.names[1].trim() || '(chưa đặt)';
+  return `${a} – ${b}`;
+}
+
+function hasQ4Content() {
+  return ['dataset', 'step1', 'step2', 'step3', 'step4'].some(k => state.q4[k].trim().length > 0);
+}
+
+function isQ4MismatchedWithCurrentTrays() {
+  const n0 = state.names[0].trim().toLocaleLowerCase();
+  const n1 = state.names[1].trim().toLocaleLowerCase();
+  if (!n0 || !n1) return false;
+  if (state.q4SavedPairKey && state.q4SavedPairKey !== currentPairKey()) return true;
+  const dsText = state.q4.dataset.trim().toLocaleLowerCase();
+  if (dsText && (!dsText.includes(n0) || !dsText.includes(n1))) return true;
+  return false;
+}
+
+function renderQ4DraftBanner() {
+  const banner = $('#q4-draft-banner');
+  const msgEl = $('#q4-draft-msg');
+  if (!banner || !msgEl) return;
+  const mismatch = isQ4MismatchedWithCurrentTrays();
+  const shouldShow = hasQ4Content() && !state.q4BannerDismissed && (state.q4FromPreviousSession || mismatch);
+  banner.hidden = !shouldShow;
+  if (!shouldShow) return;
+
+  const cur = currentPairLabel();
+  if (mismatch) {
+    const savedNote = state.q4SavedPairLabel ? ` (${esc(state.q4SavedPairLabel)})` : '';
+    msgEl.innerHTML =
+      `📌 <strong>Phiếu đang giữ bài viết từ lượt trước${savedNote}</strong>, khác với hai nhóm em đang mở (<b>${esc(cur)}</b>). ` +
+      `Em chọn <b>Làm phiếu mới</b> để viết lại cho đúng bộ ảnh hiện tại, hoặc <b>Tiếp tục bài cũ</b> nếu chưa nộp xong nhé!`;
+  } else {
+    msgEl.innerHTML =
+      `📌 <strong>Phiếu đang giữ nội dung từ lần mở trước.</strong> Em muốn tiếp tục viết bài cũ hay xóa để làm phiếu mới?`;
+  }
+}
+
 function saveQ4Draft() {
   if (isEmbed()) return;
   try {
-    localStorage.setItem(Q4_STORAGE_KEY, JSON.stringify(state.q4));
+    if (!hasQ4Content()) {
+      localStorage.removeItem(Q4_STORAGE_KEY);
+      return;
+    }
+    localStorage.setItem(
+      Q4_STORAGE_KEY,
+      JSON.stringify({
+        ...state.q4,
+        pairKey: state.q4SavedPairKey || currentPairKey(),
+        pairLabel: state.q4SavedPairLabel || currentPairLabel()
+      })
+    );
+  } catch { }
+}
+
+function resetQ4Fields() {
+  state.q4 = { dataset: '', step1: '', step2: '', step3: '', step4: '' };
+  state.q4FromPreviousSession = false;
+  state.q4SavedPairKey = currentPairKey();
+  state.q4SavedPairLabel = currentPairLabel();
+  state.q4BannerDismissed = true;
+  ['#q4-dataset', '#q4-step1', '#q4-step2', '#q4-step3', '#q4-step4'].forEach(sel => {
+    const el = $(sel);
+    if (el) el.value = '';
+  });
+  try {
+    localStorage.removeItem(Q4_STORAGE_KEY);
   } catch {}
+  const confirmBox = $('#q4-clear-confirm');
+  if (confirmBox) confirmBox.hidden = true;
+  const manualWrap = $('#manual-copy-wrap');
+  if (manualWrap) manualWrap.hidden = true;
+  renderQ4DraftBanner();
+  syncQ4Preview();
+  $('#copyStatus').textContent = '✓ Đã tạo phiếu mới! Em chọn bộ ảnh Lượt 2 rồi điền nhé.';
+  $('#q4-dataset')?.focus();
 }
 
 function bindQ4Fields() {
@@ -1351,8 +1520,14 @@ function bindQ4Fields() {
         for (const k of ['dataset', 'step1', 'step2', 'step3', 'step4']) {
           if (typeof parsed[k] === 'string') state.q4[k] = parsed[k];
         }
+        if (typeof parsed.pairKey === 'string') state.q4SavedPairKey = parsed.pairKey;
+        if (typeof parsed.pairLabel === 'string') state.q4SavedPairLabel = parsed.pairLabel;
+        if (hasQ4Content()) {
+          state.q4FromPreviousSession = true;
+          state.q4BannerDismissed = false;
+        }
       }
-    } catch {}
+    } catch { }
   }
 
   [
@@ -1367,6 +1542,10 @@ function bindQ4Fields() {
     el.value = state.q4[key] || '';
     el.addEventListener('input', () => {
       state.q4[key] = el.value;
+      if (!state.q4SavedPairKey) {
+        state.q4SavedPairKey = currentPairKey();
+        state.q4SavedPairLabel = currentPairLabel();
+      }
       syncQ4Preview();
       saveQ4Draft();
     });
@@ -1376,17 +1555,53 @@ function bindQ4Fields() {
     const a = state.names[0].trim() || 'Nhóm A';
     const b = state.names[1].trim() || 'Nhóm B';
     state.q4.dataset = `${a} (${state.sets[0].length} ảnh) và ${b} (${state.sets[1].length} ảnh)`;
+    state.q4SavedPairKey = currentPairKey();
+    state.q4SavedPairLabel = currentPairLabel();
+    state.q4FromPreviousSession = false;
     $('#q4-dataset').value = state.q4.dataset;
     $('#copyStatus').textContent = 'Đã điền tên bộ ảnh! Em tự viết ngắn gọn 4 bước bên dưới nhé.';
     if (!state.q4.step1.trim()) $('#q4-step1')?.focus();
+    renderQ4DraftBanner();
     syncQ4Preview();
     saveQ4Draft();
   };
+
+  const askClear = () => {
+    if (!hasQ4Content()) {
+      $('#copyStatus').textContent = 'Phiếu đang trống sẵn, em bắt đầu điền nhé!';
+      $('#q4-dataset')?.focus();
+      return;
+    }
+    const confirmBox = $('#q4-clear-confirm');
+    if (confirmBox) {
+      confirmBox.hidden = false;
+      $('#confirm-clear-q4')?.focus();
+    }
+  };
+
+  $('#clear-q4')?.addEventListener('click', askClear);
+  $('#banner-reset-q4')?.addEventListener('click', askClear);
+  $('#confirm-clear-q4')?.addEventListener('click', resetQ4Fields);
+  $('#cancel-clear-q4')?.addEventListener('click', () => {
+    const confirmBox = $('#q4-clear-confirm');
+    if (confirmBox) confirmBox.hidden = true;
+  });
+  $('#keep-old-q4')?.addEventListener('click', () => {
+    state.q4BannerDismissed = true;
+    const confirmBox = $('#q4-clear-confirm');
+    if (confirmBox) confirmBox.hidden = true;
+    renderQ4DraftBanner();
+    $('#copyStatus').textContent = 'Đã giữ lại bài viết cũ để em hoàn thiện tiếp.';
+  });
+
   syncQ4Preview();
 }
 
 function openNotebook() {
   renderSessionSummary();
+  const confirmBox = $('#q4-clear-confirm');
+  if (confirmBox) confirmBox.hidden = true;
+  renderQ4DraftBanner();
   syncQ4Preview();
   $('#notebook-dialog')?.showModal();
 }
@@ -1439,13 +1654,30 @@ if (speakBtn) {
   };
 }
 
+function initMoodleEmbedChrome() {
+  if (!isEmbed()) return;
+  const bar = document.createElement('div');
+  bar.className = 'moodle-embed-bar';
+  const label = document.createElement('span');
+  label.textContent = '🤖 Vườn học của Mít · Dạy máy nhận biết ảnh';
+  const expand = document.createElement('a');
+  expand.className = 'moodle-expand';
+  expand.href = './';
+  expand.target = '_blank';
+  expand.rel = 'noopener noreferrer';
+  expand.textContent = 'Mở toàn màn hình ↗';
+  bar.append(label, expand);
+  document.body.prepend(bar);
+
+  const note = document.createElement('p');
+  note.className = 'moodle-submit-note';
+  note.textContent = 'Khi xong Lượt 2, bấm "📋 Sao chép nộp Moodle" trong Phiếu Q4 và dán nộp vào mục Bài tập Q4 trên Moodle.';
+  document.querySelector('main')?.append(note);
+}
+
+initMoodleEmbedChrome();
 bindQ4Fields();
 loadDatasets();
 render();
 emitTrays();
-
-const embedNote = document.querySelector('.azota-submit-note');
-if (embedNote) {
-  embedNote.textContent = 'Khi xong, sao chép phiếu Q4 và dán nộp vào mục Bài tập Q4 trên Moodle.';
-}
 

@@ -270,24 +270,31 @@ try {
       // Drag unseen test tile onto #test-dropzone
       await dragElementTo('#test-pool .test-tile[data-outside="false"]', '#test-dropzone');
       await until("!!document.querySelector('#test-station .prediction')", 200);
-      await check("document.querySelectorAll('.neighbor-card').length === 3", `${label}: X-Ray renders 3 nearest neighbors`);
+      await check("document.querySelectorAll('.neighbor-card').length === 3", `${label}: X-Ray renders 3 nearest neighbors in DOM`);
       await check("document.querySelectorAll('.vote-dot').length === 3", `${label}: Renders 3 vote dots without fake percentages`);
+      await check("document.querySelector('.vote-caption').textContent.includes('Trong 3 ảnh mẫu Mít thấy giống nhất')", `${label}: Clear Grade-4 explanation of k=3 neighbor votes`);
       await check("!document.querySelector('.prediction-card').textContent.includes('%')", `${label}: No synthetic percentage displayed`);
+      await check("!!document.querySelector('#xray-more') && !document.querySelector('#xray-more').open", `${label}: 3 similar images & quiz collapsed under Xem thêm by default`);
+      await click('[data-feedback="yes"]');
+      await check("document.querySelector('[data-feedback=\"yes\"]').getAttribute('aria-pressed') === 'true'", `${label}: Learner verification works on in-group test image`);
       if (label === 'desktop') {
         await pause(450);
         await screenshot('bai2-v3-step3-drop');
       }
 
-      // Drag outside surprise card onto #test-dropzone
+      // Drag outside surprise card onto #test-dropzone -> MUST NOT show 👍 Đúng rồi! button, MUST show reflection question
       await dragElementTo('#test-pool .test-tile.is-outside', '#test-dropzone');
-      await until("!!document.querySelector('.outside-note')", 200);
+      await until("!!document.querySelector('.outside-check-card')", 200);
       await check("document.querySelector('.outside-note').textContent.includes('Hoa hồng')", `${label}: Outside rose challenge explains 2-class limit`);
-
-      await click('[data-feedback="yes"]');
-      await check("document.querySelector('[data-feedback=\"yes\"]').getAttribute('aria-pressed') === 'true'", `${label}: Learner verification works`);
+      await check("!document.querySelector('[data-feedback=\"yes\"]')", `${label}: Outside image hides Đúng rồi button so students cannot falsely praise wrong prediction`);
+      await check("document.querySelector('.outside-q').textContent.includes('Vì sao Mít không gọi đúng tên')", `${label}: Outside image prompts pedagogical reflection question`);
+      await click('[data-outside-ans="two-only"]');
+      await check("document.querySelector('#outside-quiz-fb')?.classList.contains('ok')", `${label}: Outside reflection question validates 2-class explanation`);
       await check('document.documentElement.scrollWidth <= innerWidth', `${label}: Step 3 has no horizontal overflow`);
 
-      // Progressive 1-question Quiz Dialog -> Phiếu Q4
+      // Open Xem thêm (#xray-more) -> Progressive 1-question Quiz Dialog -> Phiếu Q4
+      await click('#xray-more > summary');
+      await until("!!document.querySelector('#xray-more').open", 60);
       await click('#open-quiz');
       await until("!!document.querySelector('#quiz-dialog').open", 100);
       await check("document.querySelectorAll('#quiz-dialog .quiz-q').length === 1", `${label}: Quiz shows 1 question per screen`);
@@ -332,10 +339,23 @@ try {
     await check("!document.querySelector('#manual-copy-wrap').hidden && document.querySelector('#manual-copy').value.includes('PHIẾU THỰC HÀNH BÀI 2')", `${label}: Manual copy fallback opens when clipboard denied`);
     await clipboardRestore();
 
-    // 5. Switch to Lượt 2 (Q4): blocks flower pair -> select recycle dataset -> verify real Chai nhựa / Lon nước pool
+    // Verify confirmed "Làm phiếu mới" (keep old draft vs confirm clear) + stale localStorage detection across sessions
+    await click('#clear-q4');
+    await check("!document.querySelector('#q4-clear-confirm').hidden", `${label}: Làm phiếu mới asks confirmation before deleting student work`);
+    await click('#cancel-clear-q4');
+    await check("document.querySelector('#q4-clear-confirm').hidden && document.querySelector('#q4-step3').value.includes('Dạy Mít')", `${label}: Canceling reset preserves existing draft`);
+    await click('#clear-q4');
+    await click('#confirm-clear-q4');
+    await check("document.querySelector('#q4-dataset').value === '' && document.querySelector('#q4-step3').value === '' && !localStorage.getItem('ai4.bai2.q4.v1')", `${label}: Confirming Làm phiếu mới clears fields and localStorage`);
+
+    // Simulate stale previous-session draft (e.g. Táo–Chuối / Chai–Lon while current trays are Hoa cúc–Hoa hướng dương)
+    await e("localStorage.setItem('ai4.bai2.q4.v1', JSON.stringify({ dataset: 'Quả táo và Quả chuối', step1: 'Chai nhựa và Lon nước', step2: '', step3: '', step4: '', pairKey: 'quả chuối||quả táo', pairLabel: 'Quả táo – Quả chuối' }))");
+
+    // 5. Switch to Lượt 2 (Q4): shows clear Round 2 instruction banner, blocks flower pair -> select recycle dataset -> verify real Chai nhựa / Lon nước pool
     await click('#reset');
     await until("!document.querySelector('#notebook-dialog').open && document.body.dataset.step === '0'", 100);
     await check("!document.querySelector('#round-pill').hidden", `${label}: Lượt 2 round pill visible`);
+    await check("!!document.querySelector('#round2-banner') && document.querySelector('#round2-banner').textContent.includes('4 bước')", `${label}: Lượt 2 shows explicit instruction to choose different dataset and repeat 4 steps`);
     await check("!document.querySelector('[data-dataset=\"flowers\"]')", `${label}: Lượt 2 hides flowers preset chip`);
 
     await fill('#name-0', 'Hoa cúc');
@@ -362,7 +382,14 @@ try {
       await until("document.querySelectorAll('.dataset-chip[data-dataset]').length === 5", 150);
       await click('[data-dataset="recycle"]');
       await click('#open-notebook');
+      // Verify stale Q4 draft banner appears on reload when previous session saved mismatched pair
       await until("!!document.querySelector('#notebook-dialog').open", 100);
+      await check("!document.querySelector('#q4-draft-banner').hidden && document.querySelector('#q4-draft-msg').textContent.includes('lượt trước')", `${label}: Stale previous-session Q4 draft shows clear mismatch banner`);
+      await click('#keep-old-q4');
+      await check("document.querySelector('#q4-draft-banner').hidden && document.querySelector('#q4-dataset').value.includes('Quả táo')", `${label}: Tiếp tục bài cũ keeps previous draft safely`);
+      await click('#clear-q4');
+      await click('#confirm-clear-q4');
+      await check("document.querySelector('#q4-dataset').value === ''", `${label}: Làm phiếu mới clears stale draft after confirmation`);
       await click('#reset');
       await until("!document.querySelector('#notebook-dialog').open && document.body.dataset.step === '0'", 100);
       await check("!document.querySelector('[data-dataset=\"recycle\"]') && !!document.querySelector('[data-dataset=\"flowers\"]')", `${label}: Round 2 hides recycle when recycle was Round 1 and keeps flowers`);
@@ -378,25 +405,16 @@ try {
     await check("!document.body.textContent.includes('Ảnh càng đa dạng, Mít học càng tốt')", `${label}: Huong dan avoids overclaiming diversity guarantees`);
     await check('document.documentElement.scrollWidth <= innerWidth', `${label}: Huong dan has no horizontal overflow`);
 
-    // 7. Azota embed mode for Bai 2
-    await nav('azota-preview.html?page=bai-2/index.html');
-    await until("document.querySelector('iframe')?.contentWindow.AzotaEmbed?.active");
+    // 7. Moodle embed mode for Bai 2 (self-contained without azota-embed.js)
+    await nav('bai-2/index.html?embed=moodle');
+    await until('!!window.Bai2Embed?.active');
     await pause(150);
+    await check("getComputedStyle(document.querySelector('header')).display === 'none'", `${label}: Moodle embed hides standalone header in Bai 2`);
+    await check("getComputedStyle(document.querySelector('nav.journey')).display === 'flex'", `${label}: Moodle embed keeps 4-step journey visible in Bai 2`);
+    await check('document.documentElement.scrollWidth <= innerWidth', `${label}: Moodle embed Bai 2 fits frame width`);
     await check(
-      "document.querySelector('iframe').contentWindow.getComputedStyle(document.querySelector('iframe').contentDocument.querySelector('header')).display === 'none'",
-      `${label}: Azota embed hides header in Bai 2`
-    );
-    await check(
-      "document.querySelector('iframe').contentWindow.getComputedStyle(document.querySelector('iframe').contentDocument.querySelector('nav.journey')).display === 'flex'",
-      `${label}: Azota embed keeps 4-step journey visible in Bai 2`
-    );
-    await check(
-      "document.querySelector('iframe').contentDocument.documentElement.scrollWidth <= document.querySelector('iframe').clientWidth",
-      `${label}: Azota embed Bai 2 fits frame width`
-    );
-    await check(
-      "document.querySelector('iframe').contentDocument.querySelector('.azota-submit-note').textContent.includes('Q4')",
-      `${label}: Azota embed shows Q4 submission note`
+      "document.querySelector('.moodle-submit-note').textContent.includes('Moodle')",
+      `${label}: Moodle embed shows Q4 Moodle submission note`
     );
   }
 

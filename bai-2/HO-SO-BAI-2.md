@@ -1,61 +1,51 @@
-# Bài 2 — Đối chiếu yêu cầu và nội dung bổ sung
-Ngày kiểm tra: 16/11/2026. Đây là đề xuất triển khai, không phải minh chứng học sinh đã đạt.
+# Bài 2 — Hồ sơ sư phạm, tổ chức dạy học và đánh giá trên Moodle
 
-## Nguồn đã đọc
-- Khung nội dung GD AI, trang 23: 4.C5.MR1 và 4.C5.MR2.
-- BT4.2 nhóm: https://docs.google.com/document/d/1L931HS2o6euEquMSzyIj9zgmndia2_xul4fxs9UKg7Q/edit — mục 3.2.1, 3.2.2 và IV.
-- Báo cáo A3.4: https://docs.google.com/document/d/1SIV2u5T0VDDKnzScTMWotsg0faEnWstN/edit — đang chọn Bài 1/Q1, 35 phút làm phạm vi nộp chính.
+Cập nhật: 25/11/2026 · Phụ trách Bài 2: **Nguyễn Minh Đại** (`4.C5.MR1` & `4.C5.MR2`).
 
-## Kết luận thiết kế
-Khung cho phép Teachable Machine, ML for Kids tích hợp Scratch hoặc công cụ phù hợp khác. Không bắt buộc Chai–Lon. Nhưng BT4.2 của nhóm đã chọn Teachable Machine + Chai–Lon cho Q3. Web Mít là công cụ riêng: MobileNet V2 + bộ phân loại kNN, không phải mô hình Teachable Machine.
+## 1. Căn cứ chương trình & kịch bản BT4.1 – BT4.2 của Nhóm 7
+- **Khung nội dung giáo dục AI lớp 4 (trang 23):** Yêu cầu cần đạt mở rộng `4.C5.MR1` (trải nghiệm công cụ học máy theo mẫu hướng dẫn) và `4.C5.MR2` (tự chọn bộ dữ liệu khác, thực hiện lại quy trình 4 bước và mô tả thao tác).
+- **Công cụ & học liệu chính thức của Bài 2:** Xưởng thực hành trực tuyến **Vườn học của Mít** (`bai-2/index.html`, sử dụng đặc trưng hình ảnh từ *MobileNet V2* kết hợp bộ phân loại láng giềng gần nhất $k=3$ chuẩn hóa $L_2$), **Thẻ hướng dẫn 4 bước** (`bai-2/huong-dan.html`), và **4 bộ ảnh thật có giấy phép mở** (`bai-2/samples/datasets.json`, `credits.html` — tổng cộng 149 ảnh tách riêng tập học, tập thử và ảnh ngoài hai nhóm).
+- **Nền tảng quản lý học tập (LMS):** Triển khai tại khóa học **Em Khám Phá Và Ứng Dụng AI (`AI-L4`)** trên **MoodleCloud** (`https://nhom7ai-hcmue.moodlecloud.com/course/section.php?id=36`).
 
-Phương án giữ đúng hồ sơ: thực hiện Q3 bằng TM/Chai–Lon như đã viết; dùng Mít/ảnh hoa là trải nghiệm bổ sung. Phương án dùng Mít làm công cụ chính: sửa thống nhất mục MT3, công cụ và dữ liệu Q3 trong BT4.1/BT4.2 và mô tả khóa học; thay đúng tên công cụ, không đổi mã YCCĐ. Chưa tự sửa các tài liệu gốc.
+## 2. Phân phối thời lượng (70 phút · 2 tiết)
+- **Tiết 1 — Lượt 1 (`Q3` · `4.C5.MR1` · 35 phút):**
+  - 5 phút: Khởi động tình huống phân loại ảnh & mở mục Bài 2 trên Moodle.
+  - 5 phút: Xem *Thẻ 4 bước: Em làm người dạy máy* (`huong-dan.html`).
+  - 5 phút: Giáo viên làm mẫu 4 bước với bộ **Hoa vườn** (*Hoa cúc – Hoa hướng dương*).
+  - 16 phút: Học sinh thực hành theo cặp (2 em/máy, lần lượt đổi vai để **mỗi em tự tay làm trọn vẹn cả 4 bước**: đặt tên → kéo-thả ảnh mẫu vào 2 khay → bấm dạy Mít → kéo ảnh mới và ảnh ngoài nhóm `Hoa hồng` vào thử tài & kiểm tra).
+  - 4 phút: Chốt quy trình 4 bước và đối chiếu bảng kiểm quan sát Q3.
+- **Tiết 2 — Lượt 2 (`Q4` · `4.C5.MR2` · 35 phút):**
+  - 4 phút: Chuyển sang chế độ **Lượt 2 (Q4)**; hệ thống khóa không cho dùng lại cặp dữ liệu của Lượt 1 và nhắc rõ nhiệm vụ chọn bộ dữ liệu mới.
+  - 22 phút: Từng học sinh chọn **một bộ dữ liệu khác Lượt 1** (*Chai nhựa – Lon nước*, *Quả táo – Quả chuối*, *Mèo – Chó* hoặc *Tự chụp/tải ảnh đồ vật học tập*) và tự thực hiện lại đủ 4 bước; giáo viên đi quan sát từng em.
+  - 6 phút: Mở **Phiếu thu hoạch 4 bước (Q4)** (bấm *Làm phiếu mới* nếu trình duyệt còn lưu nháp của bạn trước), tự viết mô tả ngắn gọn 4 bước và sao chép nộp vào hoạt động **Bài tập Q4 trên Moodle** (cho phép trình bày miệng với học sinh cần hỗ trợ).
+  - 3 phút: Nhận xét, rút ra bài học: *AI chỉ chọn giữa các nhóm đã học, số ảnh tương tự trong 3 ảnh gần nhất không phải độ chắc chắn tuyệt đối, nên con người luôn cần tự kiểm tra.*
 
-Nếu chọn bộ hoa, câu MT3 đề xuất: “Thực hiện đủ bốn bước với công cụ Vườn học của Mít theo hướng dẫn mẫu của giáo viên, dùng bộ Hoa cúc–Hoa hướng dương.” MT4: “Chọn bộ dữ liệu khác, lặp lại đủ bốn bước và mô tả thao tác ở mỗi bước.”
+## 3. Cấu trúc học liệu trên MoodleCloud (`Section 36`)
+1. **Khung tương tác nhúng trực tiếp (`?embed=moodle`):** Cho phép thực hành ngay trên trang khóa học Moodle hoặc bấm *Mở toàn màn hình ↗*.
+2. **Trang học liệu (Moodle Page):** *Thẻ hướng dẫn 4 bước & Bảng kiểm tự đánh giá (`4.C5.MR1` & `4.C5.MR2`)*.
+3. **Liên kết toàn màn hình (Moodle URL):** Mở xưởng thực hành 3D Vườn học của Mít ở tab độc lập cho màn hình nhỏ/máy tính bảng.
+4. **Hoạt động nộp bài (Moodle Assignment):** *Nộp Phiếu thu hoạch 4 bước dạy Mít (`Câu 4 · 4.C5.MR2`)* — bật cả *Văn bản trực tuyến* và *Nộp tệp*.
 
-## Học liệu và lịch học
-Giữ Q3 35 phút, Q4 35 phút như BT4.2; mốc xem 15 phút của liên kết Moodle chỉ là thời lượng học liệu, không thay lịch 70 phút.
-- Q3: 5 phút đặt vấn đề/chọn tệp; 5 phút đọc thẻ trên LMS; 5 phút GV làm mẫu; 16 phút thực hành đổi vai; 4 phút chốt và bảng kiểm.
-- Q4: 4 phút nhắc mục tiêu; 22 phút hai lượt thực hành với dữ liệu khác; 6 phút mô tả; 3 phút phản hồi.
-Ba học liệu phân biệt: thẻ bốn bước (huong-dan.html), bộ ảnh thật có tập học/tập thử và nguồn (samples), công cụ Mít (index.html). Không tính một ảnh đơn lẻ hay từng file CSS là một học liệu.
+## 4. Bảng kiểm quan sát Q3 (`4.C5.MR1`) — Giáo viên ghi nhận từng học sinh
+Họ tên học sinh: …………………… · Ngày: …/…/2026 · Bộ dữ liệu Lượt 1: …………………… · Người quan sát: ……………………
 
-## Thiết lập trong Moodle
-1. Thẻ hướng dẫn: “Bốn bước dạy máy”, liên kết đến bai-2/huong-dan.html; 5 phút.
-2. Thực hành Q3: liên kết web đã có; 15 phút là thời lượng xem tham khảo. Mỗi em tự thao tác; bạn cùng máy quan sát rồi đổi vai. Nút tự nạp mẫu chỉ dùng làm quen, không thay minh chứng em tự thêm ảnh.
-3. Q3 — Giáo viên kiểm tra bốn bước: ghi nhận từng cá nhân bằng bảng kiểm dưới đây, nhận xét và cho làm lại bước còn thiếu.
-4. Q4 — Em dạy máy với dữ liệu mới: bài nộp cá nhân trên Moodle, dùng nội dung mẫu dưới đây. Nếu em nói thay viết, GV ghi nhận lời nói và thao tác.
-5. Câu hỏi tự kiểm tra có phản hồi: phân biệt ảnh học/ảnh thử; thêm ảnh khác góc/nền; ảnh ngoài hai nhóm. Đây là hỗ trợ hiểu, không thay quan sát thực hành.
-
-## Bảng kiểm Q3 — GV điền từng học sinh
-Họ tên/mã học sinh: …; ngày: …; bộ dữ liệu: …; người quan sát: …
-| Tiêu chí quan sát | Đạt / cần hỗ trợ | Ghi chú |
+| Tiêu chí quan sát thao tác cá nhân | Đạt / Cần hỗ trợ | Ghi chú |
 |---|---|---|
-| Mở công cụ và tự đặt tên hai nhóm | | |
-| Tự thêm ảnh mẫu vào đúng nhóm | | |
-| Bấm lệnh cho máy học | | |
-| Đưa ảnh mới chưa học vào và quan sát kết quả | | |
-Đạt Q3 khi có đủ cả bốn bước theo mẫu. Cho hỗ trợ hoặc làm lại bước chưa đạt. Không chấm thao tác theo tỷ lệ máy đoán đúng; ảnh chụp chỉ là bổ sung.
+| 1. Mở công cụ và đặt tên rõ ràng cho hai nhóm ảnh | | |
+| 2. Tự kéo-thả / thêm ít nhất 3 ảnh mẫu đúng vào mỗi khay | | |
+| 3. Bấm lệnh “Dạy Mít học!” để máy trích xuất và ghi nhớ mẫu | | |
+| 4. Đưa ảnh mới chưa học (và ảnh ngoài hai nhóm) vào thử, tự kiểm tra kết quả | | |
 
-## Nội dung bài nộp Q4 — sao chép vào Moodle
-Tên bài: Q4 — Em dạy máy với dữ liệu mới
-Yêu cầu: Chọn hai nhóm khác lượt đầu (gợi ý Bút–Thước hoặc Lá–Hoa), tự thực hiện đủ bốn bước rồi trả lời:
-1. Em đặt tên hai nhóm nào? Bộ này khác lượt đầu thế nào?
-2. Em đã chọn và thêm ảnh vào mỗi nhóm như thế nào?
-3. Em bấm nút nào để cho máy học?
-4. Em dùng ảnh mới nào để thử? Máy đoán gì? Em kiểm tra ra sao?
-Giáo viên quan sát thêm một lượt của từng em. Có thể trình bày miệng thay viết nếu cần hỗ trợ.
+- **Nguyên tắc đánh giá Q3:** Đạt khi học sinh tự thực hiện đủ cả 4 bước theo mẫu; hỗ trợ và cho làm bổ sung ngay bước còn thiếu. **Không lấy tỷ lệ máy đoán đúng làm điểm của học sinh.**
 
-Tiêu chí Q4: dữ liệu khác lượt đầu; tự thực hiện đủ bốn bước; mô tả được thao tác của cả bốn bước. Không lấy điểm dự đoán làm điểm học sinh. Nếu chỉ xem bạn làm thì bố trí lượt bổ sung.
-Phản hồi mẫu: “Em đã làm được bước …; còn cần tự làm bước … . Hãy dùng ảnh chưa đưa vào khay rồi thử lại.”
-
-## Ba câu hỏi tự kiểm tra và phản hồi
-- Muốn biết máy đã học ra sao, dùng ảnh đã học hay ảnh mới? Đáp án: ảnh mới chưa đưa vào khay. Phản hồi: dùng lại ảnh học chưa cho biết máy xử lý ví dụ mới thế nào.
-- Thêm 10 bản sao cùng một ảnh hay thêm nhiều ảnh rõ, khác góc/nền? Chọn ảnh đa dạng, đúng nhóm; vẫn phải thử lại để biết có cải thiện không.
-- Máy chỉ học Hoa cúc–Hoa hướng dương, đưa hoa hồng vào có chắc nhận ra hoa hồng không? Không. Công cụ này chỉ chọn giữa hai nhóm, nên người dùng phải kiểm tra.
-
-## Để kết luận hoàn thành khóa học/A3.4
-- Thu bài và quan sát thực tế từng em; không điền sẵn “đạt” khi chưa dạy thử.
-- Kiểm thử ở vai trò học sinh trên Azota, máy lớp học và camera thật; kiểm tra quyền truy cập không cần đăng nhập GitHub, hiển thị ảnh, thời gian tải, thao tác nộp bài/nhận phản hồi.
-- Có nhận xét đồng đẳng và nhật ký cải tiến, nguồn tài nguyên và vai trò AI đúng thực tế.
-- Báo cáo A3.4 đang tập trung Bài 1/Q1. Không cần đổi toàn bộ phạm vi sang Bài 2 chỉ vì thêm web; nếu mở rộng phạm vi nộp thì phải bổ sung thiết kế, đánh giá và minh chứng tương ứng.
-- Chưa rà soát toàn bộ Q1–Q7 hoặc thử học sinh thật trong lượt kiểm tra này; không kết luận toàn khóa đã hoàn thành.
+## 5. Yêu cầu & Tiêu chí đánh giá bài nộp Q4 (`4.C5.MR2`) trên Moodle
+- **Nhiệm vụ giao trên Moodle:** Chọn một bộ hai nhóm ảnh **khác với Lượt 1**, tự thực hiện lại trọn vẹn 4 bước dạy Mít, sau đó mô tả ngắn gọn:
+  1. Em đặt tên hai nhóm nào? Bộ ảnh này khác lượt đầu ra sao?
+  2. Em đã chọn/chụp và xếp ảnh mẫu vào hai khay như thế nào?
+  3. Em bấm nút nào để cho Mít học?
+  4. Em dùng ảnh mới nào để thử? Mít đoán gì và em kiểm tra bằng mắt ra sao?
+- **Tiêu chí đạt Q4:**
+  - Chọn đúng bộ dữ liệu khác Lượt 1;
+  - Giáo viên quan sát xác nhận em tự thực hiện đủ 4 bước ở Lượt 2;
+  - Nêu đúng nội dung thao tác ở cả 4 bước trong Phiếu Q4 trên Moodle (hoặc trình bày miệng được giáo viên ghi nhận).
+- **Phản hồi mẫu của giáo viên:** *“Em đã tự chọn bộ ảnh mới và thực hiện tốt bước …; ở bước … em cần lưu ý dùng ảnh mới chưa nằm trong khay học để kiểm tra khách quan hơn nhé.”*

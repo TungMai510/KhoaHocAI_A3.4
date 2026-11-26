@@ -1,38 +1,25 @@
-# Kiểm thử mô hình Bài 2 — 16/11/2026
+# Kiểm thử mô hình & dữ liệu Bài 2 — Cập nhật 25/11/2026
 
-## Kết luận
-Không có bảo đảm nhận diện đúng mọi ảnh. Bản mới đạt **32/40 (80%)** trên 40 ảnh thử cuối, chưa dùng để học hoặc lựa chọn cách phân loại. Hoa cúc: 17/20; hướng dương: 15/20. Kết quả này không đại diện camera/ánh sáng lớp học hoặc mọi bộ dữ liệu do học sinh chọn.
+## 1. Kết luận tổng quan
+Không có mô hình AI nào đảm bảo nhận diện đúng mọi bức ảnh thực tế. Công cụ **Vườn học của Mít** sử dụng mạng trích xuất đặc trưng **MobileNet V2 (`alpha = 1.0`)** chạy trực tiếp trên trình duyệt kết hợp bộ phân loại $k=3$ láng giềng gần nhất sau chuẩn hóa $L_2$:
+- **Bộ Hoa vườn (*Hoa cúc – Hoa hướng dương*, kiểm thử độc lập 40 ảnh cuối):** đạt **32/40 (80,0%)** (*Hoa cúc*: 17/20; *Hoa hướng dương*: 15/20).
+- **Bộ Chai & Lon (*Chai nhựa – Lon nước*, 16 ảnh học / 12 ảnh thử):** đạt **11/12 (91,7%)**.
+- **Bộ Hoa quả (*Quả táo – Quả chuối*, 16 ảnh học / 12 ảnh thử):** đạt **12/12 (100,0%)**.
+- **Bộ Thú cưng (*Mèo – Chó*, 16 ảnh học / 12 ảnh thử):** đạt **11/12 (91,7%)**.
 
-## Mô hình thật
-TensorFlow.js 4.22.0; @tensorflow-models/mobilenet 2.1.1; MobileNet V2 alpha 1.0, trọng số có sẵn. infer(image,true) lấy vector đặc trưng. Không huấn luyện lại toàn bộ mạng MobileNet. Học sinh cung cấp ảnh và nhãn; bộ phân loại k=3 lưu ví dụ và so sánh đặc trưng ảnh thử.
-Bản cũ dùng khoảng cách Euclid trên vector thô. Bản mới chuẩn hóa L2 trước khi tính khoảng cách (thứ hạng tương đương cosine), rồi lấy đa số 3 láng giềng. Không dùng nhãn gốc của ảnh thử để tạo dự đoán. Kết quả không được gán sẵn.
+Toàn bộ 149 tệp ảnh trong kho mẫu đều có mã băm `SHA-256` duy nhất (không trùng tệp giữa tập học, tập thử và nhóm ảnh lạ ngoài 2 nhóm). Kết quả này dùng để minh bạch chất lượng học liệu mẫu, không đại diện cho mọi điều kiện ánh sáng/camera lớp học.
 
-## Quy trình và kết quả
-1. Chọn ảnh bằng seed 340216, danh sách tên tệp gốc và SHA256 trong samples/manifest.json. Giữ nguồn/CC BY 2.0. Thu nhỏ tối đa 512 px và nén JPEG.
-2. Kiểm tra bản cũ trên 24 ảnh riêng: 3 ảnh mỗi nhóm -> 14/24; 8 ảnh mỗi nhóm -> 18/24.
-3. Thử chuẩn hóa L2 trên chính 24 ảnh kiểm tra sơ bộ đó với 8 ảnh học mỗi nhóm: 19/24. Vì đã dùng để chọn cách xử lý, 24 ảnh này là validation, KHÔNG dùng làm kết quả cuối.
-4. Bổ sung trước kiểm thử cuối thành 16 ảnh mỗi nhóm. Chọn thêm 40 ảnh cuối khác tệp, không trùng 32 ảnh học hoặc 24 ảnh validation. Chạy một lần, không bỏ 8 ảnh sai để làm đẹp kết quả.
-5. Kết quả cuối: 32/40. Ma trận hàng=nhãn thật, cột=dự đoán, thứ tự Hoa cúc/Hoa hướng dương: [[17,3],[5,15]].
-6. 4 ảnh hoa hồng ngoài hai nhóm: cả 4 vẫn bị gán một trong hai nhóm. Một ca có cả 3 phiếu cùng nhóm mà vẫn không đúng về mặt đối tượng. Vì vậy số phiếu đồng ý không phải xác suất đúng, và không phải bộ phát hiện ảnh lạ.
+## 2. Cơ chế mô hình thật trên trình duyệt
+- Thư viện: `TensorFlow.js 4.22.0` và `@tensorflow-models/mobilenet 2.1.1` (`MobileNet V2`, trọng số tiền huấn luyện mở).
+- Khi học sinh bấm **“⚡ Dạy Mít học!”**, `net.infer(image, true)` trích xuất vector đặc trưng cho từng ảnh học sinh đã xếp vào Khay A và Khay B.
+- Khi thử ảnh mới, `classifier.js` chuẩn hóa $L_2$ các vector đặc trưng, tính khoảng cách tới toàn bộ mẫu trong 2 khay và lấy đa số trên **3 ảnh mẫu giống nhất** ($k=3$), không gán sẵn nhãn theo tên tệp và không hiển thị phần trăm độ tin cậy giả tạo.
+- Giao diện hiển thị rõ câu giải thích: *“Trong 3 ảnh mẫu Mít thấy giống nhất, có X ảnh thuộc nhóm …”* và đưa phần xem 3 ảnh mẫu tương tự vào mục mở rộng **“Xem thêm”** để màn hình chính gọn nhẹ cho học sinh lớp 4.
 
-Các thử nghiệm đầu/cuối khác số ảnh học và tập thử nên không dùng 75% -> 80% để khẳng định mức cải thiện nhân quả. Không kiểm soát trùng vật thể/phiên chụp giữa những tệp khác nhau; không loại trừ trùng dữ liệu tiền huấn luyện ImageNet. Chỉ xác nhận tệp tập học/validation/test không trùng theo SHA256.
+## 3. Hành vi với ảnh ngoài hai nhóm đã dạy (`🎁`)
+- Mỗi bộ dữ liệu đều có ảnh thử ngoài hai nhóm (*Hoa hồng*, *Cốc sứ*, *Quả cam*, *Thỏ*).
+- Do bộ phân loại chỉ có 2 nhãn đầu ra (Khay A hoặc Khay B), mọi ảnh ngoài nhóm đều bị ép về một trong hai nhóm (thậm chí có trường hợp cả 3/3 ảnh gần nhất cùng thuộc một khay).
+- Để đảm bảo chính xác về mặt sư phạm: khi học sinh thử ảnh ngoài hai nhóm mà hệ thống đã biết (`isOutside = true`), giao diện **ẩn hai nút “Đúng rồi! / Chưa đúng”** (tránh việc học sinh bấm *Đúng rồi* và nhận lời khen sai bản chất) và thay bằng thẻ giải thích kèm câu hỏi suy ngẫm: *“Vì sao Mít không gọi đúng tên [vật ngoài nhóm]?”*.
 
-## Kiểm thử đã chạy
-- Suy luận thật trên Node.js, backend CPU, cùng phiên bản MobileNet và cùng hàm classifier.js với web. JPEG giải mã bằng jpeg-js; browser có thể có khác biệt nhỏ khi giải mã ảnh hoặc backend số học.
-- Trong trình duyệt xem trước: tải 32 ảnh, đi qua bốn bước, chạy học thật, thử một ảnh cúc và một ảnh hướng dương mới; cả hai cho nhãn tương ứng. Đây là kiểm tra luồng, không phải thêm hai mẫu vào số 40.
-- Tải lại ảnh đã học sau khi đổi tên tệp: web chặn và yêu cầu ảnh mới. Kiểm tra SHA256 chỉ chặn tệp giống byte; ảnh chụp lại/resize vẫn cần người học phân biệt.
-- Mô hình 3D không hiển thị trong trình duyệt kiểm thử vì WebGL không khả dụng, dùng robot minh họa dự phòng; không kết luận đã kiểm chứng hoạt ảnh 3D hoặc camera thật ở lượt này.
-- Chưa kiểm tra bản mới trong iframe Azota/thiết bị lớp học. GitHub đang chạy bản trước cho đến khi người dùng cập nhật thư mục bai-2.
-
-## Thay đổi kèm theo
-- Ảnh hoa trên mạng có nguồn và giấy phép; 32 ảnh học, 40 ảnh thử cuối, 24 validation lưu để tái lập, 4 ngoài nhóm.
-- Hiển thị lời nhắc khi phiếu láng giềng khác nhóm; không hiện phần trăm tin cậy giả. Luôn nhắc máy chỉ chọn giữa hai nhóm.
-- Chặn ảnh trùng byte trong khay hoặc ảnh học được đổi tên để đưa vào tập thử.
-- Thẻ bốn bước, hướng dẫn tự thực hành, hai gói ảnh học/thử để học sinh tự xếp khay. Tự nạp mẫu chỉ để làm quen.
-- HO-SO-BAI-2.md chứa bảng kiểm Q3, bài nộp Q4, phản hồi và chỗ cần thống nhất với BT4.2.
-
-## Nguồn
-- https://www.tensorflow.org/tutorials/load_data/images
-- https://github.com/tensorflow/tfjs-models/tree/master/mobilenet
-- https://github.com/tensorflow/tfjs-models/tree/master/knn-classifier
-- Nguồn từng ảnh và giấy phép: bai-2/samples/credits.html, LICENSE.txt, manifest.json.
+## 4. Kiểm thử kỹ thuật & tích hợp Moodle đã xác nhận
+- Kiểm thử tự động toàn luồng (`tests/bai2-qa.mjs`) trên cả khung nhìn Desktop (`1366×900`) và Mobile (`390×844`) với WebGL 3D (`mit.glb`), giọng nói tiếng Việt ngoại tuyến (`bai-2/audio/*.mp3`), kéo-thả tự do ảnh mẫu/ảnh thử, chặn ảnh trùng `SHA-256` khi đổi tên tệp, chặn dùng lại bộ dữ liệu Lượt 1 khi sang Lượt 2 (Q4), cảnh báo & xác nhận **“Làm phiếu mới”** khi trình duyệt còn giữ dữ liệu Phiếu Q4 từ phiên trước, và chế độ nhúng gọn trên **Moodle** (`?embed=moodle`).
+- Nguồn gốc từng ảnh và giấy phép Creative Commons được liệt kê đầy đủ tại `bai-2/samples/credits.html`, `LICENSE.txt`, `datasets.json` và `manifest.json`.

@@ -10,8 +10,17 @@
   <link rel="preload" href="fonts/nunito-regular.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="workshop.css">
   <link rel="stylesheet" href="garden.css">
-  <link rel="stylesheet" href="../azota-embed.css">
-  <script src="../azota-embed.js"></script>
+  <script>
+    (() => {
+      const q = new URLSearchParams(location.search);
+      const embedVal = q.get('embed');
+      const moodleOrigin = 'https://nhom7ai-hcmue.moodlecloud.com';
+      const active = embedVal === 'moodle' || q.get('classroom') === 'moodle' || window.self !== window.top;
+      const inMoodle = embedVal === 'moodle' || q.get('classroom') === 'moodle' || document.referrer.startsWith(moodleOrigin + '/');
+      window.Bai2Embed = Object.freeze({ active, inMoodle, moodleAssignUrl: moodleOrigin + '/mod/assign/view.php?id=44' });
+      if (active) document.documentElement.classList.add('moodle-embed');
+    })();
+  </script>
   <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@2.1.1/dist/mobilenet.min.js"></script>
   <script defer src="sound.js"></script>
@@ -140,6 +149,14 @@
 
     <div class="notebook-grid">
       <div class="q4-form">
+        <div id="q4-draft-banner" class="q4-draft-banner" hidden>
+          <p id="q4-draft-msg">📌 Phiếu đang giữ nội dung từ lần làm trước.</p>
+          <div class="q4-draft-btns">
+            <button type="button" id="keep-old-q4" class="mini-pill">✏️ Tiếp tục bài cũ</button>
+            <button type="button" id="banner-reset-q4" class="mini-pill warn-pill">🧹 Làm phiếu mới</button>
+          </div>
+        </div>
+
         <div class="q4-field">
           <div class="q4-label-row">
             <label for="q4-dataset">Bộ ảnh em chọn (khác lượt đầu)</label>
@@ -168,7 +185,16 @@
 
         <div class="q4-actions">
           <button type="button" id="copy" class="primary">📋 Sao chép nộp Moodle</button>
+          <button type="button" id="clear-q4" class="secondary-btn">🧹 Làm phiếu mới</button>
           <span id="copyStatus" role="status"></span>
+        </div>
+
+        <div id="q4-clear-confirm" class="q4-clear-confirm" hidden>
+          <p>Em muốn xóa nội dung cũ trong phiếu để viết bài mới từ đầu chứ?</p>
+          <div class="q4-confirm-btns">
+            <button type="button" id="confirm-clear-q4" class="danger-pill">Đồng ý xóa, làm phiếu mới</button>
+            <button type="button" id="cancel-clear-q4" class="mini-pill">Giữ lại bài đang viết</button>
+          </div>
         </div>
 
         <div id="manual-copy-wrap" hidden>
@@ -182,7 +208,8 @@
         <label class="check"><input type="checkbox">Đặt tên 2 nhóm rõ ràng.</label>
         <label class="check"><input type="checkbox">Xếp ít nhất 3 ảnh mỗi khay.</label>
         <label class="check"><input type="checkbox">Bấm dạy Mít và thử ảnh mới.</label>
-        <label class="check"><input type="checkbox">Làm lại Lượt 2 với bộ ảnh khác.</label>
+        <label class="check"><input type="checkbox">Chọn bộ ảnh khác ở Lượt 2 và tự làm lại đủ 4 bước.</label>
+        <p class="teacher-eval-note">👩‍🏫 <strong>Lưu ý đánh giá Q4:</strong> Thầy/cô quan sát từng em thực hành 4 bước ở Lượt 2 và xem phần mô tả trong Phiếu Q4 (hoặc nghe em trình bày miệng).</p>
 
         <div class="notebook-next-actions">
           <button type="button" id="reset" class="secondary-btn">🔄 Đổi bộ ảnh mới (Lượt 2)</button>
