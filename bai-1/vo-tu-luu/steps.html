@@ -1,0 +1,102 @@
+    <section id="h3" class="activity" aria-labelledby="title-h3" hidden>
+      <h1 id="title-h3" tabindex="-1">AI giúp em làm gì?</h1>
+      <p>Kể hai ví dụ. Với mỗi ví dụ, nói rõ AI giúp làm việc gì.</p>
+      <details class="hint">
+        <summary>Xem một gợi ý</summary>
+        <p>Mai nói một từ tiếng Anh, nghe AI gợi ý cách phát âm rồi nói lại và kiểm tra.</p>
+        <fieldset id="recognition">
+          <legend>AI giúp Mai làm gì?</legend>
+          <button class="quiet-action" type="button" data-answer="yes">Luyện phát âm</button>
+          <button class="quiet-action" type="button" data-answer="no">Xem giờ</button>
+          <p id="recognition-feedback" class="result" role="status" hidden></p>
+        </fieldset>
+      </details>
+      <fieldset class="mode-choices">
+        <legend>Em muốn trả lời thế nào?</legend>
+        <label><input type="radio" name="examplesMode" value="write" checked> Viết ở đây</label>
+        <label><input type="radio" name="examplesMode" value="tell"> Kể cho thầy cô</label>
+      </fieldset>
+      <div id="example-fields">
+        <label for="study">Khi em học bài</label>
+        <textarea id="study" rows="2" maxlength="140" placeholder="AI có thể giúp em…"></textarea>
+        <label for="life">Trong cuộc sống</label>
+        <textarea id="life" rows="2" maxlength="140" placeholder="AI có thể giúp mọi người…"></textarea>
+      </div>
+      <p id="oral-note" class="result" hidden>Kể hai ví dụ cho thầy cô. Thầy cô sẽ xác nhận sau khi nghe em.</p>
+    </section>
+
+    <section id="h4" class="activity" aria-labelledby="title-h4" hidden>
+      <h1 id="title-h4" tabindex="-1">Giúp Sóc dịch món ăn</h1>
+      <label for="sentence">Chọn một câu tiếng Anh.</label>
+      <select id="sentence" lang="en">
+        <option value="">Em chọn…</option>
+        <option value="banana">I like bananas.</option>
+        <option value="milk">I like milk.</option>
+        <option value="apple">I like apples.</option>
+      </select>
+      <fieldset>
+        <legend>Em đoán câu nói về món nào?</legend>
+        <div class="picture-options">
+          <label><input type="radio" name="prediction" value="banana"><img src="assets/banana.svg" alt="">Chuối</label>
+          <label><input type="radio" name="prediction" value="milk"><img src="assets/milk.svg" alt="">Sữa</label>
+          <label><input type="radio" name="prediction" value="apple"><img src="assets/apple.svg" alt="">Táo</label>
+          <label><input type="radio" name="prediction" value="unsure">Em chưa chắc</label>
+        </div>
+      </fieldset>
+      <a class="btn" id="translate-tool" target="_blank" rel="noopener noreferrer">Mở Google Dịch</a>
+      <div id="translate-observation" hidden>
+        <p>Đọc bản dịch trong tab mới rồi quay về đây. Nếu ô dịch còn trống, nhập câu em đã chọn.</p>
+        <label for="translation">Bản dịch em đọc nói đến món nào?</label>
+        <select id="translation">
+          <option value="">Em chọn…</option>
+          <option value="banana">Chuối</option><option value="milk">Sữa</option><option value="apple">Táo</option>
+          <option value="other">Kết quả khác</option><option value="pending">Em chưa xem được</option>
+        </select>
+        <label for="comparison">Khi so với dự đoán, em thấy thế nào?</label>
+        <select id="comparison">
+          <option value="">Em chọn…</option>
+          <option value="same">Kết quả giống dự đoán</option><option value="different">Kết quả khác dự đoán</option>
+          <option value="unsure">Em chưa chắc sau khi so lại</option>
+        </select>
+      </div>
+    </section>
+
+    <section id="h5" class="activity" aria-labelledby="title-h5" hidden>
+      <h1 id="title-h5" tabindex="-1">Dạy máy tìm cá</h1>
+      <p>Cho AI ví dụ học. Chọn <strong lang="en">Fish</strong> cho cá và <strong lang="en">Not Fish</strong> cho vật khác.</p>
+      <p>Bấm <strong lang="en">Continue</strong> để máy tự phân loại. Xem nhóm máy xếp là cá và nhóm không phải cá. Sau khi xem kết quả ở màn 2, quay về vở của Sóc.</p>
+      <a class="btn" id="ocean-tool" href="https://studio.code.org/courses/oceans/units/1/lessons/1/levels/2" target="_blank" rel="noopener noreferrer">Mở AI for Oceans</a>
+      <div id="ocean-observation" hidden>
+        <label for="labels-used">Em đã dùng nhãn nào để dạy máy?</label>
+        <select id="labels-used">
+          <option value="">Em chọn…</option>
+          <option value="both">Cả Fish và Not Fish</option>
+          <option value="fish">Fish (cá)</option><option value="other">Not Fish (không phải cá)</option>
+          <option value="pending">Em chưa gắn nhãn</option>
+        </select>
+        <label for="ocean-result">Khi máy tự xếp ảnh, em thấy gì?</label>
+        <select id="ocean-result">
+          <option value="">Em chọn…</option>
+          <option value="fish">Em thấy cá trong nhóm máy xếp là cá</option>
+          <option value="mistake">Em thấy vật không phải cá trong nhóm máy xếp là cá</option>
+          <option value="empty">Em thấy máy không giữ lại vật nào</option>
+          <option value="unsure">Em đã xem nhưng chưa chắc máy xếp đúng</option>
+          <option value="pending">Em chưa quan sát được máy xếp ảnh</option>
+        </select>
+      </div>
+    </section>
+
+    <section id="h6" class="activity" aria-labelledby="title-h6" hidden>
+      <h1 id="title-h6" tabindex="-1">Xem lại hai lần thử</h1>
+      <p>Đọc lại kết quả. Nếu đúng với lần thử của em, bấm <strong>Hoàn thành</strong>.</p>
+      <div class="diary-entry"><h2>Google Dịch</h2><p id="review-translate"></p><a href="#h4">Sửa lần em thử dịch</a></div>
+      <div class="diary-entry"><h2>AI for Oceans</h2><p id="review-ocean"></p><a href="#h5">Sửa lần em thử với ảnh</a></div>
+      <button class="btn" id="finish" type="button">Hoàn thành</button>
+      <a class="btn" id="onward" href="https://nhom7ai-hcmue.moodlecloud.com/mod/scorm/view.php?id=66" target="_top" hidden>Vào quầy của Sóc</a>
+    </section>
+
+    <p id="lesson-status" class="result" role="status" hidden></p>
+    <nav class="lesson-controls" aria-label="Đi tiếp trong bài">
+      <button id="lesson-back" class="quiet-action" type="button">Quay lại</button>
+      <button id="lesson-next" class="btn" type="button">Tiếp tục</button>
+    </nav>
