@@ -22,9 +22,10 @@ Cập nhật: 27/11/2026 · Phụ trách Bài 2: **Nguyễn Minh Đại** (`4.C5
 
 ## 3. Cấu trúc học liệu trên MoodleCloud (`Section 36`)
 1. **Khung tương tác nhúng trực tiếp (`?embed=moodle`):** Cho phép thực hành ngay trên trang khóa học Moodle hoặc bấm *Mở toàn màn hình ↗*.
-2. **Trang học liệu (Moodle Page):** *Thẻ hướng dẫn 4 bước & Bảng kiểm tự đánh giá (`4.C5.MR1` & `4.C5.MR2`)*.
+2. **Trang học liệu (Moodle Page):** *Thẻ 4 bước: Em làm người dạy máy (`4.C5.MR1` & `4.C5.MR2`)*.
 3. **Liên kết toàn màn hình (Moodle URL):** Mở xưởng thực hành 3D Vườn học của Mít ở tab độc lập cho màn hình nhỏ/máy tính bảng.
 4. **Hoạt động nộp bài (Moodle Assignment):** *Nộp Phiếu thu hoạch 4 bước dạy Mít (`Câu 4 · 4.C5.MR2`)* — bật cả *Văn bản trực tuyến* và *Nộp tệp*.
+5. **Hoạt động H5P tương tác tự chấm điểm (Moodle H5P Activity):** *Tự luyện cùng Mít – Thử tài 4 bước phân loại ảnh* (`Moodle/Bai_2_Thu_tai_4_buoc_cung_Mit.h5p`, xây dựng bằng chuẩn `H5P.QuestionSet 1.21`, `H5P.DragText 1.10` và `H5P.MultiChoice 1.16` trong Ngân hàng nội dung MoodleCloud, tự động ghi điểm tối đa 10 điểm vào Sổ điểm khóa học).
 
 ## 4. Bảng kiểm quan sát Q3 (`4.C5.MR1`) — Giáo viên ghi nhận từng học sinh
 Họ tên học sinh: …………………… · Ngày: …/…/2026 · Bộ dữ liệu Lượt 1: …………………… · Người quan sát: ……………………
