@@ -3,8 +3,9 @@
 import argparse
 import re
 import subprocess
+import sys
 from pathlib import Path
-from tempfile import NamedTemporaryFile
+from tempfile import NamedTemporaryFile, TemporaryDirectory
 from zipfile import ZIP_DEFLATED, ZipFile
 
 
@@ -13,6 +14,7 @@ PAGES = "https://tungmai510.github.io/KhoaHocAI_A3.4/"
 OUTPUT = ROOT.parent / "Tai_lieu_su_pham" / "Hoc_lieu_nop"
 MOODLE = "https://nhom7ai-hcmue.moodlecloud.com"
 H5P_FILE = "Soc_Tham_Tu_Vu_an_AI_nham_lan.h5p"
+WORKBOOK_FILE = "Vo_hoc_lieu_Bai_1_SCORM12.zip"
 
 SHARED_WEB = (
     "styles.css", "azota-embed.css", "azota-embed.js",
@@ -48,8 +50,10 @@ LESSON_ONE_SECTIONS = {
         (("Màn hình khởi động", "../index.html"), ("Video 01", "../bai-1/video/HL01_Khoi_dong.mp4")),
     ),
     "02. Cùng Sóc khám phá AI": (
-        "Mở sáu bước theo thứ tự. Dùng Google Dịch và AI for Oceans để quan sát đầu vào và kết quả.",
-        (("Cùng Sóc khám phá AI", "../bai1_hoc_lieu.html#h1"), ("Video 02", "../bai-1/video/HL02_Kham_pha.mp4")),
+        "Làm và lưu minh chứng ngay trong vở Moodle. Ở AI for Oceans, quay về vở sau khi xem kết quả phân loại ở màn 2.",
+        (("Vở học liệu trên Moodle", MOODLE + "/mod/scorm/view.php?id=82"),
+         ("Gói vở SCORM 1.2", WORKBOOK_FILE),
+         ("Video 02", "../bai-1/video/HL02_Kham_pha.mp4")),
     ),
     "03. Quầy món ngon của Sóc": (
         "Trong Moodle, mở SCORM 66. Gói SCORM dưới đây dùng để nhập vào LMS hỗ trợ SCORM 1.2.",
@@ -72,16 +76,16 @@ LESSON_ONE_SECTIONS = {
         (("Màn hình tổng kết", "../bai1_tong_ket.html"), ("Video 05", "../bai-1/video/HL05_Tong_ket.mp4")),
     ),
     "07. Đánh giá và chia sẻ": (
-        "Các liên kết dẫn tới đúng hoạt động trên Moodle. Học sinh đăng nhập bằng tài khoản khóa học.",
+        "Học sinh ghi các sản phẩm trong vở Moodle. Giáo viên đọc hai minh chứng trong báo cáo của vở và chấm riêng Q1, Q2.",
         (("Đề ôn tập", MOODLE + "/mod/quiz/view.php?id=53"),
-         ("Phiếu hai ví dụ AI", MOODLE + "/mod/assign/view.php?id=59"),
-         ("Nhật ký hai lượt thử", MOODLE + "/mod/assign/view.php?id=60"),
+         ("Vở học liệu – hai sản phẩm", MOODLE + "/mod/scorm/view.php?id=82"),
+         ("Báo cáo mục tiêu dành cho giáo viên", MOODLE + "/mod/scorm/report.php?id=82&amp;mode=objectives"),
          ("Chia sẻ với bạn", MOODLE + "/mod/forum/view.php?id=62")),
     ),
 }
 
 
-def write_lesson_one_sections(archive):
+def write_lesson_one_sections(archive, workbook_package):
     for heading, (instruction, links) in LESSON_ONE_SECTIONS.items():
         guide = "<!doctype html><html lang='vi'><meta charset='utf-8'>\n"
         guide += "<meta name='viewport' content='width=device-width, initial-scale=1'>\n"
@@ -90,6 +94,13 @@ def write_lesson_one_sections(archive):
             guide += f'<li><a href="{href}">{label}</a></li>\n'
         guide += "</ul></main></html>\n"
         archive.writestr(f"{heading}/index.html", guide)
+    if workbook_package:
+        archive.write(workbook_package, "02. Cùng Sóc khám phá AI/" + WORKBOOK_FILE)
+    else:
+        with TemporaryDirectory() as directory:
+            subprocess.run([sys.executable, str(ROOT / "bai-1/vo-tu-luu/build.py"), directory],
+                           check=True, capture_output=True)
+            archive.write(Path(directory) / WORKBOOK_FILE, "02. Cùng Sóc khám phá AI/" + WORKBOOK_FILE)
     archive.write(ROOT / "Moodle/Quay_mon_ngon_SCORM12.zip",
                   "03. Quầy món ngon của Sóc/Quay_mon_ngon_SCORM12.zip")
     archive.write(ROOT / "bai-1/soc-vu-an-ai" / H5P_FILE, "05. Tự luyện H5P/" + H5P_FILE)
@@ -112,7 +123,7 @@ def read_html(source, filenames):
                   source.read_bytes().decode("utf-8")).encode("utf-8")
 
 
-def export_lesson(lesson, output):
+def export_lesson(lesson, output, workbook_package=None):
     lesson_dir = f"bai-{lesson}"
     readme = f"{lesson_dir}/README.md"
     filenames = set(LESSON_FILES[lesson])
@@ -129,7 +140,7 @@ def export_lesson(lesson, output):
         with ZipFile(temp_path, "w", ZIP_DEFLATED) as archive:
             archive.write(ROOT / readme, "README.md")
             if lesson == 1:
-                write_lesson_one_sections(archive)
+                write_lesson_one_sections(archive, workbook_package)
             for filename in sorted(filenames):
                 source = ROOT / filename
                 if source.suffix.lower() == ".html":
@@ -146,13 +157,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=OUTPUT)
     parser.add_argument("--lesson", type=int, choices=LESSON_FILES, help="Export only the selected lesson.")
+    parser.add_argument("--workbook-package", type=Path, help="Use the exact workbook ZIP uploaded to Moodle in lesson 1.")
     args = parser.parse_args()
     output = args.output.resolve()
     if output.is_relative_to(ROOT):
         parser.error("Choose an output directory outside the repository.")
     output.mkdir(parents=True, exist_ok=True)
     for lesson in (args.lesson,) if args.lesson else LESSON_FILES:
-        print(export_lesson(lesson, output))
+        print(export_lesson(lesson, output, args.workbook_package))
 
 
 if __name__ == "__main__":
